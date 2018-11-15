@@ -2,6 +2,15 @@
 
 Das Partnermanagment von EUROPACE 2 dient Organisationen zur Abbildung der eigenen Struktur. Hierzu bietet die Weboberfläche des Partnermanagements umfassende Möglichkeiten. Die PEX Partner API erlaubt Fremdsystemen einen automatisierten Zugriff auf die Partner des Partnermanagement via HTTP.
 
+#### Benutzer anhand seiner Registrierungs-E-Mail im Partnermanagement öffnen:
+
+https://www.europace2.de/partnermanagement/benutzer/%s
+
+#### Benutzer anhand seiner EUROPACE2-PartnerID im Partnermanagement öffnen:
+
+https://www.europace2.de/partnermanagement/partner/%s
+
+
 # Dokumentation
 
 Über die PEX Partner API ist es möglich
