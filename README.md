@@ -67,7 +67,7 @@ Die Datenhaushalte für Personen und Organisationen sind unterschiedlich.
   "rechtDarfErgebnisListeNutzen" : false,   //default false
   "rechtDarfPartnerAnlegen" : false, 		  // default false
   "rechtEchtgeschaeftErlaubt" : true, 		  // default false
-  "rechtDarfKreditSmartVersicherungAnbieten" : true, 		  // default false
+  "rechtDarfKreditSmartVersicherungAnbieten" : true,     // default false
   "titelFunktion" : "...",
   "telefonnummer" : "...",
   "typ": "PERSON",            				  
