@@ -67,6 +67,7 @@ Die Datenhaushalte für Personen und Organisationen sind unterschiedlich.
   "rechtDarfErgebnisListeNutzen" : false,   //default false
   "rechtDarfPartnerAnlegen" : false, 		  // default false
   "rechtEchtgeschaeftErlaubt" : true, 		  // default false
+  "rechtDarfKreditSmartVersicherungAnbieten" : true, 		  // default false
   "titelFunktion" : "...",
   "telefonnummer" : "...",
   "typ": "PERSON",            				  
@@ -234,6 +235,7 @@ Content-Type: application/json;charset=utf-8
   "rechtDarfErgebnisListeNutzen" : false,
   "rechtDarfPartnerAnlegen" : false,
   "rechtEchtgeschaeftErlaubt" : false,
+  "rechtDarfKreditSmartVersicherungAnbieten" : false,
   "vorname" : "Max"
 }
 ```
@@ -287,6 +289,7 @@ Content-Type: application/json;charset=utf-8
   "rechtDarfErgebnisListeNutzen" : true,
   "rechtDarfPartnerAnlegen" : false,
   "rechtEchtgeschaeftErlaubt" : true,
+  "rechtDarfKreditSmartVersicherungAnbieten" : false,
   "vorname" : "Max",
   "telefonnummer" : "030 123456",
   "webseiteUrl" : "https://github.com/hypoport/europace2-api",
@@ -562,6 +565,7 @@ Content-Type: application/json;charset=utf-8
   "rechtDarfErgebnisListeNutzen" : true,
   "rechtDarfPartnerAnlegen" : false,
   "rechtEchtgeschaeftErlaubt" : false,
+  "rechtDarfKreditSmartVersicherungAnbieten" : false,
   "typ" : "ORGANISATION",
   "vorname" : "Max" 
 }
