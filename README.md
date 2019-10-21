@@ -44,6 +44,7 @@ Die Datenhaushalte für Personen und Organisationen sind unterschiedlich.
     "plz" : "...",
     "ort" : "..."
   },
+  "avatarUrl": "https://www.europace2.de/partnermanagement/d71c58aeaed4022384b169f83e0d8842.avatar?anonymousAvatar=BENUTZER",
   "bankverbindung" : {
      "iban" : "...",
      "bic" : "....",
@@ -55,19 +56,25 @@ Die Datenhaushalte für Personen und Organisationen sind unterschiedlich.
   "faxnummer" : "...",
   "firmenname" : "...",
   "firmennameZusatz" : "...",
-  "fusszeileFuerAussenauftritt" : "...", 	  // mit \n  als Zeilentrenner
-  "geburtsdatum" : "1970-01-01",      	  	  // ISO-8601 Calender extended(YYYY-MM-DD) format.
-  "gesperrt": false,            	          // default: false 
-  "gesperrtTransitiv": false,	          	  // true, wenn ein übergeordneter Partner gesperrt ist. (readonly)
-  "id":"...",                 				  // EUROPACE 2 PartnerId (readonly)
+  "fusszeileFuerAussenauftritt" : "...",        // mit \n  als Zeilentrenner
+  "geburtsdatum" : "1970-01-01",                // ISO-8601 Calender extended(YYYY-MM-DD) format.
+  "gesperrt": false,                            // default: false 
+  "gesperrtTransitiv": false,                   // true, wenn ein übergeordneter Partner gesperrt ist. (readonly)
+  "id":"...",                                   // EUROPACE 2 PartnerId (readonly)
   "mobilnummer" : "...",
   "nachname" : "...",
-  "rechtDarfBaufiSmartEinstellungenVornehmen" : false,   //default false
-  "rechtDarfEinstellungenOeffnen" : false,   // default false
-  "rechtDarfErgebnisListeNutzen" : false,   //default false
-  "rechtDarfPartnerAnlegen" : false, 		  // default false
-  "rechtEchtgeschaeftErlaubt" : true, 		  // default false
-  "rechtDarfKreditSmartVersicherungAnbieten" : true,     // default false
+  "rechtDarfEinstellungenOeffnen" : false,              //default false
+  "rechtDarfPartnerAnlegen" : false,                    //default false
+  "rechtDarfBaufiSmartEinstellungenVornehmen": false,   //default false
+  "rechtDarfBaufiSmartNutzen": true,                    //default true
+  "rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,      //default true
+  "rechtEchtgeschaeftErlaubt" : true,                   //default false
+  "rechtDarfErgebnisListeNutzen" : false,               //default false
+  "rechtDarfLoeschen": false,                           //default false
+  "rechtKreditSmartSichtbar": false,                    //default false
+  "rechtKreditSmartEchtgeschaeftErlaubt": false,        //default false
+  "rechtDarfKreditSmartVersicherungAnbieten" : true,    //default false
+  "rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,     //default true
   "titelFunktion" : "...",
   "telefonnummer" : "...",
   "typ": "PERSON",            				  
@@ -219,24 +226,35 @@ X-TraceId : ff-request-2014-10-01-07-55
 Content-Type: application/json;charset=utf-8
 
 {
-  "_links" : {
-    "self" : "https://www.europace2.de/partnermanagement/partner/4712"
-  }
-  "id" : "4712"
-  "typ": "PERSON",
-  "anrede" : "HERR",
-  "email" : "max@mustermann.de",  
-  "externePartnerId" : "MAK004712",
-  "gesperrt": false,
-  "gesperrtTransitiv": false,
-  "nachname" : "Mustermann",
-  "rechtDarfBaufiSmartEinstellungenVornehmen" : false,
-  "rechtDarfEinstellungenOeffnen" : false,
-  "rechtDarfErgebnisListeNutzen" : false,
-  "rechtDarfPartnerAnlegen" : false,
-  "rechtEchtgeschaeftErlaubt" : false,
-  "rechtDarfKreditSmartVersicherungAnbieten" : false,
-  "vorname" : "Max"
+    "_links": {
+        "partnerkennzeichen": "https://www.europace2.de/partnermanagement/partner/LUI92/partnerkennzeichen",
+        "self": "https://www.europace2.de/partnermanagement/partner/LUI92",
+        "administrierbare": "https://www.europace2.de/partnermanagement/partner/LUI92/administrierbare"
+    },
+    "id": "LUI92",
+    "typ": "PERSON",
+    "orgaEinheitId": "5dadac4c9ae0edb38e41f50f",
+    "externePartnerId": "MAK004712",
+    "avatarUrl": "https://www.europace2.de/partnermanagement/d71c58aeaed4022384b169f83e0d8842.avatar?anonymousAvatar=BENUTZER",
+    "anrede": "HERR",
+    "vorname": "Max",
+    "nachname": "Mustermann",
+    "anschrift": {},
+    "email": "max@mustermann.de",
+    "rechtDarfEinstellungenOeffnen": false,
+    "rechtDarfPartnerAnlegen": false,
+    "rechtDarfBaufiSmartNutzen": true,
+    "rechtEchtgeschaeftErlaubt": false,
+    "rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
+    "rechtDarfErgebnisListeNutzen": false,
+    "rechtDarfLoeschen": false,
+    "rechtKreditSmartSichtbar": false,
+    "rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
+    "rechtKreditSmartEchtgeschaeftErlaubt": false,
+    "rechtDarfKreditSmartVersicherungAnbieten": false,
+    "gesperrtTransitiv": false,
+    "bankverbindung": {},
+    "gesperrt": false
 }
 ```
 
@@ -284,12 +302,17 @@ Content-Type: application/json;charset=utf-8
   "gesperrt": false,
   "gesperrtTransitiv": false,
   "nachname" : "Mustermann",
-  "rechtDarfBaufiSmartEinstellungenVornehmen" : true,
-  "rechtDarfEinstellungenOeffnen" : true,
-  "rechtDarfErgebnisListeNutzen" : true,
-  "rechtDarfPartnerAnlegen" : false,
-  "rechtEchtgeschaeftErlaubt" : true,
-  "rechtDarfKreditSmartVersicherungAnbieten" : false,
+  "rechtDarfEinstellungenOeffnen": false,
+  "rechtDarfPartnerAnlegen": false,
+  "rechtDarfBaufiSmartNutzen": true,
+  "rechtEchtgeschaeftErlaubt": false,
+  "rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
+  "rechtDarfErgebnisListeNutzen": false,
+  "rechtDarfLoeschen": false,
+  "rechtKreditSmartSichtbar": false,
+  "rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
+  "rechtKreditSmartEchtgeschaeftErlaubt": false,
+  "rechtDarfKreditSmartVersicherungAnbieten": false,
   "vorname" : "Max",
   "telefonnummer" : "030 123456",
   "webseiteUrl" : "https://github.com/hypoport/europace2-api",
@@ -550,24 +573,34 @@ Content-Type: application/json;charset=utf-8
 
 {
   "_links" : {
-    "self" : "https://www.europace2.de/partnermanagement/partner/4712"
-  }
+    "self" : "https://www.europace2.de/partnermanagement/partner/4712",
+    "administrierbare": "https://www.europace2.de/partnermanagement/partner/4712/administrierbare",
+    "partnerkennzeichen": "https://www.europace2.de/partnermanagement/partner/4712/partnerkennzeichen",
+  },
+  "id":"4712",
   "anrede" : "HERR",
-  "email" : "max@mustermann.de",  
-  "externePartnerId" : "MAK004712",
-  "firmenname":"Mustermann AG",
+  "externePartnerId" : "123456",
+  "geburtsdatum" : "1970-01-01",
   "gesperrt": false,
-  "id" : "4712",
-  "nachname" : "Mustermann",
   "gesperrtTransitiv": false,
-  "rechtDarfBaufiSmartEinstellungenVornehmen" : false,
-  "rechtDarfEinstellungenOeffnen" : false,
-  "rechtDarfErgebnisListeNutzen" : true,
-  "rechtDarfPartnerAnlegen" : false,
-  "rechtEchtgeschaeftErlaubt" : false,
-  "rechtDarfKreditSmartVersicherungAnbieten" : false,
-  "typ" : "ORGANISATION",
-  "vorname" : "Max" 
+  "nachname" : "Mustermann",
+  "firmenname" : "Mustermann AG",
+  "rechtDarfEinstellungenOeffnen": false,
+  "rechtDarfPartnerAnlegen": false,
+  "rechtDarfBaufiSmartNutzen": true,
+  "rechtEchtgeschaeftErlaubt": false,
+  "rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
+  "rechtDarfErgebnisListeNutzen": false,
+  "rechtDarfLoeschen": false,
+  "rechtKreditSmartSichtbar": false,
+  "rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
+  "rechtKreditSmartEchtgeschaeftErlaubt": false,
+  "rechtDarfKreditSmartVersicherungAnbieten": false,
+  "vorname" : "Max",
+  "telefonnummer" : "030 123456",
+  "webseiteUrl" : "https://github.com/hypoport/europace2-api",
+  "aufsichtsBehoerde" : "Musterbehörde",
+  "registrierungsNummer" : "987654"
 }
 ```
 
