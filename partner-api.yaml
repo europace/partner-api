@@ -1,0 +1,1194 @@
+openapi: 3.0.0
+info:
+  title: partner-api
+  version: '1.0'
+  description: 'Das Partnermanagment von Europace ermöglicht Organisationen ihre eigenen Struktur abzubilden, um jedem Partner oder Mitarbeiter einen Zugang zu geben und Rechte einzustellen.'
+  contact:
+    name: Europace AG
+    url: 'http://developer.europace.de'
+    email: info@europace.de
+  termsOfService: 'https://github.com/europace/partner-api'
+servers:
+  - url: 'https://www.europace2.de/partnermanagement'
+paths:
+  '/partner/{partnerId}':
+    get:
+      summary: Partner abrufen
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: X-PartnerID
+          description: PartnerID für Authentifzierung
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-ApiKey
+          description: API-Key für Authentifizierung
+          required: true
+        - schema:
+            type: string
+            default: application/json
+          in: header
+          name: Accept
+          description: ''
+        - schema:
+            type: string
+          in: header
+          name: X-TraceId
+          description: 'Referenz, die zurückgesendet und bei Europace geloggt wird'
+      description: Liefert die Daten eines Partners
+      responses:
+        '200':
+          description: 'Es werden je nach Typ (Person, Organisation) unterschiedliche Datenstrukturen geliefert.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/person'
+              examples:
+                person:
+                  value:
+                    _links:
+                      self: 'https://www.europace2.de/partnermanagement/partner/4712'
+                      administrierbare: 'https://www.europace2.de/partnermanagement/partner/4712/administrierbare'
+                      partnerkennzeichen: 'https://www.europace2.de/partnermanagement/partner/4712/partnerkennzeichen'
+                    id: '4712'
+                    anrede: HERR
+                    externePartnerId: '123456'
+                    geburtsdatum: '1970-01-01'
+                    gesperrt: false
+                    gesperrtTransitiv: false
+                    nachname: Mustermann
+                    rechtDarfEinstellungenOeffnen: false
+                    rechtDarfPartnerAnlegen: false
+                    rechtDarfBaufiSmartNutzen: true
+                    rechtEchtgeschaeftErlaubt: false
+                    rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen: true
+                    rechtDarfErgebnisListeNutzen: false
+                    rechtDarfLoeschen: false
+                    rechtKreditSmartSichtbar: false
+                    rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen: true
+                    rechtKreditSmartEchtgeschaeftErlaubt: false
+                    rechtDarfKreditSmartVersicherungAnbieten: 'false'
+                    vorname: Max
+                    telefonnummer: 030 123456
+                    webseiteUrl: 'https://github.com/europace/partner-api'
+                    aufsichtsBehoerde: Musterbehörde
+                    registrierungsNummer: '987654'
+                organisation:
+                  value:
+                    avatarUrl: 'https://www.europace2.de/partnermanagement/7c20930ee53b0913d19a69ac4791e51c.avatar?anonymousAvatar=GRUPPE'
+                    _links:
+                      partnerkennzeichen: 'https://www.europace2.de/partnermanagement/partner/XUL48/partnerkennzeichen'
+                      self: 'https://www.europace2.de/partnermanagement/partner/XUL48'
+                      administrierbare: 'https://www.europace2.de/partnermanagement/partner/XUL48/administrierbare'
+                    orgaEinheitId: 4e9837a75db7eac5d893c02e
+                    anschrift: {}
+                    typ: ORGANISATION
+                    gesperrtTransitiv: false
+                    bankverbindung: {}
+                    gesperrt: false
+                    name: Mustervertrieb
+                    id: XUL48
+                    email: info@mustervertrieb.de
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+              examples: {}
+            multipart/form-data:
+              schema:
+                type: object
+                properties: {}
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
+      tags:
+        - Partner
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+        description: Referenz auf den Partner
+    patch:
+      summary: Partner anpassen
+      responses:
+        '200':
+          description: |-
+            Partner wurde angepasst.
+
+            Der Body der Response enthält die aktuellen Stammdaten im JSON Format. Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden bzw. für die es Defaultwerte gibt, sind dabei immer enthalten.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/person'
+              examples:
+                example-1: {}
+        '400':
+          description: Bad Request - Validierung ist fehlgeschlagen
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  traceId:
+                    type: string
+                required:
+                  - message
+              examples:
+                Beispiel:
+                  value:
+                    message: "Enum literal für 'anrede' muss FRAU oder HERR sein.: abc"
+                    traceId: ' ff-request-2014-10-01-07-55'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/person'
+            examples:
+              Recht setzen:
+                value:
+                  rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen: false
+        description: 'Es brauchen nur die Attribute angegeben werden, die sich verändern sollen.'
+      description: Partner anpassen
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: X-PartnerId
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-ApiKey
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-TraceId
+        - schema:
+            type: string
+            default: application/json
+          in: header
+          name: Accept
+      tags:
+        - Partner
+  '/partner/{partnerId}/untergeordnetePartner':
+    post:
+      summary: Partner erstellen
+      responses:
+        '201':
+          description: |-
+            Partner wurde erstellt.
+
+            Der Body der Response enthält die aktuellen Stammdaten im JSON Format. Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden bzw. für die es Defaultwerte gibt, sind dabei immer enthalten.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/person'
+              examples:
+                Person angelegt:
+                  value:
+                    _links:
+                      partnerkennzeichen: 'https://www.europace2.de/partnermanagement/partner/LUI92/partnerkennzeichen'
+                      self: 'https://www.europace2.de/partnermanagement/partner/LUI92'
+                      administrierbare: 'https://www.europace2.de/partnermanagement/partner/LUI92/administrierbare'
+                    id: LUI92
+                    typ: PERSON
+                    orgaEinheitId: 5dadac4c9ae0edb38e41f50f
+                    externePartnerId: MAK004712
+                    avatarUrl: 'https://www.europace2.de/partnermanagement/d71c58aeaed4022384b169f83e0d8842.avatar?anonymousAvatar=BENUTZER'
+                    anrede: HERR
+                    vorname: Max
+                    nachname: Mustermann
+                    anschrift: {}
+                    email: max@mustermann.de
+                    rechtDarfEinstellungenOeffnen: false
+                    rechtDarfPartnerAnlegen: false
+                    rechtDarfBaufiSmartNutzen: true
+                    rechtEchtgeschaeftErlaubt: false
+                    rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen: true
+                    rechtDarfErgebnisListeNutzen: false
+                    rechtDarfLoeschen: false
+                    rechtKreditSmartSichtbar: false
+                    rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen: true
+                    rechtKreditSmartEchtgeschaeftErlaubt: false
+                    rechtDarfKreditSmartVersicherungAnbieten: false
+                    gesperrtTransitiv: false
+                    bankverbindung: {}
+                    gesperrt: false
+          headers:
+            Location:
+              schema:
+                type: string
+              description: 'Link auf den neu angelegten Partner '
+        '205':
+          description: Partner konnte anhand der PartnerId oder externen PartnerId gefunden werden und wurde aktualisiert.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/person'
+          headers:
+            Location:
+              schema:
+                type: string
+              description: Link auf den gefundenen und aktualsierten Partner
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: 'Für das Anlegen neuer Partner benötigt der Aufrufer das Recht "Darf Organisationseinheiten anlegen" sowie Einstellungsrechte auf denjenigen Partner, unterhalb dessen der neue Partner angelegt werden soll. Sind diese nicht vorhanden, erhält der Aufrufer eine HTTP Response mit Statuscode 403 FORBIDDEN.'
+      description: 'Erstellt einen neuen Partner als Organisation oder Person, abhängig vom Typ.'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: X-PartnerId
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-ApiKey
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-TraceId
+        - schema:
+            type: string
+            default: application/json
+          in: header
+          name: Accept
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/person'
+            examples:
+              Person anlegen:
+                value:
+                  anrede: HERR
+                  email: max@mustermann.de
+                  externePartnerId: MAK004712
+                  nachname: Mustermann
+                  vorname: Max
+        description: |-
+          Bei der serverseitigen Auswertung gelten folgende Regeln:
+
+          * unbekannte Attribute werden ignoriert.
+          * Für Organisationen werden personenspezifische Attribute ignoriert.
+          * Für Personen werden organisationenspezifische Attribute ignoriert.
+          * Leere Attribute bei Strings ("") werden ignoriert.
+          * "gesperrtTransitiv" ist nicht von aussen änderbar und wird deshalb ignoriert
+          * "id" ist nicht setzbar und wird deshalb ignoriert.
+          * Rechte werden für Personen -sofern nicht angegeben- mit "false" belegt.
+      tags:
+        - Partner
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+        description: PartnerID der Organisation unter der ein neuer Partner angelegt werden soll
+    get:
+      summary: untergeordnete Partner abrufen
+      responses:
+        '200':
+          description: Liste von untergeordneten Partnern.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    oeid:
+                      type: string
+                      description: eindeutige Referenz des untergeordneten Partners
+                    _links:
+                      type: object
+                      required:
+                        - self
+                      properties:
+                        self:
+                          type: string
+                          format: uri
+                          description: Link auf den untergeordneten Partner
+                  required:
+                    - oeid
+                    - _links
+              examples:
+                Beispiel:
+                  value:
+                    - oeid: 4e84a3e489f748e77b83f995
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/4e84a3e489f748e77b83f995'
+                    - oeid: 5b10ef7fe4b0c024cb793965
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/5b10ef7fe4b0c024cb793965'
+                    - oeid: 514b17e9930b4fb087144cac
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/514b17e9930b4fb087144cac'
+                    - oeid: 55965c21e4b0971bd7d77f65
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/55965c21e4b0971bd7d77f65'
+                    - oeid: 4e4b798bfb260015aaeab7d2
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/4e4b798bfb260015aaeab7d2'
+                    - oeid: 4e4b798dfb260015aaeab805
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/4e4b798dfb260015aaeab805'
+                    - oeid: 4e4b798efb260015aaeab82d
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/4e4b798efb260015aaeab82d'
+                    - oeid: 4e4b757ffb260015aaeab749
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/4e4b757ffb260015aaeab749'
+                    - oeid: 4e4b798bfb260015aaeab7cb
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/4e4b798bfb260015aaeab7cb'
+                    - oeid: 58075187e4b0d2abadbf268c
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/58075187e4b0d2abadbf268c'
+                    - oeid: 4eeb08c35db7b53e51a17545
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/4eeb08c35db7b53e51a17545'
+                    - oeid: 5b6ae072e4b0f1efc1d0d6ae
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/5b6ae072e4b0f1efc1d0d6ae'
+                    - oeid: 5bbc6636e4b08f69be7c4182
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/5bbc6636e4b08f69be7c4182'
+                    - oeid: 5d2c996068dd7ea73dcee10f
+                      _links:
+                        self: 'https://www.europace2.de/partnermanagement/partner/5d2c996068dd7ea73dcee10f'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: Liefert eine Liste von untergeordneten Partnern.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: X-PartnerID
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-ApiKey
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-TraceId
+        - schema:
+            type: string
+            default: application/json
+          in: header
+          name: Accept
+      tags:
+        - Partner
+  '/partner/{partnerId}/partnerkennzeichen':
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+    get:
+      summary: Partnerkennzeichen abrufen
+      tags:
+        - Partnerkennzeichen
+        - Partner
+      responses:
+        '200':
+          description: Liste mit Partnerkennzeichen
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  dslSapGeschaeftspartnerNummerFuerRatenkredit:
+                    type: string
+                    default: null
+                  dslVertriebsWegSchluesselFuerRatenkredit:
+                    type: string
+                    default: null
+                  dkbVertriebsIdFuerRatenkredit:
+                    type: string
+                    default: null
+                  kennzeichenIngDiba:
+                    type: object
+                    properties:
+                      vermittlerNummer:
+                        type: string
+                        default: null
+                      vermittlerVorname:
+                        type: string
+                        default: null
+                      vermittlerNachname:
+                        type: string
+                        default: null
+                      vermittlerNummerFuerRatenkredit:
+                        type: string
+                        default: null
+                  kennzeichenErgo:
+                    type: object
+                    properties:
+                      maklerBuero:
+                        type: string
+                        default: null
+                      bdNummer:
+                        type: string
+                        default: null
+                  kennzeichenBhw:
+                    type: object
+                    properties:
+                      vgeNummer:
+                        type: string
+                        default: null
+                      orgaNummer:
+                        type: string
+                        default: null
+                      zurIdentifikationsPruefungLegitimiert:
+                        type: string
+                        default: null
+                  lbsNordVermittlerNummer:
+                    type: string
+                    default: null
+                  lbsOstVermittlerNummer:
+                    type: string
+                    default: null
+                  lbsShhVermittlerNummer:
+                    type: string
+                    default: null
+                  lbsSuedwestVermittlerNummer:
+                    type: string
+                    default: null
+                  lbsWestVermittlerNummer:
+                    type: string
+                    default: null
+                  devkVermittlerNummer:
+                    type: string
+                    default: null
+                  wuestenrotVermittlerNummer:
+                    type: string
+                    default: null
+                  allianzVertreterNummer:
+                    type: string
+                    default: null
+                  axaGeschaeftsPartnerNummer:
+                    type: string
+                    default: null
+                  dslVermittlerGruppenSchluessel:
+                    type: string
+                    default: null
+                  bshVoNummer:
+                    type: string
+                    default: null
+                  bshAkquisitionsWeg:
+                    type: string
+                    default: null
+                  bshBlzVertriebsbank:
+                    type: string
+                    default: null
+                  wlBankVermittlerNummer:
+                    type: string
+                    default: null
+                  naevVermittlerNummer:
+                    type: string
+                    default: null
+                  rUndvBankAgenturNummer:
+                    type: string
+                    default: null
+                  rUndvBlzVertriebsbank:
+                    type: string
+                    default: null
+                  bausparkasseMainzVermittlerNummer:
+                    type: string
+                    default: null
+                  deutscherRingVermittlerNummer:
+                    type: string
+                    default: null
+                  alteLeipzigerVerbundVermittlerNummer:
+                    type: string
+                    default: null
+                  signalIdunaBetreuerNummer:
+                    type: string
+                    default: null
+                  signalIdunaFilialDirektionNummer:
+                    type: string
+                    default: null
+                  hanseaticVertriebsPartnerNummer:
+                    type: string
+                    default: null
+                  commerzbankVermittlerNummer:
+                    type: string
+                    default: null
+                  _embedded:
+                    type: object
+                    required:
+                      - partnerKennzeichenDerVertriebsOrganisation
+                    properties:
+                      partnerKennzeichenDerVertriebsOrganisation:
+                        type: object
+                        required:
+                          - _links
+                        properties:
+                          _links:
+                            type: object
+                            required:
+                              - partner
+                              - self
+                            properties:
+                              partner:
+                                type: object
+                                format: uri
+                                required:
+                                  - href
+                                properties:
+                                  href:
+                                    type: string
+                                    format: uri
+                              self:
+                                type: object
+                                required:
+                                  - href
+                                properties:
+                                  href:
+                                    type: string
+                                    format: uri
+                  _links:
+                    type: object
+                    required:
+                      - partner
+                      - self
+                    properties:
+                      partner:
+                        type: object
+                        required:
+                          - href
+                        properties:
+                          href:
+                            type: string
+                            format: uri
+                      self:
+                        type: object
+                        required:
+                          - href
+                        properties:
+                          href:
+                            type: string
+                            format: uri
+                required:
+                  - _embedded
+                  - _links
+              examples:
+                Beispiel:
+                  value:
+                    dslSapGeschaeftspartnerNummerFuerRatenkredit: '1516119444'
+                    dslVertriebsWegSchluesselFuerRatenkredit: '1899010083'
+                    dkbVertriebsIdFuerRatenkredit: null
+                    kennzeichenIngDiba:
+                      vermittlerNummer: null
+                      vermittlerVorname: null
+                      vermittlerNachname: null
+                      vermittlerNummerFuerRatenkredit: null
+                    kennzeichenErgo:
+                      maklerBuero: null
+                      bdNummer: null
+                    kennzeichenBhw:
+                      vgeNummer: null
+                      orgaNummer: null
+                      zurIdentifikationsPruefungLegitimiert: null
+                    lbsNordVermittlerNummer: null
+                    lbsOstVermittlerNummer: null
+                    lbsShhVermittlerNummer: null
+                    lbsSuedwestVermittlerNummer: null
+                    lbsWestVermittlerNummer: null
+                    devkVermittlerNummer: null
+                    wuestenrotVermittlerNummer: null
+                    allianzVertreterNummer: null
+                    axaGeschaeftsPartnerNummer: null
+                    dslVermittlerGruppenSchluessel: null
+                    bshVoNummer: null
+                    bshAkquisitionsWeg: null
+                    bshBlzVertriebsbank: null
+                    wlBankVermittlerNummer: null
+                    naevVermittlerNummer: null
+                    rUndvBankAgenturNummer: null
+                    rUndvBlzVertriebsbank: null
+                    bausparkasseMainzVermittlerNummer: null
+                    deutscherRingVermittlerNummer: null
+                    alteLeipzigerVerbundVermittlerNummer: null
+                    signalIdunaBetreuerNummer: null
+                    signalIdunaFilialDirektionNummer: null
+                    hanseaticVertriebsPartnerNummer: null
+                    commerzbankVermittlerNummer: null
+                    _embedded:
+                      partnerKennzeichenDerVertriebsOrganisation:
+                        _links:
+                          partner:
+                            href: 'https://www.europace2.de/partnermanagement/partner/TYL29'
+                          self:
+                            href: 'https://www.europace2.de/partnermanagement/partner/TYL29/partnerkennzeichen'
+                        dslSapGeschaeftspartnerNummerFuerRatenkredit: '1516119444'
+                    _links:
+                      partner:
+                        href: 'https://www.europace2.de/partnermanagement/partner/XUL48'
+                      self:
+                        href: 'https://www.europace2.de/partnermanagement/partner/XUL48/partnerkennzeichen'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: Die Partnerkennzeichen identifizieren einen Vertrieb bei einem Produktanbieter. Die erfassten Werte können über diesen Endpunkt ausgelesen werden.
+      operationId: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: X-PartnerId
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-ApiKey
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-TraceId
+        - schema:
+            type: string
+            default: application/json
+          in: header
+          name: Accept
+  '/partner/{partnerId}/administrierbare':
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+    get:
+      summary: Einstellungsrechte auf andere Partner abrufen
+      tags:
+        - Rechte
+        - Partner
+      responses:
+        '200':
+          description: 'Liste aller Partner, bei denen dieser Partner die Daten und Berechtigungen ändern oder das Reporting abrufen darf.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    partnerId:
+                      type: string
+                    vorname:
+                      type: string
+                    nachname:
+                      type: string
+                    typ:
+                      type: string
+                      enum:
+                        - PERSON
+                    _links:
+                      $ref: '#/components/schemas/_links'
+                  required:
+                    - id
+                    - partnerId
+                    - typ
+                    - _links
+              examples:
+                Beispiel Person:
+                  value:
+                    - id: AAV43
+                      partnerId: AAV43
+                      vorname: Max
+                      nachname: Mustermann
+                      typ: PERSON
+                      _links:
+                        partnerkennzeichen: 'https://www.europace2.de/partnermanagement/partner/AAV43/partnerkennzeichen'
+                        self: 'https://www.europace2.de/partnermanagement/partner/AAV43'
+                        administrierbare: 'https://www.europace2.de/partnermanagement/partner/AAV43/administrierbare'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: |-
+        Liefert alle Partner, bei denen dieser Partner die Daten und Berechtigungen ändern oder das Reporting abrufen darf.
+
+        Es wird mindestens der Partner selbst zurückgegeben, da jeder mindestens sich selbst einstellen oder sein eigenes Reporting abrufen darf.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: X-PartnerId
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-ApiKey
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-TraceId
+        - schema:
+            type: string
+            default: application/json
+          in: header
+          name: Accept
+  '/partner/{partnerId}/uebernahmeRechtFuer':
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+        description: 'Partner, dessen Zugriffrechte ermittelt werden sollen'
+    get:
+      summary: Zugriffsrecht auf andere Partner abrufen
+      tags:
+        - Rechte
+        - Partner
+      responses:
+        '200':
+          description: 'Liste alle Partner, deren Vorgänge von dem Partner gesehen, geöffnet und bearbeitet werden können (Zugriff). '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _embedded:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      typ:
+                        type: string
+                        enum:
+                          - PERSON
+                          - ORGANISATION
+                      orgaEinheitId:
+                        type: string
+                      vorname:
+                        type: string
+                      nachname:
+                        type: string
+                      email:
+                        type: string
+                        format: email
+                      kreditsachbearbeiter:
+                        type: boolean
+                      avatarUrl:
+                        type: string
+                        format: uri
+                      _links:
+                        type: object
+                        required:
+                          - self
+                        properties:
+                          self:
+                            type: object
+                            required:
+                              - href
+                            properties:
+                              href:
+                                type: string
+                                format: uri
+                    required:
+                      - id
+                      - typ
+                      - orgaEinheitId
+                      - kreditsachbearbeiter
+                      - avatarUrl
+                      - _links
+                  alleSichtbar:
+                    type: boolean
+                required:
+                  - alleSichtbar
+              examples:
+                Beispiel Person: {}
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: 'Liefert alle Partner, deren Vorgänge von dem Partner gesehen, geöffnet und bearbeitet werden können (Zugriff). '
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: X-PartnerId
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-ApiKey
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-TraceId
+        - schema:
+            type: string
+            default: application/json
+          in: header
+          name: Accept
+  '/partner/{partnerId}/uebernahmeRechtFuer/{partnerId2}':
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+        description: 'Partner, dessen Zugriffrechte ermittelt werden sollen'
+      - schema:
+          type: string
+        name: partnerId2
+        in: path
+        required: true
+        description: 'Partner, auf den zugegriffenen werden soll'
+    get:
+      summary: Zugriffrecht auf einen bestimmten Partner prüfen
+      tags:
+        - Rechte
+        - Partner
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  partnerId:
+                    type: string
+                  gesperrt:
+                    type: boolean
+                    description: 'Ist der Partner, auf den zugegriffen werden soll, gesperrt?'
+                  uebernehmbar:
+                    type: boolean
+                    description: 'Kann auf die Vorgänge des Partner zugegriffen werden? '
+                required:
+                  - gesperrt
+                  - uebernehmbar
+              examples:
+                Beispiel:
+                  value:
+                    partnerId: AAV43
+                    gesperrt: false
+                    uebernehmbar: true
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      description: 'Ermittelt, ob der Partner auf die Vorgänge eines anderen Partner zugreifen darf'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: X-PartnerId
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-ApiKey
+          required: true
+        - schema:
+            type: string
+          in: header
+          name: X-TraceId
+        - schema:
+            type: string
+            default: application/json
+          in: header
+          name: Accept
+          description: ''
+components:
+  schemas:
+    bankverbindung:
+      title: bankverbindung
+      type: object
+      properties:
+        referenzFeld:
+          type: string
+        kontoinhaber:
+          type: string
+        bic:
+          type: string
+        iban:
+          type: string
+          minLength: 22
+          maxLength: 22
+      required:
+        - kontoinhaber
+        - iban
+    anschrift:
+      title: anschrift
+      type: object
+      properties:
+        strasse:
+          type: string
+        hausnummer:
+          type: string
+        plz:
+          type: string
+          minLength: 5
+          maxLength: 5
+        ort:
+          type: string
+    _links:
+      title: _links
+      type: object
+      properties:
+        partnerkennzeichen:
+          type: string
+          format: uri
+        self:
+          type: string
+          format: uri
+        administrierbare:
+          type: string
+          format: uri
+      required:
+        - partnerkennzeichen
+        - self
+        - administrierbare
+      description: ''
+    organisation:
+      title: organisation
+      type: object
+      properties:
+        anschrift:
+          $ref: '#/components/schemas/anschrift'
+        bankverbindung:
+          $ref: '#/components/schemas/bankverbindung'
+        avatarUrl:
+          type: string
+          default: 'https://www.europace2.de/partnermanagement/7c20930ee53b0913d19a69ac4791e51c.avatar?anonymousAvatar=GRUPPE'
+          format: uri
+        email:
+          type: string
+          format: email
+        externePartnerId:
+          type: string
+          minLength: 5
+          maxLength: 5
+        faxnummer:
+          type: string
+        firmenname:
+          type: string
+        firmennameZusatz:
+          type: string
+        fusszeileFuerAussenauftritt:
+          type: string
+          description: "mit \\n  als Zeilentrenner"
+        gesperrt:
+          type: boolean
+          default: false
+        gesperrtTransitiv:
+          type: boolean
+          default: false
+          description: 'true, wenn ein übergeordneter Partner gesperrt ist. (readonly)'
+        id:
+          type: string
+          minLength: 5
+          maxLength: 5
+          description: Europace PartnerId (readonly)
+        telefonnummer:
+          type: string
+        typ:
+          type: string
+          enum:
+            - ORGANISATION
+        webseiteUrl:
+          type: string
+          format: uri
+        gehoertZuKreditinstitut:
+          type: boolean
+          default: false
+          description: 'Vertriebe, die einem Kreditinstitut zugeordnet sind'
+      required:
+        - externePartnerId
+        - gesperrt
+        - gesperrtTransitiv
+        - id
+        - typ
+        - gehoertZuKreditinstitut kontoinhaber
+        - iban
+    person:
+      title: person
+      type: object
+      x-examples:
+        example-1: {}
+      properties:
+        anschrift:
+          $ref: '#/components/schemas/anschrift'
+        bankverbindung:
+          $ref: '#/components/schemas/bankverbindung'
+        anrede:
+          type: string
+          enum:
+            - HERR
+            - FRAU
+          example: FRAU
+        avatarUrl:
+          type: string
+          format: uri
+        email:
+          type: string
+          format: email
+        externePartnerId:
+          type: string
+          description: 'Eine beliebige, extern erzeugte Id. Z.B. SAP oder CRM Nummer.'
+        faxnummer:
+          type: string
+        firmenname:
+          type: string
+        firmennameZusatz:
+          type: string
+        fusszeileFuerAussenauftritt:
+          type: string
+          description: "mit \\n  als Zeilentrenner"
+        geburtsdatum:
+          type: string
+          format: date
+          description: ISO-8601 Calender extended(YYYY-MM-DD) format.
+        gesperrt:
+          type: boolean
+          default: false
+        gesperrtTransitiv:
+          type: boolean
+          default: false
+          description: 'true, wenn ein übergeordneter Partner gesperrt ist. (readonly)'
+        id:
+          type: string
+          description: Europace PartnerId (readonly)
+          minLength: 5
+          maxLength: 5
+        mobilnummer:
+          type: string
+        nachname:
+          type: string
+        rechtDarfEinstellungenOeffnen:
+          type: boolean
+          default: false
+        rechtDarfPartnerAnlegen:
+          type: boolean
+          default: false
+        rechtDarfBaufiSmartEinstellungenVornehmen:
+          default: false
+          type: boolean
+        rechtDarfBaufiSmartNutzen:
+          type: boolean
+          default: true
+        rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen:
+          type: boolean
+          default: true
+        rechtEchtgeschaeftErlaubt:
+          type: boolean
+          default: false
+        rechtDarfErgebnisListeNutzen:
+          type: boolean
+          default: false
+        rechtDarfLoeschen:
+          type: boolean
+          default: false
+        rechtKreditSmartSichtbar:
+          type: boolean
+          default: false
+        rechtKreditSmartEchtgeschaeftErlaubt:
+          type: boolean
+          default: false
+        rechtDarfKreditSmartVersicherungAnbieten:
+          type: boolean
+          default: false
+        rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen:
+          type: boolean
+          default: false
+        titelFunktion:
+          type: string
+        typ:
+          type: string
+          enum:
+            - PERSON
+        vorname:
+          type: string
+        webseiteUrl:
+          type: string
+          format: uri
+        aufsichtsBehoerde:
+          type: string
+        registrierungsNummer:
+          type: string
+        gehoertZuKreditinstitut:
+          type: boolean
+          default: false
+          description: 'Personen, die Mitarbeiter eines Kreditinstitutes sind'
+        links:
+          $ref: '#/components/schemas/_links'
+        orgaEinheitId:
+          type: string
+          minLength: 25
+          maxLength: 25
+      required:
+        - anschrift
+        - bankverbindung
+        - avatarUrl
+        - gesperrt
+        - gesperrtTransitiv
+        - id
+        - rechtDarfEinstellungenOeffnen
+        - rechtDarfPartnerAnlegen
+        - rechtDarfBaufiSmartEinstellungenVornehmen
+        - rechtDarfBaufiSmartNutzen
+        - rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen
+        - rechtEchtgeschaeftErlaubt
+        - rechtDarfErgebnisListeNutzen
+        - rechtDarfLoeschen
+        - rechtKreditSmartSichtbar
+        - rechtKreditSmartEchtgeschaeftErlaubt
+        - rechtDarfKreditSmartVersicherungAnbieten
+        - typ
+        - gehoertZuKreditinstitut
+        - links
+        - orgaEinheitId
+  securitySchemes:
+    API Key:
+      name: X-ApiKey
+      type: apiKey
+      in: header
