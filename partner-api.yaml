@@ -67,6 +67,7 @@ paths:
                     rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen: true
                     rechtDarfErgebnisListeNutzen: false
                     rechtDarfLoeschen: false
+                    rechtDarfMarktwertErmitteln: false
                     rechtKreditSmartSichtbar: false
                     rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen: true
                     rechtKreditSmartEchtgeschaeftErlaubt: false
@@ -224,6 +225,7 @@ paths:
                     rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen: true
                     rechtDarfErgebnisListeNutzen: false
                     rechtDarfLoeschen: false
+                    rechtDarfMarktwertErmitteln: false
                     rechtKreditSmartSichtbar: false
                     rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen: true
                     rechtKreditSmartEchtgeschaeftErlaubt: false
@@ -1128,6 +1130,9 @@ components:
         rechtDarfLoeschen:
           type: boolean
           default: false
+        rechtDarfMarktwertErmitteln:
+          type: boolean
+          default: false
         rechtKreditSmartSichtbar:
           type: boolean
           default: false
@@ -1180,6 +1185,7 @@ components:
         - rechtEchtgeschaeftErlaubt
         - rechtDarfErgebnisListeNutzen
         - rechtDarfLoeschen
+        - rechtDarfMarktwertErmitteln
         - rechtKreditSmartSichtbar
         - rechtKreditSmartEchtgeschaeftErlaubt
         - rechtDarfKreditSmartVersicherungAnbieten

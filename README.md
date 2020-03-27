@@ -71,6 +71,7 @@ Die Datenhaushalte für Personen und Organisationen sind unterschiedlich.
   "rechtEchtgeschaeftErlaubt" : true,                   //default false
   "rechtDarfErgebnisListeNutzen" : false,               //default false
   "rechtDarfLoeschen": false,                           //default false
+  "rechtDarfMarktwertErmitteln": false,                 //default false
   "rechtKreditSmartSichtbar": false,                    //default false
   "rechtKreditSmartEchtgeschaeftErlaubt": false,        //default false
   "rechtDarfKreditSmartVersicherungAnbieten" : true,    //default false
@@ -248,6 +249,7 @@ Content-Type: application/json;charset=utf-8
     "rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
     "rechtDarfErgebnisListeNutzen": false,
     "rechtDarfLoeschen": false,
+    "rechtDarfMarktwertErmitteln": false,
     "rechtKreditSmartSichtbar": false,
     "rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
     "rechtKreditSmartEchtgeschaeftErlaubt": false,
@@ -309,6 +311,7 @@ Content-Type: application/json;charset=utf-8
   "rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
   "rechtDarfErgebnisListeNutzen": false,
   "rechtDarfLoeschen": false,
+  "rechtDarfMarktwertErmitteln": false,
   "rechtKreditSmartSichtbar": false,
   "rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
   "rechtKreditSmartEchtgeschaeftErlaubt": false,
@@ -592,6 +595,7 @@ Content-Type: application/json;charset=utf-8
   "rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
   "rechtDarfErgebnisListeNutzen": false,
   "rechtDarfLoeschen": false,
+  "rechtDarfMarktwertErmitteln": false,
   "rechtKreditSmartSichtbar": false,
   "rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
   "rechtKreditSmartEchtgeschaeftErlaubt": false,
