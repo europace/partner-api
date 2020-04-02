@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: partner-api
-  version: '1.0.1'
+  version: '1.0.2'
   description: 'Das Partnermanagment von Europace ermöglicht Organisationen ihre eigenen Struktur abzubilden, um jedem Partner oder Mitarbeiter einen Zugang zu geben und Rechte einzustellen.'
   contact:
     name: Europace AG
