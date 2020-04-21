@@ -23,7 +23,6 @@ Bei Fragen und Anregungen entweder ein Issue in GitHub anlegen oder an devsuppor
 * [Validierungen](#validierungen)
 * [Hinweise](#hinweise)
 
-
 ## Datenformat der Partner Stammdaten
 
 Die PEX API stellt die Partner Stammdaten als JSON Dokument bereit.
@@ -663,3 +662,7 @@ Für eine erfolgreiche Angebotsannahme in BaufiSmart ist es für die nachfolgend
 
 Eine Angebotsannahme ist andernfalls nicht möglich.
 
+
+
+# Nutzungsbedingungen
+Mit der Verwendung dieser API [stimme ich den Nutzungsbedingungen](https://developer.europace.de/terms/) zu.
