@@ -664,5 +664,5 @@ Eine Angebotsannahme ist andernfalls nicht möglich.
 
 
 
-# Nutzungsbedingungen
-Mit der Verwendung dieser API [stimme ich den Nutzungsbedingungen](https://developer.europace.de/terms/) zu.
+## Nutzungsbedingungen
+Die APIs werden unter folgenden [Nutzungsbedingungen](https://developer.europace.de/terms/) zur Verfügung gestellt.
