@@ -7,7 +7,7 @@ info:
     name: Europace AG
     url: 'http://developer.europace.de'
     email: info@europace.de
-  termsOfService: 'https://github.com/europace/partner-api'
+  termsOfService: 'https://developer.europace.de/terms/'
 servers:
   - url: 'https://www.europace2.de/partnermanagement'
 paths:
