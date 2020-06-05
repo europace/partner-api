@@ -49,7 +49,7 @@ paths:
                       partnerkennzeichen: 'https://api.europace.de/v2/partnermanagement/partner/ABC12/partnerkennzeichen'
                     partnerId: 'ABC12'
                     anrede: HERR
-                    typ: PERSON
+                    typ: 'PERSON'
                     nachname: Mustermann
                     vorname: Max
                     externePartnerId: '123456'
@@ -224,7 +224,7 @@ paths:
                       partnerkennzeichen: 'https://api.europace.de/v2/partnermanagement/partner/LUI92/partnerkennzeichen'
                       administrierbare: 'https://api.europace.de/v2/partnermanagement/partner/LUI92/administrierbare'
                     partnerId: LUI92
-                    typ: PERSON
+                    typ: 'PERSON'
                     externePartnerId: MAK004712
                     avatarUrl: 'https://api.europace.de/v2/partnermanagement/LUI92.avatar'
                     anrede: HERR
@@ -367,7 +367,7 @@ paths:
                     - partnerId: AAV43
                       vorname: Max
                       nachname: Mustermann
-                      typ: PERSON
+                      typ: 'PERSON'
                       view_type: PLAKETTE
                       _links:
                         self: 'https://api.europace.de/v2/partnermanagement/partner/AAV43'
@@ -518,8 +518,6 @@ components:
           enum:
             - PERSON
             - ORGANISATION
-          example:
-            - PERSON
         email:
           type: string
           format: email
