@@ -168,7 +168,7 @@ paths:
         '404':
           description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
 
-  '/partner/{partnerId}/untergeordnetePartner':
+  '/partner/{partnerId}/untergeordnete':
     parameters:
       - schema:
           type: string
@@ -344,6 +344,7 @@ paths:
         description: ID des Partners
     get:
       summary: Alle Plaketten abrufen, auf die der Partner Einstellungsrechte hat.
+      operationId: getAdministrierbare
       tags:
         - Partner
       description: |-
@@ -361,12 +362,13 @@ paths:
                 items:
                   $ref: '#/components/schemas/Plakette'
               examples:
-                Person:
+                Partner:
                   value:
                     - partnerId: AAV43
                       vorname: Max
                       nachname: Mustermann
                       typ: PERSON
+                      view_type: PLAKETTE
                       _links:
                         self: 'https://api.europace.de/v2/partnermanagement/partner/AAV43'
                         administrierbare: 'https://api.europace.de/v2/partnermanagement/partner/AAV43/administrierbare'
@@ -378,7 +380,7 @@ paths:
         '404':
           description: Not Found
 
-  '/partner/{partnerId}/uebernahmeRechtFuer':
+  '/partner/{partnerId}/uebernehmbare':
     parameters:
       - schema:
           type: string
@@ -388,6 +390,7 @@ paths:
         description: ID des Partners
     get:
       summary: Alle Partner abrufen, auf die der Partner Übernahmerecht hat.
+      operationId: getUebernehmbare
       tags:
         - Partner
       description: 'Liefert alle Partner, deren Daten von dem Partner gesehen, geöffnet und bearbeitet werden können (Zugriff). '
@@ -401,12 +404,15 @@ paths:
               schema:
                 type: object
                 properties:
-                  Partner:
-                    $ref: '#/components/schemas/Plakette'
-                  alleSichtbar:
+                  partner:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Plakette'
+                  alle:
                     type: boolean
+                    description: Administratoren dürfen Alle Partner Übernehmen. Wenn true werden keine Partner zurückgegeben.
                 required:
-                  - alleSichtbar
+                  - alle
               examples:
                 alle_sichbar:
                   value:
@@ -414,7 +420,7 @@ paths:
                 nicht_alle_sichtbar:
                   value:
                     alleSichtbar: false
-                    Partner:
+                    partner:
                       partnerId: ABC12
                       vorname: Max
                       nachname: Mustermann
@@ -425,7 +431,7 @@ paths:
         '404':
           description: Not Found
 
-  '/partner/{partnerId}/uebernahmeRechtFuer/{partnerId2}':
+  '/partner/{partnerId}/uebernahmeRechtFuer/{target}':
     parameters:
       - schema:
           type: string
@@ -435,12 +441,13 @@ paths:
         description: 'Partner, dessen Zugriffrechte ermittelt werden sollen'
       - schema:
           type: string
-        name: partnerId2
+        name: target
         in: path
         required: true
         description: 'Partner, auf den zugegriffenen werden soll'
     get:
       summary: Zugriffrecht auf einen bestimmten Partner prüfen
+      operationId: getUebernahmeRechtFuer
       tags:
         - Partner
       description: 'Ermittelt, ob der Partner auf die Vorgänge eines anderen Partner zugreifen darf'
@@ -454,7 +461,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  Partner:
+                  partner:
                     $ref: '#/components/schemas/Plakette'
                   uebernehmbar:
                     type: boolean
@@ -464,8 +471,9 @@ paths:
               examples:
                 Beispiel:
                   value:
-                    partnerId: AAV43
-                    gesperrt: false
+                    partner:
+                      partnerId: AAV43
+                      gesperrt: false
                     uebernehmbar: true
         '401':
           description: Unauthorized
@@ -526,10 +534,18 @@ components:
           description: 'true, wenn der Partner oder ein übergeordneter Partner gesperrt ist.'
         kreditsachbearbeiter:
           type: boolean
+        view_type:
+          type: string
+          enum:
+            - PLAKETTE
+            - PARTNER
         _links:
           $ref: '#/components/schemas/_links'
+      discriminator:
+        propertyName: view_type
       required:
         - partnerId
+        - view_type
 
     Partner:
       title: Partner
