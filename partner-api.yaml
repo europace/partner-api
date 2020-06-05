@@ -33,7 +33,7 @@ paths:
       operationId: getPartner
       description: Liefert die Daten eines Partners
       security:
-        - europace_oauth2: ['partner:entity:read']
+        - europace_oauth2: ['partner:plakette:lesen']
       responses:
         '200':
           description: 'Es werden je nach Typ (Person, Organisation) unterschiedliche Datenstrukturen geliefert.'
@@ -114,7 +114,7 @@ paths:
         description: 'Es brauchen nur die Attribute angegeben werden, die sich verändern sollen.'
       description: Partner anpassen
       security:
-        - europace_oauth2: ['partner:entity:write']
+        - europace_oauth2: ['partner:plakette:schreiben']
       tags:
         - Partner
 
@@ -131,7 +131,7 @@ paths:
       operationId: getPartnerRechte
       description: Liefert die Rechte eines Partners
       security:
-        - europace_oauth2: ['partner:rechte:read']
+        - europace_oauth2: ['partner:rechte:lesen']
       responses:
         '200':
           description: 'Es werden die Rechte eines Partners zurück gegeben.'
@@ -150,7 +150,7 @@ paths:
       operationId: setPartnerRecht
       description: Alle Rechte eines Partners aktualisieren
       security:
-        - europace_oauth2: ['partner:rechte:write']
+        - europace_oauth2: ['partner:rechte:schreiben']
       requestBody:
         content:
           application/json:
@@ -183,7 +183,7 @@ paths:
       operationId: createPartner
       description: 'Erstellt einen neuen Partner als Organisation oder Person, abhängig vom Typ.'
       security:
-        - europace_oauth2: ['partner:entity:create']
+        - europace_oauth2: ['partner:plakette:anlegen']
       requestBody:
         content:
           application/json:
@@ -262,7 +262,7 @@ paths:
       operationId: getChildren
       description: Liefert eine Liste von untergeordneten Partnern.
       security:
-        - europace_oauth2: ['partner:entity:read']
+        - europace_oauth2: ['partner:plakette:lesen']
       responses:
         '200':
           description: Liste von untergeordneten Partnern.
@@ -303,7 +303,7 @@ paths:
       operationId: getChildren
       description: Die Partnerkennzeichen identifizieren einen Vertrieb bei einem Produktanbieter. Die erfassten Werte können über diesen Endpunkt ausgelesen werden.
       security:
-        - europace_oauth2: ['partner:entity:read']
+        - europace_oauth2: ['partner:plakette:lesen']
       tags:
         - Partner
       responses:
@@ -353,7 +353,7 @@ paths:
         Liefert alle Partner, bei denen dieser Partner die Daten und Berechtigungen ändern oder das Reporting abrufen darf.
         Es wird mindestens der Partner selbst zurückgegeben, da jeder mindestens sich selbst einstellen oder sein eigenes Reporting abrufen darf.
       security:
-        - europace_oauth2: ['partner:relationships:read']
+        - europace_oauth2: ['partner:beziehungen:lesen']
       responses:
         '200':
           description: 'Liste aller Partner, bei denen dieser Partner die Daten und Berechtigungen ändern oder das Reporting abrufen darf.'
@@ -395,7 +395,7 @@ paths:
         - Partner
       description: 'Liefert alle Partner, deren Daten von dem Partner gesehen, geöffnet und bearbeitet werden können (Zugriff). '
       security:
-        - europace_oauth2: ['partner:relationships:read']
+        - europace_oauth2: ['partner:beziehungen:lesen']
       responses:
         '200':
           description: 'Liste alle Partner, deren Vorgänge von dem Partner gesehen, geöffnet und bearbeitet werden können (Zugriff). '
@@ -448,7 +448,7 @@ paths:
         - Partner
       description: 'Ermittelt, ob der Partner auf die Vorgänge eines anderen Partner zugreifen darf'
       security:
-        - europace_oauth2: ['partner:relationships:read']
+        - europace_oauth2: ['partner:beziehungen:lesen']
       responses:
         '200':
           description: OK
