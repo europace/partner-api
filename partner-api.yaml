@@ -486,14 +486,14 @@ components:
         clientCredentials:
           tokenUrl: https://api.europace.de/auth/token
           scopes:
-            partner:entity:create: Create a new Partner entity
-            partner:entity:delete: Delete the whole Partner
-            partner:entity:read: Read partner data
-            partner:entity:write: Modify data of a partner
-            partner:relationships:read: Read relationships between partners
-            partner:relationships:write: Modify relationships between partners
-            partner:rechte:read: Read Rechte eines Partners
-            partner:rechte:write: Schreibe Rechte eines Partners
+            partner:plakette:anlegen: Darf neue Plaketten anlegen.
+            partner:plakette:löschen: Darf Plaketten löschen
+            partner:plakette:lesen: Darf Partner-Daten lesen
+            partner:plakette:schreiben: Darf Partner-Daten schreiben
+            partner:beziehungen:lesen: Darf Beziehungen zwischen Partnern lesen
+            partner:beziehungen:schreiben: Darf Beziehungen zwischen Partnern schreiben
+            partner:rechte:lesen: Darf Rechte eines Partners lesen
+            partner:rechte:schreiben: Darf Rechte eines Partners schreiben
 
   schemas:
     Plakette:
@@ -814,4 +814,3 @@ components:
         href:
           type: string
           format: uri
-
