@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: partner-api
-  version: '2.0.0'
+  version: '2.0.1'
   description: 'Das Partnermanagment von Europace ermöglicht Organisationen ihre eigenen Struktur abzubilden, um jedem Partner oder Mitarbeiter einen Zugang zu geben und Rechte einzustellen.'
   contact:
     name: Europace AG
@@ -12,9 +12,7 @@ info:
 
 servers:
   - url: 'https://api.europace.de/v2/partnermanagement'
-    description: production server
-  - url: 'https://api.europace.de/stub/partnermanagement'
-    description: test server
+    description: Produktion Server
 
 externalDocs:
   url: https://developer.europace.de/api/partner-api/
@@ -29,7 +27,7 @@ paths:
         required: true
         description: ID des Partners
     get:
-      summary: Read data of a Partner
+      summary: Lese die Daten eines Partners
       operationId: getPartner
       description: Liefert die Daten eines Partners
       security:
@@ -204,7 +202,6 @@ paths:
           * Für Organisationen werden personenspezifische Attribute ignoriert.
           * Für Personen werden organisationenspezifische Attribute ignoriert.
           * Leere Attribute bei Strings ("") werden ignoriert.
-          * "gesperrtTransitiv" ist nicht von aussen änderbar und wird deshalb ignoriert
           * "id" ist nicht setzbar und wird deshalb ignoriert.
           * Rechte werden für Personen -sofern nicht angegeben- mit "false" belegt.
       tags:
