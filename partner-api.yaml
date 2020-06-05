@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: partner-api
-  version: '2.0.1'
+  version: '2.0.2'
   description: 'Das Partnermanagment von Europace ermöglicht Organisationen ihre eigenen Struktur abzubilden, um jedem Partner oder Mitarbeiter einen Zugang zu geben und Rechte einzustellen.'
   contact:
     name: Europace AG
@@ -297,7 +297,7 @@ paths:
         description: ID des Partners
     get:
       summary: Partnerkennzeichen abrufen
-      operationId: getChildren
+      operationId: getPartnerkennzeichen
       description: Die Partnerkennzeichen identifizieren einen Vertrieb bei einem Produktanbieter. Die erfassten Werte können über diesen Endpunkt ausgelesen werden.
       security:
         - europace_oauth2: ['partner:plakette:lesen']
