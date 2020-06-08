@@ -485,20 +485,7 @@ paths:
 components:
   securitySchemes:
     europace_oauth2:
-      type: oauth2
-      description: This API uses OAuth 2 with the client credentials flow. [More info](https://auth0.com/docs/flows/concepts/client-credentials)
-      flows:
-        clientCredentials:
-          tokenUrl: https://api.europace.de/auth/token
-          scopes:
-            partner:plakette:anlegen: Darf neue Plaketten anlegen.
-            partner:plakette:löschen: Darf Plaketten löschen
-            partner:plakette:lesen: Darf Partner-Daten lesen
-            partner:plakette:schreiben: Darf Partner-Daten schreiben
-            partner:beziehungen:lesen: Darf Beziehungen zwischen Partnern lesen
-            partner:beziehungen:schreiben: Darf Beziehungen zwischen Partnern schreiben
-            partner:rechte:lesen: Darf Rechte eines Partners lesen
-            partner:rechte:schreiben: Darf Rechte eines Partners schreiben
+      $ref: 'https://raw.githubusercontent.com/europace/authorization-api/master/europace_security.yaml'
 
   schemas:
     Plakette:
