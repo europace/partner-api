@@ -501,10 +501,7 @@ components:
         nachname:
           type: string
         typ:
-          type: string
-          enum:
-            - PERSON
-            - ORGANISATION
+          $ref: '#/components/schemas/Typ'
         email:
           type: string
           format: email
@@ -520,10 +517,7 @@ components:
         kreditsachbearbeiter:
           type: boolean
         view_type:
-          type: string
-          enum:
-            - PLAKETTE
-            - PARTNER
+          $ref: '#/components/schemas/ViewTyp'
         _links:
           $ref: '#/components/schemas/_links'
       discriminator:
@@ -812,3 +806,15 @@ components:
         href:
           type: string
           format: uri
+
+    ViewType:
+      type: string
+      enum:
+        - PLAKETTE
+        - PARTNER
+
+    Typ:
+      type: string
+      enum:
+        - PERSON
+        - ORGANISATION
