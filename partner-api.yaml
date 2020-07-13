@@ -11,7 +11,7 @@ info:
   termsOfService: 'https://developer.europace.de/terms/'
 
 servers:
-  - url: 'https://api.europace.de/v2/partnermanagement'
+  - url: 'https://api.europace.de/v2'
     description: Produktion Server
 
 externalDocs:
@@ -43,10 +43,10 @@ paths:
                 Partner:
                   value:
                     _links:
-                      self: 'https://api.europace.de/v2/partnermanagement/partner/ABC12'
-                      rechte: 'https://api.europace.de/v2/partnermanagement/partner/ABC12/rechte'
-                      administrierbare: 'https://api.europace.de/v2/partnermanagement/partner/ABC12/administrierbare'
-                      partnerkennzeichen: 'https://api.europace.de/v2/partnermanagement/partner/ABC12/partnerkennzeichen'
+                      self: 'https://api.europace.de/v2/partner/ABC12'
+                      rechte: 'https://api.europace.de/v2/partner/ABC12/rechte'
+                      administrierbare: 'https://api.europace.de/v2/partner/ABC12/administrierbare'
+                      partnerkennzeichen: 'https://api.europace.de/v2/partner/ABC12/partnerkennzeichen'
                     partnerId: 'ABC12'
                     anrede: HERR
                     typ: PERSON
@@ -220,13 +220,13 @@ paths:
                 Person:
                   value:
                     _links:
-                      self: 'https://api.europace.de/v2/partnermanagement/partner/LUI92'
-                      partnerkennzeichen: 'https://api.europace.de/v2/partnermanagement/partner/LUI92/partnerkennzeichen'
-                      administrierbare: 'https://api.europace.de/v2/partnermanagement/partner/LUI92/administrierbare'
+                      self: 'https://api.europace.de/v2/partner/LUI92'
+                      partnerkennzeichen: 'https://api.europace.de/v2/partner/LUI92/partnerkennzeichen'
+                      administrierbare: 'https://api.europace.de/v2/partner/LUI92/administrierbare'
                     partnerId: LUI92
                     typ: PERSON
                     externePartnerId: MAK004712
-                    avatarUrl: 'https://api.europace.de/v2/partnermanagement/LUI92.avatar'
+                    avatarUrl: 'https://api.europace.de/v2/LUI92.avatar'
                     anrede: HERR
                     vorname: Max
                     nachname: Mustermann
@@ -274,10 +274,10 @@ paths:
                   value:
                     - partnerId: ABC12
                       _links:
-                        self: 'https://api.europace.de/v2/partnermanagement/partner/ABC12'
+                        self: 'https://api.europace.de/v2/partner/ABC12'
                     - partnerId: CDE23
                       _links:
-                        self: 'https://api.europace.de/v2/partnermanagement/partner/CDE23'
+                        self: 'https://api.europace.de/v2/partner/CDE23'
         '401':
           description: Unauthorized
         '403':
@@ -318,15 +318,15 @@ paths:
                     partnerKennzeichenDerVertriebsOrganisation:
                       _links:
                         partner:
-                          href: 'https://api.europace.de/v2/partnermanagement/partner/TYL29'
+                          href: 'https://api.europace.de/v2/partner/TYL29'
                         self:
-                          href: 'https://api.europace.de/v2/partnermanagement/partner/TYL29/partnerkennzeichen'
+                          href: 'https://api.europace.de/v2/partner/TYL29/partnerkennzeichen'
                       dslSapGeschaeftspartnerNummerFuerRatenkredit: '1516119444'
                     _links:
                       partner:
-                        href: 'https://api.europace.de/v2/partnermanagement/partner/XUL48'
+                        href: 'https://api.europace.de/v2/partner/XUL48'
                       self:
-                        href: 'https://api.europace.de/v2/partnermanagement/partner/XUL48/partnerkennzeichen'
+                        href: 'https://api.europace.de/v2/partner/XUL48/partnerkennzeichen'
         '401':
           description: Unauthorized
         '403':
@@ -370,9 +370,9 @@ paths:
                       typ: PERSON
                       view_type: Plakette
                       _links:
-                        self: 'https://api.europace.de/v2/partnermanagement/partner/AAV43'
-                        administrierbare: 'https://api.europace.de/v2/partnermanagement/partner/AAV43/administrierbare'
-                        partnerkennzeichen: 'https://api.europace.de/v2/partnermanagement/partner/AAV43/partnerkennzeichen'
+                        self: 'https://api.europace.de/v2/partner/AAV43'
+                        administrierbare: 'https://api.europace.de/v2/partner/AAV43/administrierbare'
+                        partnerkennzeichen: 'https://api.europace.de/v2/partner/AAV43/partnerkennzeichen'
         '401':
           description: Unauthorized
         '403':
