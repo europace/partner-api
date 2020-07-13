@@ -368,7 +368,7 @@ paths:
                       vorname: Max
                       nachname: Mustermann
                       typ: PERSON
-                      view_type: PLAKETTE
+                      view_type: Plakette
                       _links:
                         self: 'https://api.europace.de/v2/partnermanagement/partner/AAV43'
                         administrierbare: 'https://api.europace.de/v2/partnermanagement/partner/AAV43/administrierbare'
@@ -810,8 +810,8 @@ components:
     ViewType:
       type: string
       enum:
-        - PLAKETTE
-        - PARTNER
+        - Plakette
+        - Partner
 
     Typ:
       type: string
