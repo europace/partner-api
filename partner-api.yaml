@@ -502,6 +502,9 @@ components:
         nachname:
           type: string
           description: "Dieses Feld ist nur für den Typ 'PERSON' gefüllt."
+        name:
+          type: string
+          description: "Dieses Feld ist nur für den Typ 'ORGANISATION' gefüllt."
         typ:
           $ref: '#/components/schemas/Typ'
         email:
