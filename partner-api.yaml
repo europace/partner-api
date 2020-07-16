@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 info:
   title: partner-api
-  version: '2.0.3'
+  version: '2.0-alpha'
   description: 'Das Partnermanagment von Europace ermöglicht Organisationen ihre eigenen Struktur abzubilden, um jedem Partner oder Mitarbeiter einen Zugang zu geben und Rechte einzustellen.'
   contact:
     name: Europace AG
@@ -498,8 +498,10 @@ components:
           maxLength: 5
         vorname:
           type: string
+          description: "Dieses Feld ist nur für den Typ 'PERSON' gefüllt."
         nachname:
           type: string
+          description: "Dieses Feld ist nur für den Typ 'PERSON' gefüllt."
         typ:
           $ref: '#/components/schemas/Typ'
         email:
@@ -516,15 +518,10 @@ components:
           description: 'true, wenn der Partner oder ein übergeordneter Partner gesperrt ist.'
         kreditsachbearbeiter:
           type: boolean
-        view_type:
-          $ref: '#/components/schemas/ViewType'
         _links:
           $ref: '#/components/schemas/_links'
-      discriminator:
-        propertyName: view_type
       required:
-        - partnerId
-        - view_type
+        - typ
 
     Partner:
       title: Partner
@@ -806,12 +803,6 @@ components:
         href:
           type: string
           format: uri
-
-    ViewType:
-      type: string
-      enum:
-        - Plakette
-        - Partner
 
     Typ:
       type: string
