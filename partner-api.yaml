@@ -789,13 +789,9 @@ components:
           $ref: '#/components/schemas/Link'
         rechte:
           $ref: '#/components/schemas/Link'
-        untergeordnetePartner:
-          $ref: '#/components/schemas/Link'
         partnerkennzeichen:
           $ref: '#/components/schemas/Link'
         administrierbare:
-          $ref: '#/components/schemas/Link'
-        uebernahmeRechtFuer:
           $ref: '#/components/schemas/Link'
       description: 'Additional HAL link relations to other resources'
       required:
