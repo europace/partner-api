@@ -130,6 +130,8 @@ paths:
       description: Liefert die Rechte eines Partners
       security:
         - europace_oauth2: ['partner:rechte:lesen']
+      tags:
+        - Partner
       responses:
         '200':
           description: 'Es werden die Rechte eines Partners zurück gegeben.'
@@ -149,6 +151,8 @@ paths:
       description: Alle Rechte eines Partners aktualisieren
       security:
         - europace_oauth2: ['partner:rechte:schreiben']
+      tags:
+        - Partner
       requestBody:
         content:
           application/json:
