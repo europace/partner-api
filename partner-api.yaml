@@ -527,8 +527,6 @@ components:
           type: boolean
         _links:
           $ref: '#/components/schemas/_links'
-      required:
-        - typ
 
     Partner:
       title: Partner
@@ -666,9 +664,6 @@ components:
           type: string
           minLength: 22
           maxLength: 22
-      required:
-        - kontoinhaber
-        - iban
 
     Anschrift:
       title: anschrift
