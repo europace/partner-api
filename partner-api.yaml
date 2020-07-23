@@ -85,6 +85,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Error
                 type: object
                 properties:
                   message:
@@ -406,6 +407,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Uebernehmbare
                 type: object
                 properties:
                   partner:
@@ -463,6 +465,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Target
                 type: object
                 properties:
                   partner:
