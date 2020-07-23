@@ -770,14 +770,22 @@ components:
         partnerKennzeichenDerVertriebsOrganisation:
           type: object
           properties:
+            dslSapGeschaeftspartnerNummerFuerRatenkredit:
+              type: string
             _links:
-              title: _links
-              type: object
-              properties:
-                partner:
-                  $ref: '#/components/schemas/Link'
+              $ref: '#/components/schemas/PartnerkennzeichenLinks'
         _links:
-          $ref: '#/components/schemas/_links'
+          $ref: '#/components/schemas/PartnerkennzeichenLinks'
+
+
+    PartnerkennzeichenLinks:
+      type: object
+      title: _links
+      properties:
+        self:
+          $ref: '#/components/schemas/Link'
+        partner:
+          $ref: '#/components/schemas/Link'
 
     _links:
       title: _links
