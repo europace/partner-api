@@ -85,6 +85,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Error
                 type: object
                 properties:
                   message:
@@ -406,6 +407,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Uebernehmbare
                 type: object
                 properties:
                   partner:
@@ -463,6 +465,7 @@ paths:
           content:
             application/json:
               schema:
+                title: Target
                 type: object
                 properties:
                   partner:
@@ -526,7 +529,7 @@ components:
         kreditsachbearbeiter:
           type: boolean
         _links:
-          $ref: '#/components/schemas/_links'
+          $ref: '#/components/schemas/PartnerLinks'
 
     Partner:
       title: Partner
@@ -648,7 +651,7 @@ components:
               type: boolean
               default: false
         _links:
-          $ref: '#/components/schemas/_links'
+          $ref: '#/components/schemas/PartnerLinks'
 
     Bankverbindung:
       title: bankverbindung
@@ -767,16 +770,24 @@ components:
         partnerKennzeichenDerVertriebsOrganisation:
           type: object
           properties:
+            dslSapGeschaeftspartnerNummerFuerRatenkredit:
+              type: string
             _links:
-              title: _links
-              type: object
-              properties:
-                partner:
-                  $ref: '#/components/schemas/Link'
+              $ref: '#/components/schemas/PartnerkennzeichenLinks'
         _links:
-          $ref: '#/components/schemas/_links'
+          $ref: '#/components/schemas/PartnerkennzeichenLinks'
 
-    _links:
+
+    PartnerkennzeichenLinks:
+      type: object
+      title: _links
+      properties:
+        self:
+          $ref: '#/components/schemas/Link'
+        partner:
+          $ref: '#/components/schemas/Link'
+
+    PartnerLinks:
       title: _links
       type: object
       properties:
