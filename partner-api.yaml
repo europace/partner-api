@@ -529,7 +529,7 @@ components:
         kreditsachbearbeiter:
           type: boolean
         _links:
-          $ref: '#/components/schemas/_links'
+          $ref: '#/components/schemas/PartnerLinks'
 
     Partner:
       title: Partner
@@ -651,7 +651,7 @@ components:
               type: boolean
               default: false
         _links:
-          $ref: '#/components/schemas/_links'
+          $ref: '#/components/schemas/PartnerLinks'
 
     Bankverbindung:
       title: bankverbindung
@@ -787,7 +787,7 @@ components:
         partner:
           $ref: '#/components/schemas/Link'
 
-    _links:
+    PartnerLinks:
       title: _links
       type: object
       properties:
