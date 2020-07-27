@@ -585,6 +585,10 @@ components:
           type: object
           description: Rechte des Partnermanagements
           properties:
+            apiClientEinstellungenVornehmen:
+              type: boolean
+              default: false
+              description: Darf API Client Einstellungen vornehmen
             einstellungenOeffnen:
               type: boolean
               default: false
