@@ -749,7 +749,7 @@ components:
           type: string
         bshBlzVertriebsbank:
           type: string
-        wlBankVermittlerNummer:
+        dzHypVermittlerNummer:
           type: string
         naevVermittlerNummer:
           type: string
