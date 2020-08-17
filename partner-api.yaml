@@ -473,8 +473,6 @@ paths:
                   uebernehmbar:
                     type: boolean
                     description: 'Kann auf die Vorgänge des Partner zugegriffen werden? '
-                required:
-                  - uebernehmbar
               examples:
                 Beispiel:
                   value:
