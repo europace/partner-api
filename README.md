@@ -551,6 +551,32 @@ Ein erfolgreicher Aufruf resultiert in einer Response mit dem HTTP Statuscode **
 Der Body der Response enthält die aktuellen Stammdaten im JSON Format.
 Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die bereits gesetzt waren bzw. für die es Default Werte gibt, sind dabei immer enthalten.
 
+### Attribute die per PATCH geändert werden können
+
+- titelFunktion
+- anrede
+- nachname
+- vorname 
+- geburtsdatum
+- telefonnummer
+- mobilnummer
+- aufsichtsbehoerde
+- registrierungsnummer
+- anschrift
+- bankverbindung
+- email
+- externePartnerId
+- faxnummer
+- firmenname
+- firmennameZusatz
+- fusszeileFuerAussenauftritt
+- telefonnummer
+- webseite
+- gehoertZuKreditinstitut
+
+
+
+
 ### Beispiel: HTTP PATCH Request und Response
 ```
 PATCH https://www.europace2.de/partnermanagement/partner/4712
