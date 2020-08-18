@@ -609,9 +609,6 @@ components:
             echtgeschaeft:
               type: boolean
               default: false
-            einstellungenVornehmen:
-              default: false
-              type: boolean
             vorgaengeUeberOberflaecheAnlegen:
               type: boolean
               default: true
