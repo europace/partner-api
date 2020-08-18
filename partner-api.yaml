@@ -595,14 +595,6 @@ components:
             baufiSmartEinstellungenVornehmen:
               type: boolean
               default: false
-            einstellungenFuerKreditsachbearbeitungVornehmen:
-              type: boolean
-              default: false
-              description: Mit dem Recht darf der Partner besondere Einstellungen für die Kreditsachbearbeitung vornehmen.
-            einstellungenFuerProductCockpitVornehmen:
-              type: boolean
-              default: false
-              description: Mit dem Recht darf der Partner Einstellungen an Product Cockpit vornehmen.
             partnerAnlegen:
               type: boolean
               default: false
@@ -617,9 +609,6 @@ components:
             echtgeschaeft:
               type: boolean
               default: false
-            einstellungenVornehmen:
-              default: false
-              type: boolean
             vorgaengeUeberOberflaecheAnlegen:
               type: boolean
               default: true
@@ -630,15 +619,6 @@ components:
               type: boolean
               default: false
               description: Darf Baufismart-Vorgänge und damit verbundende Daten löschen
-            schufaAuskunftEinholen:
-              type: boolean
-              default: false
-              description: Darf Schufa Auskunft einholen
-            grundbuchUndGeodatenBestellen:
-              type: boolean
-              default: false
-              readOnly: true
-              description: Darf Grundbuch- und Geodaten bestellen (Dieses Recht kann vererbt sein, daher ReadOnly).
         kreditsmart:
           type: object
           properties:
