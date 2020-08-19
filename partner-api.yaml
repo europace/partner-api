@@ -500,7 +500,6 @@ components:
           type: string
           description: Europace PartnerId (readonly)
           minLength: 5
-          maxLength: 5
           readOnly: true
         vorname:
           type: string
