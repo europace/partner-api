@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.3
 
 info:
   title: partner-api
@@ -501,6 +501,7 @@ components:
           description: Europace PartnerId (readonly)
           minLength: 5
           maxLength: 5
+          readOnly: true
         vorname:
           type: string
           description: "Dieses Feld ist nur für den Typ 'PERSON' gefüllt."
@@ -511,6 +512,7 @@ components:
           type: string
           description: "Dieses Feld ist nur für den Typ 'ORGANISATION' gefüllt."
         typ:
+          readOnly: true
           $ref: '#/components/schemas/Typ'
         email:
           type: string
@@ -520,6 +522,7 @@ components:
         avatar:
           type: string
           format: uri
+          readOnly: true
         gesperrt:
           type: boolean
           default: false
@@ -527,6 +530,7 @@ components:
         kreditsachbearbeiter:
           type: boolean
         _links:
+          readOnly: true
           $ref: '#/components/schemas/PartnerLinks'
 
     Partner:
