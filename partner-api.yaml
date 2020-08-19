@@ -528,6 +528,7 @@ components:
           description: 'true, wenn der Partner oder ein übergeordneter Partner gesperrt ist.'
         kreditsachbearbeiter:
           type: boolean
+          readOnly: true
         _links:
           readOnly: true
           $ref: '#/components/schemas/PartnerLinks'
