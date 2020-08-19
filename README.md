@@ -545,6 +545,7 @@ Bei der serverseitigen Auswertung gelten folgende Regeln:
 - "gesperrtTransitiv" ist nicht von aussen änderbar werden und wird deshalb ignoriert
 - "id" ist nicht änderbar und wird deshalb ignoriert.
 - "typ" ist nicht änderbar und wird deshalb ignoriert.
+- "kreditsachbearbeiter" ist aktuell nur über die Benutzeroberfläche änderbar und wird deshalb ignoriert.
 
 Ein erfolgreicher Aufruf resultiert in einer Response mit dem HTTP Statuscode **200 OK**.
 
