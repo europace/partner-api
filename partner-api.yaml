@@ -636,6 +636,7 @@ components:
               type: boolean
               default: false
         _links:
+          readOnly: true
           $ref: '#/components/schemas/PartnerLinks'
 
     Bankverbindung:
