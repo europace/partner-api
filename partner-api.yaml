@@ -109,7 +109,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Partner'
+              $ref: '#/components/schemas/WritablePartner'
         description: 'Es brauchen nur die Attribute angegeben werden, die sich verändern sollen.'
       description: Partner anpassen
       security:
@@ -531,51 +531,81 @@ components:
         _links:
           $ref: '#/components/schemas/PartnerLinks'
 
+    WritablePartner:
+      type: object
+      properties:
+        titelFunktion:
+          type: string
+        anrede:
+          type: string
+          enum:
+            - HERR
+            - FRAU
+          example: FRAU
+        vorname:
+          type: string
+          description: "Dieses Feld ist nur für den Typ 'PERSON' gefüllt."
+        nachname:
+          type: string
+          description: "Dieses Feld ist nur für den Typ 'PERSON' gefüllt."
+        geburtsdatum:
+          type: string
+          format: date
+          description: ISO-8601 Calender extended(YYYY-MM-DD) format.
+          example:
+            1980-12-11
+        telefonnummer:
+          type: string
+        mobilnummer:
+          type: string
+        aufsichtsbehoerde:
+          type: string
+        registrierungsnummer:
+          type: string
+        anschrift:
+          $ref: '#/components/schemas/Anschrift'
+        bankverbindung:
+          $ref: '#/components/schemas/Bankverbindung'
+        email:
+          type: string
+          format: email
+          example:
+            john.doe@example.org
+        externePartnerId:
+          type: string
+          description: 'Eine beliebige, extern erzeugte Id. Z.B. SAP oder CRM Nummer.'
+        faxnummer:
+          type: string
+        firmenname:
+          type: string
+        firmennameZusatz:
+          type: string
+          description: Zusatz zur Firma (z.B. Abteilung)
+        webseite:
+          type: string
+          format: uri
+        name:
+          type: string
+          description: "Dieses Feld ist nur für den Typ 'ORGANISATION' gefüllt."
+        gesperrt:
+          type: boolean
+          default: false
+          description: 'true, wenn der Partner oder ein übergeordneter Partner gesperrt ist.'
+        kreditsachbearbeiter:
+          type: boolean
+
     Partner:
       title: Partner
       allOf:
         - $ref: '#/components/schemas/Plakette'
+        - $ref: '#/components/schemas/WritablePartner'
         - type: object
           properties:
-            externePartnerId:
-              type: string
-              description: 'Eine beliebige, extern erzeugte Id. Z.B. SAP oder CRM Nummer.'
-            titelFunktion:
-              type: string
-            anrede:
-              type: string
-              enum:
-                - HERR
-                - FRAU
-              example: FRAU
-            geburtsdatum:
-              type: string
-              format: date
-              description: ISO-8601 Calender extended(YYYY-MM-DD) format.
-              example:
-                1980-12-11
-            telefonnummer:
-              type: string
-            mobilnummer:
-              type: string
-            faxnummer:
-              type: string
-            firmenname:
-              type: string
-            firmennameZusatz:
-              type: string
-              description: Zusatz zur Firma (z.B. Abteilung)
-            webseite:
+            typ:
+              $ref: '#/components/schemas/Typ'
+            avatar:
               type: string
               format: uri
-            anschrift:
-              $ref: '#/components/schemas/Anschrift'
-            bankverbindung:
-              $ref: '#/components/schemas/Bankverbindung'
-            aufsichtsbehoerde:
-              type: string
-            registrierungsnummer:
-              type: string
 
     Rechte:
       title: Rechte
