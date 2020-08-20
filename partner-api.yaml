@@ -148,6 +148,7 @@ paths:
           description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
     patch:
       summary: Ein Recht eines Partners setzen
+
       operationId: setPartnerRecht
       description: Alle Rechte eines Partners aktualisieren
       security:
@@ -347,6 +348,15 @@ paths:
         in: path
         required: true
         description: ID des Partners
+      - name: implizite
+        description: |
+          Liefert die durch Vererbung Administrierbaren Partner. Diese Option ist sehr rechenintensiev.
+        in: query
+        required: false
+        default: false
+        schema:
+          type: boolean
+
     get:
       summary: Alle Plaketten abrufen, auf die der Partner Einstellungsrechte hat.
       operationId: getAdministrierbare
@@ -361,23 +371,14 @@ paths:
         '200':
           description: 'Liste aller Partner, bei denen dieser Partner die Daten und Berechtigungen ändern oder das Reporting abrufen darf.'
           content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Plakette'
-              examples:
-                Partner:
-                  value:
-                    - partnerId: AAV43
-                      vorname: Max
-                      nachname: Mustermann
-                      typ: PERSON
-                      view_type: Plakette
-                      _links:
-                        self: 'https://api.europace.de/v2/partner/AAV43'
-                        administrierbare: 'https://api.europace.de/v2/partner/AAV43/administrierbare'
-                        partnerkennzeichen: 'https://api.europace.de/v2/partner/AAV43/partnerkennzeichen'
+            schema:
+              title: Administrierbare
+              type: object
+              properties:
+                results:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/PartnerWithId'
         '401':
           description: Unauthorized
         '403':
@@ -387,12 +388,21 @@ paths:
 
   '/partner/{partnerId}/uebernehmbare':
     parameters:
-      - schema:
-          type: string
-        name: partnerId
+      - name: partnerId
+        description: ID des Partners
         in: path
         required: true
-        description: ID des Partners
+        schema:
+          type: string
+      - name: implizite
+        description: |
+          Liefert die durch Vererbung übernehmbaren Partner. Diese Operation ist sehr rechenintensiev.
+        in: query
+        required: false
+        default: false
+        schema:
+          type: boolean
+
     get:
       summary: Alle Partner abrufen, auf die der Partner Übernahmerecht hat.
       operationId: getUebernehmbare
@@ -410,26 +420,10 @@ paths:
                 title: Uebernehmbare
                 type: object
                 properties:
-                  partner:
+                  results:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Plakette'
-                  alle:
-                    type: boolean
-                    description: Administratoren dürfen Alle Partner Übernehmen. Wenn true werden keine Partner zurückgegeben.
-                required:
-                  - alle
-              examples:
-                alle_sichbar:
-                  value:
-                    alleSichtbar: true
-                nicht_alle_sichtbar:
-                  value:
-                    alleSichtbar: false
-                    partner:
-                      partnerId: ABC12
-                      vorname: Max
-                      nachname: Mustermann
+                      $ref: '#/components/schemas/PartnerWithId'
         '401':
           description: Unauthorized
         '403':
@@ -493,6 +487,15 @@ components:
       $ref: 'https://raw.githubusercontent.com/europace/authorization-api/master/europace_security.yaml'
 
   schemas:
+    PartnerWithId:
+      type: object
+      properties:
+        partnerId:
+          type: string
+          description: Europace PartnerId (readonly)
+          minLength: 5
+          readOnly: true
+
     Plakette:
       type: object
       properties:
