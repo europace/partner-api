@@ -785,6 +785,8 @@ components:
           $ref: '#/components/schemas/Link'
         administrierbare:
           $ref: '#/components/schemas/Link'
+        untergeordnete:
+          $ref: '#/components/schemas/Link'
       description: 'Additional HAL link relations to other resources'
       required:
         - self
