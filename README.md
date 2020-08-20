@@ -553,16 +553,9 @@ Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die bereits gesetzt wa
 
 ### Attribute die per PATCH geändert werden können
 
-- titelFunktion
 - anrede
-- nachname
-- vorname 
-- geburtsdatum
-- telefonnummer
-- mobilnummer
-- aufsichtsbehoerde
-- registrierungsnummer
 - anschrift
+- aufsichtsbehoerde
 - bankverbindung
 - email
 - externePartnerId
@@ -570,9 +563,16 @@ Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die bereits gesetzt wa
 - firmenname
 - firmennameZusatz
 - fusszeileFuerAussenauftritt
-- telefonnummer
-- webseite
+- geburtsdatum
 - gehoertZuKreditinstitut
+- mobilnummer
+- nachname
+- registrierungsnummer
+- telefonnummer
+- telefonnummer
+- titelFunktion
+- vorname 
+- webseite
 
 
 
