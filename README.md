@@ -565,6 +565,7 @@ Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die bereits gesetzt wa
 - fusszeileFuerAussenauftritt
 - geburtsdatum
 - gehoertZuKreditinstitut
+- kreditsachbearbeiter
 - mobilnummer
 - nachname
 - registrierungsnummer
