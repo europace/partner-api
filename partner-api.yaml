@@ -349,6 +349,12 @@ paths:
           type: string
         required: true
         description: ID des Partners
+      - in: query
+        name: implizite
+        description: |
+          Liefert die durch Vererbung Administrierbaren Partner. Diese Option ist sehr rechenintensiv.
+        schema:
+          type: boolean
 
     get:
       summary: 'Alle Plaketten abrufen, auf die der Partner Einstellungsrechte hat.'
@@ -390,6 +396,12 @@ paths:
         required: true
         schema:
           type: string
+      - in: query
+        name: implizite
+        description: |
+          Liefert die durch Vererbung Uebernehmbaren Partner. Diese Option ist sehr rechenintensiv.
+        schema:
+          type: boolean
 
     get:
       summary: |
