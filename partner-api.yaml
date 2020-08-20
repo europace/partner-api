@@ -42,11 +42,6 @@ paths:
               examples:
                 Partner:
                   value:
-                    _links:
-                      self: 'https://api.europace.de/v2/partner/ABC12'
-                      rechte: 'https://api.europace.de/v2/partner/ABC12/rechte'
-                      administrierbare: 'https://api.europace.de/v2/partner/ABC12/administrierbare'
-                      partnerkennzeichen: 'https://api.europace.de/v2/partner/ABC12/partnerkennzeichen'
                     partnerId: 'ABC12'
                     anrede: HERR
                     typ: PERSON
@@ -224,10 +219,6 @@ paths:
               examples:
                 Person:
                   value:
-                    _links:
-                      self: 'https://api.europace.de/v2/partner/LUI92'
-                      partnerkennzeichen: 'https://api.europace.de/v2/partner/LUI92/partnerkennzeichen'
-                      administrierbare: 'https://api.europace.de/v2/partner/LUI92/administrierbare'
                     partnerId: LUI92
                     typ: PERSON
                     externePartnerId: MAK004712
@@ -274,15 +265,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Plakette'
-              examples:
-                Beispiel:
-                  value:
-                    - partnerId: ABC12
-                      _links:
-                        self: 'https://api.europace.de/v2/partner/ABC12'
-                    - partnerId: CDE23
-                      _links:
-                        self: 'https://api.europace.de/v2/partner/CDE23'
         '401':
           description: Unauthorized
         '403':
@@ -320,18 +302,6 @@ paths:
                   value:
                     dslSapGeschaeftspartnerNummerFuerRatenkredit: '1516119444'
                     dslVertriebsWegSchluesselFuerRatenkredit: '1899010083'
-                    partnerKennzeichenDerVertriebsOrganisation:
-                      _links:
-                        partner:
-                          href: 'https://api.europace.de/v2/partner/TYL29'
-                        self:
-                          href: 'https://api.europace.de/v2/partner/TYL29/partnerkennzeichen'
-                      dslSapGeschaeftspartnerNummerFuerRatenkredit: '1516119444'
-                    _links:
-                      partner:
-                        href: 'https://api.europace.de/v2/partner/XUL48'
-                      self:
-                        href: 'https://api.europace.de/v2/partner/XUL48/partnerkennzeichen'
         '401':
           description: Unauthorized
         '403':
@@ -374,10 +344,6 @@ paths:
                       nachname: Mustermann
                       typ: PERSON
                       view_type: Plakette
-                      _links:
-                        self: 'https://api.europace.de/v2/partner/AAV43'
-                        administrierbare: 'https://api.europace.de/v2/partner/AAV43/administrierbare'
-                        partnerkennzeichen: 'https://api.europace.de/v2/partner/AAV43/partnerkennzeichen'
         '401':
           description: Unauthorized
         '403':
@@ -528,9 +494,6 @@ components:
           description: 'true, wenn der Partner oder ein übergeordneter Partner gesperrt ist.'
         kreditsachbearbeiter:
           type: boolean
-        _links:
-          readOnly: true
-          $ref: '#/components/schemas/PartnerLinks'
 
     Partner:
       title: Partner
@@ -635,9 +598,6 @@ components:
             vorgaengeUeberOberflaecheAnlegen:
               type: boolean
               default: false
-        _links:
-          readOnly: true
-          $ref: '#/components/schemas/PartnerLinks'
 
     Bankverbindung:
       title: bankverbindung
@@ -753,51 +713,6 @@ components:
           type: string
         commerzbankVermittlerNummer:
           type: string
-        partnerKennzeichenDerVertriebsOrganisation:
-          type: object
-          properties:
-            dslSapGeschaeftspartnerNummerFuerRatenkredit:
-              type: string
-            _links:
-              $ref: '#/components/schemas/PartnerkennzeichenLinks'
-        _links:
-          $ref: '#/components/schemas/PartnerkennzeichenLinks'
-
-
-    PartnerkennzeichenLinks:
-      type: object
-      title: _links
-      properties:
-        self:
-          $ref: '#/components/schemas/Link'
-        partner:
-          $ref: '#/components/schemas/Link'
-
-    PartnerLinks:
-      title: _links
-      type: object
-      properties:
-        self:
-          $ref: '#/components/schemas/Link'
-        rechte:
-          $ref: '#/components/schemas/Link'
-        partnerkennzeichen:
-          $ref: '#/components/schemas/Link'
-        administrierbare:
-          $ref: '#/components/schemas/Link'
-      description: 'Additional HAL link relations to other resources'
-      required:
-        - self
-
-    Link:
-      type: object
-      format: uri
-      required:
-        - href
-      properties:
-        href:
-          type: string
-          format: uri
 
     Typ:
       type: string
