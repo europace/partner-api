@@ -311,20 +311,29 @@ paths:
 
   '/partner/{partnerId}/administrierbare':
     parameters:
-      - schema:
-          type: string
+      - in: path
         name: partnerId
-        in: path
+        schema:
+          type: string
         required: true
         description: ID des Partners
+      - in: query
+        name: implizite
+        description: |
+          Liefert die durch Vererbung Administrierbaren Partner. Diese Option ist sehr rechenintensiv.
+        schema:
+          type: boolean
+
     get:
       summary: Alle Plaketten abrufen, auf die der Partner Einstellungsrechte hat.
       operationId: getAdministrierbare
       tags:
         - Partner
-      description: |-
+      description: |
         Liefert alle Partner, bei denen dieser Partner die Daten und Berechtigungen ändern oder das Reporting abrufen darf.
         Es wird mindestens der Partner selbst zurückgegeben, da jeder mindestens sich selbst einstellen oder sein eigenes Reporting abrufen darf.
+        Um eine bessere Performance zu erreichen, wurde in der neuen PEX2 darauf verzichtet die implizit administrierbaren Partner mit ausgegeben.
+        Um diese zu ermitteln, ist es notwendig über die Untergeordneten der Resultliste zu iterieren.
       security:
         - europace_oauth2: ['partner:beziehungen:lesen']
       responses:
@@ -333,17 +342,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Plakette'
-              examples:
-                Partner:
-                  value:
-                    - partnerId: AAV43
-                      vorname: Max
-                      nachname: Mustermann
-                      typ: PERSON
-                      view_type: Plakette
+                $ref: '#/components/schemas/Administrierbare'
         '401':
           description: Unauthorized
         '403':
@@ -353,14 +352,24 @@ paths:
 
   '/partner/{partnerId}/uebernehmbare':
     parameters:
-      - schema:
-          type: string
-        name: partnerId
+      - name: partnerId
+        description: ID des Partners
         in: path
         required: true
-        description: ID des Partners
+        schema:
+          type: string
+      - in: query
+        name: implizite
+        description: |
+          Liefert die durch Vererbung Uebernehmbaren Partner. Diese Option ist sehr rechenintensiv.
+        schema:
+          type: boolean
+
     get:
-      summary: Alle Partner abrufen, auf die der Partner Übernahmerecht hat.
+      summary: |
+        Alle Partner abrufen, für die ein Übernahmerecht im Partnermanagement angelegt ist. Um eine bessere Performance
+        zu erreichen, wurde in der neuen PEX2 darauf verzichtet die implizit Übernehmbaren mit ausgegeben.
+        Um diese zu ermitteln, ist es notwendig über die Untergeordneten der Resultliste zu iterieren.
       operationId: getUebernehmbare
       tags:
         - Partner
@@ -373,29 +382,7 @@ paths:
           content:
             application/json:
               schema:
-                title: Uebernehmbare
-                type: object
-                properties:
-                  partner:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Plakette'
-                  alle:
-                    type: boolean
-                    description: Administratoren dürfen Alle Partner Übernehmen. Wenn true werden keine Partner zurückgegeben.
-                required:
-                  - alle
-              examples:
-                alle_sichbar:
-                  value:
-                    alleSichtbar: true
-                nicht_alle_sichtbar:
-                  value:
-                    alleSichtbar: false
-                    partner:
-                      partnerId: ABC12
-                      vorname: Max
-                      nachname: Mustermann
+                $ref: '#/components/schemas/Uebernehmbare'
         '401':
           description: Unauthorized
         '403':
@@ -459,6 +446,15 @@ components:
       $ref: 'https://raw.githubusercontent.com/europace/authorization-api/master/europace_security.yaml'
 
   schemas:
+    PartnerId:
+      type: object
+      properties:
+        partnerId:
+          type: string
+          description: Europace PartnerId (readonly)
+          minLength: 5
+          readOnly: true
+
     Plakette:
       type: object
       properties:
@@ -516,8 +512,7 @@ components:
               type: string
               format: date
               description: ISO-8601 Calender extended(YYYY-MM-DD) format.
-              example:
-                1980-12-11
+              example: 1980-12-11
             telefonnummer:
               type: string
             mobilnummer:
@@ -628,6 +623,24 @@ components:
           maxLength: 5
         ort:
           type: string
+
+    Administrierbare:
+      title: Administrierbare
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartnerId'
+
+    Uebernehmbare:
+      title: Uebernehmbare
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartnerId'
 
     Partnerkennzeichen:
       type: object
