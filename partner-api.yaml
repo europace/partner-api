@@ -31,8 +31,7 @@ paths:
       operationId: getPartner
       description: Liefert die Daten eines Partners
       security:
-        - europace_oauth2:
-            - 'partner:plakette:lesen'
+        - europace_oauth2: ['partner:plakette:lesen']
       responses:
         '200':
           description: 'Es werden je nach Typ (Person, Organisation) unterschiedliche Datenstrukturen geliefert.'
@@ -327,7 +326,7 @@ paths:
           type: boolean
 
     get:
-      summary: 'Alle Plaketten abrufen, auf die der Partner Einstellungsrechte hat.'
+      summary: Alle Plaketten abrufen, auf die der Partner Einstellungsrechte hat.
       operationId: getAdministrierbare
       tags:
         - Partner
@@ -344,13 +343,7 @@ paths:
           content:
             application/json:
               schema:
-                title: PartnerIds
-                type: object
-                properties:
-                  results:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/PartnerWithId'
+                $ref: '#/components/schemas/Administrierbare'
         '401':
           description: Unauthorized
         '403':
@@ -390,13 +383,7 @@ paths:
           content:
             application/json:
               schema:
-                title: PartnerIds
-                type: object
-                properties:
-                  results:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/PartnerWithId'
+                $ref: '#/components/schemas/Uebernehmbare'
         '401':
           description: Unauthorized
         '403':
@@ -460,7 +447,7 @@ components:
       $ref: 'https://raw.githubusercontent.com/europace/authorization-api/master/europace_security.yaml'
 
   schemas:
-    PartnerWithId:
+    Partnerd:
       type: object
       properties:
         partnerId:
@@ -479,13 +466,13 @@ components:
           readOnly: true
         vorname:
           type: string
-          description: Dieses Feld ist nur für den Typ 'PERSON' gefüllt.
+          description: "Dieses Feld ist nur für den Typ 'PERSON' gefüllt."
         nachname:
           type: string
-          description: Dieses Feld ist nur für den Typ 'PERSON' gefüllt.
+          description: "Dieses Feld ist nur für den Typ 'PERSON' gefüllt."
         name:
           type: string
-          description: Dieses Feld ist nur für den Typ 'ORGANISATION' gefüllt.
+          description: "Dieses Feld ist nur für den Typ 'ORGANISATION' gefüllt."
         typ:
           readOnly: true
           $ref: '#/components/schemas/Typ'
@@ -526,7 +513,7 @@ components:
               type: string
               format: date
               description: ISO-8601 Calender extended(YYYY-MM-DD) format.
-              example: 1980-12-11T00:00:00.000Z
+              example: 1980-12-11
             telefonnummer:
               type: string
             mobilnummer:
@@ -637,6 +624,24 @@ components:
           maxLength: 5
         ort:
           type: string
+
+    Administrierbare:
+      title: Administrierbare
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Partnerd'
+
+    Uebernehmbare:
+      title: Uebernehmbare
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Partnerd'
 
     Partnerkennzeichen:
       type: object
