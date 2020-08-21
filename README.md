@@ -225,11 +225,6 @@ X-TraceId : ff-request-2014-10-01-07-55
 Content-Type: application/json;charset=utf-8
 
 {
-    "_links": {
-        "partnerkennzeichen": "https://www.europace2.de/partnermanagement/partner/LUI92/partnerkennzeichen",
-        "self": "https://www.europace2.de/partnermanagement/partner/LUI92",
-        "administrierbare": "https://www.europace2.de/partnermanagement/partner/LUI92/administrierbare"
-    },
     "id": "LUI92",
     "typ": "PERSON",
     "orgaEinheitId": "5dadac4c9ae0edb38e41f50f",
@@ -289,11 +284,6 @@ X-TraceId: request-2014-10-01-07-59
 Content-Type: application/json;charset=utf-8
 
 {
-  "_links" : {
-    "self" : "https://www.europace2.de/partnermanagement/partner/4712",
-    "administrierbare": "https://www.europace2.de/partnermanagement/partner/4712/administrierbare",
-    "partnerkennzeichen": "https://www.europace2.de/partnermanagement/partner/4712/partnerkennzeichen",
-  },
   "id":"4712",
   "anrede" : "HERR",
   "externePartnerId" : "123456",
@@ -321,11 +311,6 @@ Content-Type: application/json;charset=utf-8
 ```
 
 ## Details zu einem Partner
-
-Bitte nutzen sie die Relationen des Knotens `_links` der Partner-Entität.
-**Es handelt sich hierbei um ein älteres API-Konzept, weshalb künftige Änderungen wahrscheinlich sind.**
-Wir beabsichtigen die Clientkompatibilität über die Relationen sicherzustellen.
-Über die Bereitstellung einer neueren API werden wir informieren.
 
 ### Partnerkennzeichen
 Die Partnerkennzeichen identifizieren einen Vertrieb bei einem Produktanbieter.
@@ -383,28 +368,7 @@ Content-Type: application/json;charset=utf-8
     "deutscherRingVermittlerNummer": null,
     "alteLeipzigerVerbundVermittlerNummer": null,
     "signalIdunaBetreuerNummer": null,
-    "signalIdunaFilialDirektionNummer": null,
-    "_embedded": {
-        "partnerKennzeichenDerVertriebsOrganisation": {
-            "_links": {
-                "partner": {
-                    "href": "https://www.europace2.de/partnermanagement/partner/CD987"
-                },
-                "self": {
-                    "href": "https://www.europace2.de/partnermanagement/partner/CD987/partnerkennzeichen"
-                }
-            },
-            "dslSapGeschaeftspartnerNummerFuerRatenkredit": "dslSapNummerDerVO"
-        }
-    },
-    "_links": {
-        "partner": {
-            "href": "https://www.europace2.de/partnermanagement/partner/AB123"
-        },
-        "self": {
-            "href": "https://www.europace2.de/partnermanagement/partner/AB123/partnerkennzeichen"
-        }
-    }
+    "signalIdunaFilialDirektionNummer": null
 }
 ```
 
@@ -439,11 +403,7 @@ Content-Type: application/json;charset=utf-8
         "id": "AB123",
         "partnerId": "AB123",
         "organisationsName": "Musterorganisation",
-        "typ": "ORGANISATION",
-        "_links": {
-            "self": "https://www.europace2.de/partnermanagement/partner/AB123",
-            "administrierbare": "https://www.europace2.de/partnermanagement/partner/AB123/administrierbare"
-        }
+        "typ": "ORGANISATION"
     },
     {
         ....
@@ -484,11 +444,6 @@ Content-Type: application/json;charset=utf-8
                 "email": "max.mustermann@europace.de",
                 "kreditsachbearbeiter": true,
                 "avatarUrl": "https://www.europace2.de/partnermanagement/yyyyyyyyyyyyyyyy.avatar?orgaEinheitId=xxxxxxxxxxxxxxxx",
-                "_links": {
-                    "self": {
-                        "href": "https://www.europace2.de/partnermanagement/partner/AB123"
-                    }
-                },
                 "typ": "PERSON"
             },
             {
@@ -553,16 +508,9 @@ Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die bereits gesetzt wa
 
 ### Attribute die per PATCH geändert werden können
 
-- titelFunktion
 - anrede
-- nachname
-- vorname 
-- geburtsdatum
-- telefonnummer
-- mobilnummer
-- aufsichtsbehoerde
-- registrierungsnummer
 - anschrift
+- aufsichtsbehoerde
 - bankverbindung
 - email
 - externePartnerId
@@ -570,9 +518,17 @@ Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die bereits gesetzt wa
 - firmenname
 - firmennameZusatz
 - fusszeileFuerAussenauftritt
-- telefonnummer
-- webseite
+- geburtsdatum
 - gehoertZuKreditinstitut
+- kreditsachbearbeiter
+- mobilnummer
+- nachname
+- registrierungsnummer
+- telefonnummer
+- telefonnummer
+- titelFunktion
+- vorname 
+- webseite
 
 
 
@@ -597,11 +553,6 @@ X-TraceId: ff-request-2014-10-01-07-56
 Content-Type: application/json;charset=utf-8
 
 {
-  "_links" : {
-    "self" : "https://www.europace2.de/partnermanagement/partner/4712",
-    "administrierbare": "https://www.europace2.de/partnermanagement/partner/4712/administrierbare",
-    "partnerkennzeichen": "https://www.europace2.de/partnermanagement/partner/4712/partnerkennzeichen",
-  },
   "id":"4712",
   "anrede" : "HERR",
   "externePartnerId" : "123456",
