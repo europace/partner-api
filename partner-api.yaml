@@ -144,7 +144,6 @@ paths:
           description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
     patch:
       summary: Ein Recht eines Partners setzen
-
       operationId: setPartnerRecht
       description: Alle Rechte eines Partners aktualisieren
       security:
