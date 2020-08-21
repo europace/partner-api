@@ -446,7 +446,7 @@ components:
       $ref: 'https://raw.githubusercontent.com/europace/authorization-api/master/europace_security.yaml'
 
   schemas:
-    Partnerd:
+    PartnerId:
       type: object
       properties:
         partnerId:
@@ -631,7 +631,7 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/Partnerd'
+            $ref: '#/components/schemas/PartnerId'
 
     Uebernehmbare:
       title: Uebernehmbare
@@ -640,7 +640,7 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/Partnerd'
+            $ref: '#/components/schemas/PartnerId'
 
     Partnerkennzeichen:
       type: object
