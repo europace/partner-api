@@ -485,6 +485,10 @@ components:
         - $ref: '#/components/schemas/Plakette'
         - type: object
           properties:
+            parent:
+              title: parent
+              allOf:
+                - $ref: '#/components/schemas/PartnerId'
             externePartnerId:
               type: string
               description: 'Eine beliebige, extern erzeugte Id. Z.B. SAP oder CRM Nummer.'
