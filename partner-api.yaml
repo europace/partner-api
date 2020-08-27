@@ -208,19 +208,14 @@ paths:
         - Partner
       responses:
         '201':
-          description: |-
-            Partner wurde erstellt. Im Location Header befindet sich der Link auf den Partner.
-         headers:
+          description: Partner wurde erstellt. Im Location Header befindet sich der Link auf den Partner.
+          headers:
             Location:
               schema:
                 type: string
               description: 'Link auf den neu angelegten Partner'
         '205':
           description: Partner konnte anhand der PartnerId oder externen PartnerId gefunden werden und wurde aktualisiert.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Partner'
           headers:
             Location:
               schema:
