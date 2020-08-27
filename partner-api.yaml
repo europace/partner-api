@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: partner-api
-  version: 'v2.0.10'
+  version: 'v2.0.12-alpha'
   description: 'Das Partnermanagment von Europace ermöglicht Organisationen ihre eigenen Struktur abzubilden, um jedem Partner oder Mitarbeiter einen Zugang zu geben und Rechte einzustellen.'
   contact:
     name: Europace AG
@@ -209,30 +209,12 @@ paths:
       responses:
         '201':
           description: |-
-            Partner wurde erstellt.
-
-            Der Body der Response enthält die aktuellen Stammdaten im JSON Format. Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden bzw. für die es Defaultwerte gibt, sind dabei immer enthalten.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Partner'
-              examples:
-                Person:
-                  value:
-                    partnerId: LUI92
-                    typ: PERSON
-                    externePartnerId: MAK004712
-                    avatar: 'https://api.europace.de/v2/LUI92.avatar'
-                    anrede: HERR
-                    vorname: Max
-                    nachname: Mustermann
-                    email: max@mustermann.de
-                    gesperrt: false
-          headers:
+            Partner wurde erstellt. Im Location Header befindet sich der Link auf den Partner.
+         headers:
             Location:
               schema:
                 type: string
-              description: 'Link auf den neu angelegten Partner '
+              description: 'Link auf den neu angelegten Partner'
         '205':
           description: Partner konnte anhand der PartnerId oder externen PartnerId gefunden werden und wurde aktualisiert.
           content:
