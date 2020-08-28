@@ -1,9 +1,11 @@
-# Partner API
+# Partner API v2.0
 
-Das Partnermanagment von EUROPACE 2 dient Organisationen zur Abbildung der eigenen Struktur. Hierzu bietet die Weboberfläche des Partnermanagements umfassende Möglichkeiten. Die PEX Partner API erlaubt Fremdsystemen einen automatisierten Zugriff auf die Partner des Partnermanagement via HTTP.
+Das Partnermanagment von EUROPACE 2 dient Organisationen zur Abbildung der eigenen Struktur. 
+Hierzu bietet die Weboberfläche des Partnermanagements umfassende Möglichkeiten. 
+Die PEX Partner API erlaubt Fremdsystemen einen automatisierten Zugriff auf die Partner 
+des Partnermanagement via HTTP.
 
 Bei Fragen und Anregungen entweder ein Issue in GitHub anlegen oder an devsupport@europace2.de schreiben.
-
 
 # Dokumentation
 
@@ -11,7 +13,6 @@ Bei Fragen und Anregungen entweder ein Issue in GitHub anlegen oder an devsuppor
 - neue Partner anzulegen,
 - Daten zu Partnern abzurufen,
 - Partner zu modifizieren.
-
 
 ## Inhalt
 * [Datenformat der Partner Stammdaten](#datenformat-der-partner-stammdaten)
@@ -22,6 +23,8 @@ Bei Fragen und Anregungen entweder ein Issue in GitHub anlegen oder an devsuppor
 * [Berechtigungen](#berechtigungen)
 * [Validierungen](#validierungen)
 * [Hinweise](#hinweise)
+* [Vorherige Releases](#vorherige-releases)
+* [Nutzungsbedingungen](#nutzungsbedingungen)
 
 ## Datenformat der Partner Stammdaten
 
@@ -34,128 +37,125 @@ Als Partner können sowohl Personen als auch Organisationen angelegt werden. Die
 Die Datenhaushalte für Personen und Organisationen sind unterschiedlich.
 
 ### Datenhaushalt einer Person
+
 ```
 {
-  "anrede" : "HERR",          	// alternativ: FRAU
-  "anschrift" : {
-    "strasse" : "...",
-    "hausnummer" : "...",
-    "plz" : "...",
-    "ort" : "..."
-  },
-  "avatarUrl": "https://www.europace2.de/partnermanagement/d71c58aeaed4022384b169f83e0d8842.avatar?anonymousAvatar=BENUTZER",
-  "bankverbindung" : {
-     "iban" : "...",
-     "bic" : "....",
-     "kontoinhaber": "...",
-     "referenzFeld" : "...."
-  },
-  "email" : "...",  
-  "externePartnerId" : "...", 		// Eine beliebige, extern erzeugte Id. Z.B. SAP oder CRM Nummer.
-  "faxnummer" : "...",
-  "firmenname" : "...",
-  "firmennameZusatz" : "...",
-  "fusszeileFuerAussenauftritt" : "...",        // mit \n  als Zeilentrenner
-  "geburtsdatum" : "1970-01-01",                // ISO-8601 Calender extended(YYYY-MM-DD) format.
-  "gesperrt": false,                            // default: false 
-  "gesperrtTransitiv": false,                   // true, wenn ein übergeordneter Partner gesperrt ist. (readonly)
-  "id":"...",                                   // EUROPACE 2 PartnerId (readonly)
-  "mobilnummer" : "...",
-  "nachname" : "...",
-  "rechtDarfEinstellungenOeffnen" : false,              //default false
-  "rechtDarfPartnerAnlegen" : false,                    //default false
-  "rechtDarfBaufiSmartEinstellungenVornehmen": false,   //default false
-  "rechtDarfBaufiSmartNutzen": true,                    //default true
-  "rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,      //default true
-  "rechtEchtgeschaeftErlaubt" : true,                   //default false
-  "rechtDarfErgebnisListeNutzen" : false,               //default false
-  "rechtDarfLoeschen": false,                           //default false
-  "rechtKreditSmartSichtbar": false,                    //default false
-  "rechtKreditSmartEchtgeschaeftErlaubt": false,        //default false
-  "rechtDarfKreditSmartVersicherungAnbieten" : true,    //default false
-  "rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,     //default true
-  "titelFunktion" : "...",
-  "telefonnummer" : "...",
-  "typ": "PERSON",            				  
-  "vorname" : "...",
-  "webseiteUrl" : "...",
-  "aufsichtsBehoerde" : "...",
-  "registrierungsNummer" : "...",
-  "gehoertZuKreditinstitut" : "false"   // default false, markiert Personen, die Mitarbeiter eines Kreditinstitutes sind
+    "partnerId": "...",
+    "vorname": "...",
+    "nachname": "...",
+    "typ": "PERSON",      
+    "email": "...",
+    "avatar": "...",
+    "gesperrt": false,
+    "kreditsachbearbeiter": false,
+    "parent": {
+        "partnerId": "..."
+    },
+    "anrede": "HERR",     // alternativ: FRAU
+    "telefonnummer": "...",
+    "firmenname": "...",
+    "anschrift": {
+        "strasse": "...",
+        "hausnummer": "...",
+        "plz": "...",
+        "ort": "..."
+    },
+    "bankverbindung": {
+        "kontoinhaber": "...",
+        "bic": "...",
+        "iban": "..."
+    }
 }
 ```
 
 Dabei gilt:
 - Die Reihenfolge der Attribute spielt keine Rolle.
 - Die Attributbezeichner sind case-sensitive.
+- Zeilenumbrüche können durch '\n' erreicht werden.
 - Gültige Werte für das Attribut "anrede" sind "HERR" und "FRAU".
-- Zeilenumbrüche in "fusszeileFuerAussenauftritt" können durch '\n' erreicht werden.
-
 
 ### Datenhaushalt einer Organisation
+
 ```
 {
-  "anschrift" : {
-    "strasse" : "...",
-    "hausnummer" : "...",
-    "plz" : "...",
-    "ort" : "..."
-  },
-  "bankverbindung" : {
-     "iban" : "...",
-     "bic" : "....",
-     "kontoinhaber": "...",
-     "referenzFeld" : "...."
-  },
-  "email" : "...",  
-  "externePartnerId" : "...", 		// Eine beliebige, extern erzeugte Id. Z.B. SAP oder CRM Nummer.
-  "faxnummer" : "...",
-  "firmenname" : "...",
-  "firmennameZusatz" : "...",
-  "fusszeileFuerAussenauftritt" : "...", 		// mit \n  als Zeilentrenner
-  "gesperrt": false,            	      		// default: false 
-  "gesperrtTransitiv": false,	          		// true, wenn ein übergeordneter Partner gesperrt ist. (readonly)
-  "id":"...",                 					// EUROPACE 2 PartnerId (readonly)
-  "telefonnummer" : "...",
-  "typ": "ORGANISATION",            
-  "webseiteUrl" : "...",
-  "gehoertZuKreditinstitut" : false   // markiert Vertriebe, die einem Kreditinstitut zugeordnet sind
+    "partnerId": "...",
+    "name": "...",
+    "typ": "ORGANISATION",      
+    "email": "...",
+    "avatar": "...",
+    "gesperrt": false,
+    "parent": {
+        "partnerId": "..."
+    },
+    "telefonnummer": "...",
+    "firmenname": "...",
+    "webseite": "...",
+    "anschrift": {
+        "strasse": "...",
+        "hausnummer": "...",
+        "plz": "...",
+        "ort": "..."
+    },
+    "bankverbindung": {
+        "kontoinhaber": "...",
+        "bic": "...",
+        "iban": "..."
+    }
 }
 ```
 Dabei gilt:
 - Die Reihenfolge der Attribute spielt keine Rolle.
 - Die Attributbezeichner sind case-sensitive.
-- Zeilenumbrüche in "fusszeileFuerAussenauftritt" können durch '\n' erreicht werden.
-
-
+- Zeilenumbrüche können durch '\n' erreicht werden.
 
 ## Die HTTP Schnittstelle
 
 Die HTTP Schnittstelle der PEX-API ist unter der Basis-Url
 ```
-https://www.europace2.de/partnermanagement/partner/
+https://api.europace.de/v2/partner/
 ```
 erreichbar.
 
 
 ### Authentifizierung
 
-Für jeden Request ist eine Authentifizierung erforderlich. Die Authentifizierung erfolgt über HTTP Header.
+Für jeden Request ist eine Authentifizierung erforderlich. 
+Die Authentifizierung erfolgt über den OAuth 2.0 Client-Credentials Flow. 
 
-Request Header Name | Beschreibung
------------------|-------------
-X-ApiKey         | API Key des Benutzers / der Organisation
-X-PartnerId      | Europace2 PartnerId des Aufrufers
+| Request Header Name | Beschreibung           |
+|---------------------|------------------------|
+| Authorization       | OAuth 2.0 Bearer Token |
 
-Den API Key erhalten Sie von Ihrem Ansprechpartner bei EUROPACE 2. Die PartnerId finden Sie in den Einstellungen des jeweiligen Partners in der Weboberfläche des Partnermanagements.
 
+Das Bearer Token kann über die [Authorization-API](https://github.com/europace/authorization-api) angefordert werden. 
+Dazu wird ein Client benötigt der vorher von einer berechtigten Person über das Partnermanagement angelegt wurde, 
+eine Anleitung dafür befindet sich im [Help Center](https://europace2.zendesk.com/hc/de/articles/360012514780).
+
+Damit der Client für diese API genutzt werden kann, muss im Partnermanagement je nach Operation die Berechtigung
+ 
+- Darf neue Plaketten anlegen
+- Darf Partnerdaten lesen
+- Darf Partnerdaten schreiben
+- Darf Beziehungen zwischen Partnern lesen
+- Darf Beziehungen zwischen Partnern schreiben
+- Darf Rechte eines Partners lesen 
+- Darf Rechte eines Partners schreiben
+ 
+ aktiviert sein.  
+ 
 Schlägt die Authentifizierung fehl, erhält der Aufrufer eine HTTP Response mit Statuscode **401 UNAUTHORIZED**.
 
+Hat der Client nicht die benötigte Berechtigung um die Resource abzurufen, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**.
 
 ### TraceId zur Nachverfolgbarkeit von Requests
 
-Für jeden Request sollte eine eindeutige id (TraceId) generiert werden, die den Request im EUROPACE 2 System nachverfolgbar macht und so bei etwaigen Problemen oder Fehlern die systemübergreifende Analyse erleichtert.
-Die Übermittlung der TraceId erfolgt über einen HTTP Header und wird als solcher auch in der Response zurückgeliefert. Wird keine TraceId übermittelt, enthält die Response eine in EUROPACE 2 automatisch erzeugte TraceId. 
+Für jeden Request sollte eine eindeutige id (TraceId) generiert werden, 
+die den Request im EUROPACE 2 System nachverfolgbar macht und so bei 
+etwaigen Problemen oder Fehlern die systemübergreifende Analyse erleichtert.
+Die Übermittlung der TraceId erfolgt über einen HTTP Header und wird als 
+solcher auch in der Response zurückgeliefert. 
+Wird keine TraceId übermittelt, enthält die Response eine in EUROPACE 2 
+automatisch erzeugte TraceId. 
 
 Request / Response Header Name | Beschreibung
 -----------------|-------------
@@ -176,7 +176,7 @@ Das Anlegen eines neuen Partners erfolgt immer unterhalb eines bestehenden Partn
 Das Url-Template für das Anlegen eines neuen Partners unterhalb von {PartnerId} lautet:
 
 ```
-https://www.europace2.de/partnermanagement/partner/{PartnerId}/untergeordnetePartner
+https://api.europace.de/v2/partner/{PartnerId}/untergeordnetePartner
 ```
 
 Die Daten werden als JSON Dokument im Body des POST Requests übermittelt.
@@ -187,7 +187,6 @@ Bei der serverseitigen Auswertung gelten folgende Regeln:
 - Für Organisationen werden personenspezifische Attribute ignoriert.
 - Für Personen werden organisationenspezifische Attribute ignoriert.
 - Leere Attribute bei Strings ("") werden ignoriert.
-- "gesperrtTransitiv" ist nicht von aussen änderbar und wird deshalb ignoriert
 - "id" ist nicht setzbar und wird deshalb ignoriert.
 - Rechte werden für Personen -sofern nicht angegeben- mit "false" belegt.
 
@@ -198,60 +197,90 @@ Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig geset
 
 Im HTTP Header "Location" befindet sich die Url des neu angelegten Partners.
 
-
 ### POST Request Beispiel
 ```
-POST https://www.europace2.de/partnermanagement/partner/4711/untergeordnetePartner
-X-ApiKey: xxxxxxx
-X-PartnerId: ABC987
-X-TraceId: ff-request-2014-10-01-07-55
+POST /v2/partner/SZY92/untergeordnete HTTP/1.1
+Host: api.europace.de
 Accept: application/json
-Content-Type: application/json;charset=utf-8
+X-Trace-Id: ff-request-2020-08-28-07-55
+Authorization: Bearer eyJraWQiO...
+Content-Type: application/json
+Content-Length: 779
 
 {
-  "anrede" : "HERR",
-  "email" : "max@mustermann.de",  
-  "externePartnerId" : "MAK004712",
-  "nachname" : "Mustermann",
-  "vorname" : "Max"
+   "anrede":"HERR",
+   "vorname":"Max",
+   "nachname":"Mustermann",
+   "email":"max.musterman@exmaple.org",
+   "gesperrt":false,
+   "kreditsachbearbeiter":true,
+   "externePartnerId":"123456",
+   "titelFunktion":"Softwareentwickler",
+   "geburtsdatum":"1970-01-01",
+   "telefonnummer":"030 123456",
+   "mobilnummer":"030 123456",
+   "faxnummer":"030 123456",
+   "firmenname":"Europace AG",
+   "firmennameZusatz":"Aktiengesellschaft",
+   "webseite":"https://github.com/europace/partner-api",
+   "anschrift":{
+      "strasse":"Musterstraße",
+      "hausnummer":"5",
+      "plz":"12345",
+      "ort":"Musterstadt"
+   },
+   "bankverbindung":{
+      "kontoinhaber":"Max Musterman",
+      "bic":"BYLADEM1001",
+      "iban":"DE02120300000000202051",
+      "referenzFeld":"Test Ref"
+   },
+   "aufsichtsbehoerde":"Musterbehoerde",
+   "registrierungsnummer":"987654"
 }
 ```
 
 ### POST Response Beispiele
 ```
 201 CREATED
-Location: https://www.europace2.de/partnermanagement/partner/4712
-X-TraceId : ff-request-2014-10-01-07-55
+Location: https://api.europace2.de/v2/partner/LUI92
 Content-Type: application/json;charset=utf-8
 
 {
-    "id": "LUI92",
-    "typ": "PERSON",
-    "orgaEinheitId": "5dadac4c9ae0edb38e41f50f",
-    "externePartnerId": "MAK004712",
-    "avatarUrl": "https://www.europace2.de/partnermanagement/d71c58aeaed4022384b169f83e0d8842.avatar?anonymousAvatar=BENUTZER",
-    "anrede": "HERR",
-    "vorname": "Max",
-    "nachname": "Mustermann",
-    "anschrift": {},
-    "email": "max@mustermann.de",
-    "rechtDarfEinstellungenOeffnen": false,
-    "rechtDarfPartnerAnlegen": false,
-    "rechtDarfBaufiSmartNutzen": true,
-    "rechtEchtgeschaeftErlaubt": false,
-    "rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
-    "rechtDarfErgebnisListeNutzen": false,
-    "rechtDarfLoeschen": false,
-    "rechtKreditSmartSichtbar": false,
-    "rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
-    "rechtKreditSmartEchtgeschaeftErlaubt": false,
-    "rechtDarfKreditSmartVersicherungAnbieten": false,
-    "gesperrtTransitiv": false,
-    "bankverbindung": {},
-    "gesperrt": false
+   "id": "LUI92",
+   "typ": "PERSON",
+   "avatarUrl": "https://www.europace2.de/partnermanagement/d71c58aeaed4022384b169f83e0d8842.avatar?anonymousAvatar=BENUTZER",
+   "anrede":"HERR",
+   "vorname":"Max",
+   "nachname":"Mustermann",
+   "email":"max.musterman@exmaple.org",
+   "gesperrt":false,
+   "kreditsachbearbeiter":true,
+   "externePartnerId":"123456",
+   "titelFunktion":"Softwareentwickler",
+   "geburtsdatum":"1970-01-01",
+   "telefonnummer":"030 123456",
+   "mobilnummer":"030 123456",
+   "faxnummer":"030 123456",
+   "firmenname":"Europace AG",
+   "firmennameZusatz":"Aktiengesellschaft",
+   "webseite":"https://github.com/europace/partner-api",
+   "anschrift":{
+      "strasse":"Musterstraße",
+      "hausnummer":"5",
+      "plz":"12345",
+      "ort":"Musterstadt"
+   },
+   "bankverbindung":{
+      "kontoinhaber":"Max Musterman",
+      "bic":"BYLADEM1001",
+      "iban":"DE02120300000000202051",
+      "referenzFeld":"Test Ref"
+   },
+   "aufsichtsbehoerde":"Musterbehoerde",
+   "registrierungsnummer":"987654"
 }
 ```
-
 
 ## Abruf eines Partners
 
@@ -259,7 +288,7 @@ Die Stammdaten eines Partners können mittels HTTP-GET Methode abgerufen werden.
 Das Url-Template für den Abfruf lautet:
 
 ```
-https://www.europace2.de/partnermanagement/partner/{PartnerId}
+https://api.europace.de/v2/partner/{PartnerId}
 ```
 
 Ein erfolgreicher Aufruf resultiert in einer Response mit dem HTTP Statuscode **200 OK**. 
@@ -270,59 +299,69 @@ Attribute, die nicht gesetzt sind, sind in der Response nicht enthalten.
 
 ### GET Request Beispiel:
 ```
-GET https://www.europace2.de/partnermanagement/partner/4712
-X-ApiKey: xxxxxx
-X-PartnerId: ABC987
-X-TraceId: request-2014-10-01-07-59
+GET /v2/partner/LUI92 HTTP/1.1
+Host: api.europace.de
 Accept: application/json
+X-Trace-Id: ff-request-2020-08-28-07-55
+Authorization: Bearer eyJraWQiO...
 ```
 
 ### GET Response Beispiel:
 ```
 200 OK
-X-TraceId: request-2014-10-01-07-59
 Content-Type: application/json;charset=utf-8
 
 {
-  "id":"4712",
-  "anrede" : "HERR",
-  "externePartnerId" : "123456",
-  "geburtsdatum" : "1970-01-01",
-  "gesperrt": false,
-  "gesperrtTransitiv": false,
-  "nachname" : "Mustermann",
-  "rechtDarfEinstellungenOeffnen": false,
-  "rechtDarfPartnerAnlegen": false,
-  "rechtDarfBaufiSmartNutzen": true,
-  "rechtEchtgeschaeftErlaubt": false,
-  "rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
-  "rechtDarfErgebnisListeNutzen": false,
-  "rechtDarfLoeschen": false,
-  "rechtKreditSmartSichtbar": false,
-  "rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
-  "rechtKreditSmartEchtgeschaeftErlaubt": false,
-  "rechtDarfKreditSmartVersicherungAnbieten": false,
-  "vorname" : "Max",
-  "telefonnummer" : "030 123456",
-  "webseiteUrl" : "https://github.com/hypoport/europace2-api",
-  "aufsichtsBehoerde" : "Musterbehörde",
-  "registrierungsNummer" : "987654"
+   "id": "LUI92",
+   "typ": "PERSON",
+   "avatarUrl": "https://www.europace2.de/partnermanagement/d71c58aeaed4022384b169f83e0d8842.avatar?anonymousAvatar=BENUTZER",
+   "anrede":"HERR",
+   "vorname":"Max",
+   "nachname":"Mustermann",
+   "email":"max.musterman@exmaple.org",
+   "gesperrt":false,
+   "kreditsachbearbeiter":true,
+   "externePartnerId":"123456",
+   "titelFunktion":"Softwareentwickler",
+   "geburtsdatum":"1970-01-01",
+   "telefonnummer":"030 123456",
+   "mobilnummer":"030 123456",
+   "faxnummer":"030 123456",
+   "firmenname":"Europace AG",
+   "firmennameZusatz":"Aktiengesellschaft",
+   "webseite":"https://github.com/europace/partner-api",
+   "anschrift":{
+      "strasse":"Musterstraße",
+      "hausnummer":"5",
+      "plz":"12345",
+      "ort":"Musterstadt"
+   },
+   "bankverbindung":{
+      "kontoinhaber":"Max Musterman",
+      "bic":"BYLADEM1001",
+      "iban":"DE02120300000000202051",
+      "referenzFeld":"Test Ref"
+   },
+   "aufsichtsbehoerde":"Musterbehoerde",
+   "registrierungsnummer":"987654"
 }
 ```
 
 ## Details zu einem Partner
 
 ### Partnerkennzeichen
+
 Die Partnerkennzeichen identifizieren einen Vertrieb bei einem Produktanbieter.
 Die erfassten Werte können über diesen Endpunkt ausgelesen werden.
 
 #### GET Request Beispiele
 
 ```
-GET https://www.europace2.de/partnermanagement/partner/AB123/partnerkennzeichen
-X-ApiKey: xxxxxx
-X-PartnerId: AB123
-X-TraceId: request-2014-10-01-07-59
+GET /v2/partner/LUI92/partnerkennzeichen HTTP/1.1
+Host: api.europace.de
+Accept: application/json
+Authorization: Bearer eyJraWQiOiJ...
+X-TraceId: request-2020-08-28-07-59
 Accept: application/json
 ```
 
@@ -330,45 +369,38 @@ Accept: application/json
 
 ```
 200 OK
-X-TraceId: request-2014-10-01-07-59
 Content-Type: application/json;charset=utf-8
 
 {
-    "dslSapGeschaeftspartnerNummerFuerRatenkredit": "eineNummer",
-    "dslVertriebsWegSchluesselFuerRatenkredit": "dslVertriebsWegSchluessel",
-    "dkbVertriebsIdFuerRatenkredit": "dkbVertriebsId",
-    "kennzeichenIngDiba": {
-        "vermittlerNummer": "vermittlerNummerFürBaufi",
-        "vermittlerVorname": null,
-        "vermittlerNachname": null,
-        "vermittlerNummerFuerRatenkredit": "vermittlerNummerFürRatenkredit"
-    },
-    "kennzeichenErgo": {
-        "maklerBuero": null,
-        "bdNummer": null
-    },
-    "kennzeichenBhw": {
-        "vgeNummer": "VGENummer",
-        "orgaNummer": "OGRANummer"
-    },
-    "lbsNordVermittlerNummer": null,
-    "lbsOstVermittlerNummer": null,
-    "lbsShhVermittlerNummer": null,
-    "lbsSuedwestVermittlerNummer": null,
-    "lbsWestVermittlerNummer": "nummer",
-    "wuestenrotVermittlerNummer": null,
-    "allianzVertreterNummer": null,
-    "axaGeschaeftsPartnerNummer": null,
-    "dslVermittlerGruppenSchluessel": null,
-    "bshVoNummer": "VONummer",
-    "wlBankVermittlerNummer": null,
-    "naevVermittlerNummer": null,
-    "rUndvBankAgenturNummer": null,
-    "bausparkasseMainzVermittlerNummer": null,
-    "deutscherRingVermittlerNummer": null,
-    "alteLeipzigerVerbundVermittlerNummer": null,
-    "signalIdunaBetreuerNummer": null,
-    "signalIdunaFilialDirektionNummer": null
+  "dslSapGeschaeftspartnerNummerFuerRatenkredit": "cdts-dsl-sap-vo",
+  "dslVertriebsWegSchluesselFuerRatenkredit": "1899026629",
+  "dkbVertriebsIdFuerRatenkredit": "cdts-dkb-vertrieb",
+  "kennzeichenIngDiba": {
+    "vermittlerNummer": "9800002186",
+    "vermittlerVorname": "wer",
+    "vermittlerNachname": "wer",
+    "vermittlerNummerFuerRatenkredit": "cdts-ing-diba-vermittler"
+  },
+  "kennzeichenErgo": {},
+  "kennzeichenBhw": {
+    "vgeNummer": "6248/205585.0",
+    "orgaNummer": "ORGA123",
+    "zurIdentifikationsPruefungLegitimiert": "false"
+  },
+  "lbsOstVermittlerNummer": "lbsost-werwer-vermittler",
+  "lbsShhVermittlerNummer": "lbs-ssh-ldapvermittler",
+  "lbsSuedwestVermittlerNummer": "lbs-südwest-ldapvermittler",
+  "lbsWestVermittlerNummer": "lbs-west-ldapvermittler",
+  "allianzVertreterNummer": "01/012/0123",
+  "axaGeschaeftsPartnerNummer": "MA 00352",
+  "dslVermittlerGruppenSchluessel": "1200",
+  "bshVoNummer": "abcdefghijklmnopqrstuvwxyz",
+  "bshAkquisitionsWeg": "AW1",
+  "bshBlzVertriebsbank": "1234567890",
+  "dzHypVermittlerNummer": "1234",
+  "alteLeipzigerVerbundVermittlerNummer": "42",
+  "rundvBankAgenturNummer": "RV_BAN",
+  "rundvBlzVertriebsbank": "RV_BLZ"
 }
 ```
 
@@ -383,33 +415,26 @@ Dieses Recht besagt, dass man die Daten zum anderen Partner ändern darf. Darüb
 Dies jedoch nur zu Rechten, die der ausführende Partner selbst besitzt.
 
 #### GET Request Beispiel:
+
 ```
-GET https://www.europace2.de/partnermanagement/partner/ABC987/administrierbare
-X-ApiKey: xxxxxx
-X-PartnerId: ABC987
-X-TraceId: request-2014-10-01-07-59
+GET /v2/partner/SZY92/administrierbare HTTP/1.1
+Host: api.europace.de
 Accept: application/json
+Authorization: Bearer eyJraWQiOiJWRDZZTk...
+X-TraceId: ff-request-2020-08-28-07-59
+Content-Type: application/json
 ```
 
 #### GET Response Beispiel:
 
 ```
 200 OK
-X-TraceId: request-2014-10-01-07-59
 Content-Type: application/json;charset=utf-8
 
-[
-    {
-        "id": "AB123",
-        "partnerId": "AB123",
-        "organisationsName": "Musterorganisation",
-        "typ": "ORGANISATION"
-    },
-    {
-        ....
-    }
-    ....   
-]
+{ "content": [{ 
+    "partnerId":"VGD43"
+  }]
+}
 ```
 
 ### Übernahmerecht
@@ -417,63 +442,51 @@ Content-Type: application/json;charset=utf-8
 Das Übernahmerecht besagt, dass der Partner auf alle Vorgänge des anderen Partners lesend und schreiben zugreifen darf.
 
 #### GET Request Beispiel (viele Partner):
+
 ```
-GET https://www.europace2.de/partnermanagement/partner/ABC987/uebernahmeRechtFuer
-X-ApiKey: xxxxxx
-X-PartnerId: ABC987
-X-TraceId: request-2014-10-01-07-59
+GET /v2/partner/LUI92/uebernehmbare HTTP/1.1
+Host: api.europace.de
 Accept: application/json
+Authorization: Bearer eyJraWQiOiJ
+Content-Type: application/json
+X-TraceId: ff-request-2020-08-28-07-59
 ```
 
 #### GET Response Beispiel (viele Partner):
 
 ```
 200 OK
-X-TraceId: request-2014-10-01-07-59
 Content-Type: application/json;charset=utf-8
 
-{
-    "alleSichtbar": false,
-    "_embedded": {
-        "partner": [
-            {
-                "id": "AB123",
-                "nachname": "Mustermann",
-                "orgaEinheitId": "xxxxxxxxxxxxxxxxxxxxxx",
-                "vorname": "Max",
-                "email": "max.mustermann@europace.de",
-                "kreditsachbearbeiter": true,
-                "avatarUrl": "https://www.europace2.de/partnermanagement/yyyyyyyyyyyyyyyy.avatar?orgaEinheitId=xxxxxxxxxxxxxxxx",
-                "typ": "PERSON"
-            },
-            {
-                ....
-            }
-        ]
-    }
+{ "content": [{ 
+    "partnerId":"VGD43"
+  }]
 }
 ```
 
 #### GET Request Beispiel (ein Partner):
+
 ```
-GET https://www.europace2.de/partnermanagement/partner/ABC987/uebernahmeRechtFuer/AB123
-X-ApiKey: xxxxxx
-X-PartnerId: ABC987
-X-TraceId: request-2014-10-01-07-59
+GET /v2/partner/LUI92/uebernahmeRechtFuer/SZY92 HTTP/1.1
+Host: api.europace.de
 Accept: application/json
+Authorization: Bearer eyJraWQiOi...
+Content-Type: application/json
+X-TraceId: ff-request-2020-08-28-07-59
 ```
 
 #### GET Response Beispiel (ein Partner):
 
 ```
 200 OK
-X-TraceId: request-2014-10-01-07-59
 Content-Type: application/json;charset=utf-8
 
 {
-    "partnerId": "AB123",
-    "gesperrt": false,
-    "uebernehmbar": true
+  "partner": {
+    "partnerId": "SZY92",
+    "gesperrt": false
+  },
+  "uebernehmbar": true
 }
 ```
 
@@ -488,7 +501,7 @@ Hintergrund: Der Datenhaushalt der API ist kleiner als der eines Partners im EUR
 Das Url-Template ist dasselbe wie für den Abruf eines Partners:
 
 ```
-https://www.europace2.de/partnermanagement/partner/{PartnerId}
+https://api.europace.de/v2/partner/{PartnerId}
 ```
 
 Die Daten werden als JSON Dokument im Body des PATCH Requests übermittelt.
@@ -497,7 +510,6 @@ Bei der serverseitigen Auswertung gelten folgende Regeln:
 
 - **leere Attribute bei Strings ("") löschen den bestehenden Wert.**
 - unbekannte Attribute werden ignoriert.
-- "gesperrtTransitiv" ist nicht von aussen änderbar werden und wird deshalb ignoriert
 - "id" ist nicht änderbar und wird deshalb ignoriert.
 - "typ" ist nicht änderbar und wird deshalb ignoriert.
 
@@ -517,66 +529,101 @@ Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die bereits gesetzt wa
 - faxnummer
 - firmenname
 - firmennameZusatz
-- fusszeileFuerAussenauftritt
 - geburtsdatum
-- gehoertZuKreditinstitut
 - kreditsachbearbeiter
 - mobilnummer
+- name
+- vorname 
 - nachname
 - registrierungsnummer
 - telefonnummer
-- telefonnummer
 - titelFunktion
-- vorname 
 - webseite
 
-
-
-
 ### Beispiel: HTTP PATCH Request und Response
+
 ```
-PATCH https://www.europace2.de/partnermanagement/partner/4712
-X-ApiKey: xxxxxxx
-X-PartnerId: ABC987
-X-TraceId: ff-request-2014-10-01-07-56
+PATCH /v2/partner/BVF52 HTTP/1.1
+Host: api.europace.de
+Authorization: Bearer eyJraWQiOiJWRDZZ...
 Accept: application/json
-Content-Type: application/json;charset=utf-8
+X-TraceId: ff-request-2020-08-28
+Content-Type: application/json
+Content-Length: 779
 
 {
-  "firmenname":"Mustermann AG"
+   "anrede":"HERR",
+   "vorname":"Max",
+   "nachname":"Mustermann",
+   "email":"max.musterman@exmaple.org",
+   "gesperrt":false,
+   "kreditsachbearbeiter":true,
+   "externePartnerId":"123456",
+   "titelFunktion":"Softwareentwickler",
+   "geburtsdatum":"1970-01-01",
+   "telefonnummer":"030 123456",
+   "mobilnummer":"030 123456",
+   "faxnummer":"030 123456",
+   "firmenname":"Europace AG",
+   "firmennameZusatz":"Aktiengesellschaft",
+   "webseite":"https://github.com/europace/partner-api",
+   "anschrift":{
+      "strasse":"Musterstraße",
+      "hausnummer":"5",
+      "plz":"12345",
+      "ort":"Musterstadt"
+   },
+   "bankverbindung":{
+      "kontoinhaber":"Max Musterman",
+      "bic":"BYLADEM1001",
+      "iban":"DE02120300000000202051",
+      "referenzFeld":"Test Ref"
+   },
+   "aufsichtsbehoerde":"Musterbehoerde",
+   "registrierungsnummer":"987654"
 }
 ```
 
 ```
 200 OK
-X-TraceId: ff-request-2014-10-01-07-56
 Content-Type: application/json;charset=utf-8
 
 {
-  "id":"4712",
-  "anrede" : "HERR",
-  "externePartnerId" : "123456",
-  "geburtsdatum" : "1970-01-01",
-  "gesperrt": false,
-  "gesperrtTransitiv": false,
-  "nachname" : "Mustermann",
-  "firmenname" : "Mustermann AG",
-  "rechtDarfEinstellungenOeffnen": false,
-  "rechtDarfPartnerAnlegen": false,
-  "rechtDarfBaufiSmartNutzen": true,
-  "rechtEchtgeschaeftErlaubt": false,
-  "rechtDarfBaufiSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
-  "rechtDarfErgebnisListeNutzen": false,
-  "rechtDarfLoeschen": false,
-  "rechtKreditSmartSichtbar": false,
-  "rechtDarfKreditSmartVorgaengeUeberEuropaceOberflaecheAnlegen": true,
-  "rechtKreditSmartEchtgeschaeftErlaubt": false,
-  "rechtDarfKreditSmartVersicherungAnbieten": false,
-  "vorname" : "Max",
-  "telefonnummer" : "030 123456",
-  "webseiteUrl" : "https://github.com/hypoport/europace2-api",
-  "aufsichtsBehoerde" : "Musterbehörde",
-  "registrierungsNummer" : "987654"
+   "partnerId":"BVF52",
+   "vorname":"Max",
+   "nachname":"Mustermann",
+   "typ":"PERSON",
+   "email":"max.musterman@exmaple.org",
+   "avatar":"https://ep2.mtp.rz-hypoport.local/partnermanagement/d71c58aeaed4022384b169f83e0d8842.avatar?anonymousAvatar=BENUTZER",
+   "gesperrt":false,
+   "kreditsachbearbeiter":true,
+   "parent":{
+      "partnerId":"SZY92"
+   },
+   "externePartnerId":"123456",
+   "titelFunktion":"Softwareentwickler",
+   "anrede":"HERR",
+   "geburtsdatum":"1970-01-01",
+   "telefonnummer":"030 123456",
+   "mobilnummer":"030 123456",
+   "faxnummer":"030 123456",
+   "firmenname":"Europace AG",
+   "firmennameZusatz":"Aktiengesellschaft",
+   "webseite":"https://github.com/europace/partner-api",
+   "anschrift":{
+      "strasse":"Musterstraße",
+      "hausnummer":"5",
+      "plz":"12345",
+      "ort":"Musterstadt"
+   },
+   "bankverbindung":{
+      "referenzFeld":"Test Ref",
+      "kontoinhaber":"Max Musterman",
+      "bic":"BYLADEM1001",
+      "iban":"DE02120300000000202051"
+   },
+   "aufsichtsbehoerde":"Musterbehoerde",
+   "registrierungsnummer":"987654"
 }
 ```
 
@@ -587,7 +634,6 @@ Content-Type: application/json;charset=utf-8
 - für das Anlegen neuer Partner benötigt der Aufrufer das Recht "Darf Organisationseinheiten anlegen" sowie Einstellungsrechte auf denjenigen Partner, unterhalb dessen der neue Partner angelegt werden soll. Sind diese nicht vorhanden, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**.
 - Rechte können nur vergeben bzw. geändert werden, wenn der Aufrufer sie selbst besitzt. Ist dies nicht gegeben, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**. 
 
-
 ## Validierungen
 
 Folgende Attribute werden validiert:
@@ -596,33 +642,7 @@ Folgende Attribute werden validiert:
 - "anrede" gültige Werte: "HERR", "FRAU"
 - "geburtsdatum" gültiges Format ISO8601 extended: "YYYY-MM-DD" 
 
-
 Schlägt eine dieser Validierungen fehl, erhält der Aufrufer eine HTTP Response mit Statuscode **400 BAD REQUEST**. Im Response Body befinden sich Details zur fehlgeschlagenen Validierung.
-
-### Beispiel: fehlgeschlagene Validierung
-```
-PATCH https://www.europace2.de/partnermanagement/partner/4712
-X-ApiKey: xxxxxxx
-X-PartnerId: ABC987
-X-TraceId: ff-request-2014-10-01-07-55
-Accept: application/json
-Content-Type: application/json;charset=utf-8
-
-{
-  "anrede":"abc"
-}
-```
-
-```
-400 BAD REQUEST
-X-TraceId : ff-request-2014-10-01-07-55
-Content-Type: application/json
-
-{
-  "message" : "Enum literal für 'anrede' muss FRAU oder HERR sein.: abc",
-  "traceId" : " ff-request-2014-10-01-07-55"
-}
-```
 
 ## Hinweise
 
@@ -639,7 +659,10 @@ Für eine erfolgreiche Angebotsannahme in BaufiSmart ist es für die nachfolgend
 
 Eine Angebotsannahme ist andernfalls nicht möglich.
 
+## Vorherige Releases 
 
+- [PEX v1.2](https://github.com/europace/partner-api/blob/1.0.2/README.md) 
 
 ## Nutzungsbedingungen
+
 Die APIs werden unter folgenden [Nutzungsbedingungen](https://developer.europace.de/terms/) zur Verfügung gestellt.
