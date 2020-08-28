@@ -42,18 +42,25 @@ paths:
               examples:
                 Partner:
                   value:
-                    partnerId: 'ABC12'
-                    anrede: HERR
+                    partnerId: SZY92
+                    vorname: Test
                     typ: PERSON
-                    nachname: Mustermann
-                    vorname: Max
-                    externePartnerId: '123456'
-                    geburtsdatum: '1970-01-01'
+                    email: community@europace2.de
+                    avatar: https://www.europace2.de/partnermanagement/984094aa488a4dd8e3273c4b898fe63e.avatar?id=4ff189174ad2e9f19178073b
                     gesperrt: false
-                    telefonnummer: 030 123456
-                    webseite: 'https://github.com/europace/partner-api'
-                    aufsichtsbehoerde: Musterbehörde
-                    registrierungsnummer: '987654'
+                    parent:
+                      partnerId: WER03
+                    telefonnummer: "(030) 12345678"
+                    firmenname: Firma
+                    anschrift:
+                      strasse: Heidestraße
+                      hausnummer: '8'
+                      plz: '10557'
+                      ort: Berlin
+                    bankverbindung:
+                      kontoinhaber: Dr. Klein & Co. AG
+                      bic: PBNKDEFFXXX
+                      iban: DE94370100500040661506
         '401':
           description: Unauthorized
         '403':
@@ -191,10 +198,32 @@ paths:
               Person:
                 value:
                   anrede: HERR
-                  email: max@mustermann.de
-                  externePartnerId: MAK004712
-                  nachname: Mustermann
                   vorname: Max
+                  nachname: Mustermann
+                  email: max.musterman@exmaple.org
+                  gesperrt: false
+                  kreditsachbearbeiter: true
+                  externePartnerId: '123456'
+                  titelFunktion: Softwareentwickler
+                  geburtsdatum: '1970-01-01'
+                  telefonnummer: 030 123456
+                  mobilnummer: 030 123456
+                  faxnummer: 030 123456
+                  firmenname: Europace AG
+                  firmennameZusatz: Aktiengesellschaft
+                  webseite: https://github.com/europace/partner-api
+                  anschrift:
+                    strasse: Musterstraße
+                    hausnummer: '5'
+                    plz: '12345'
+                    ort: Musterstadt
+                  bankverbindung:
+                    kontoinhaber: Max Musterman
+                    bic: BYLADEM1001
+                    iban: DE02120300000000202051
+                    referenzFeld: Test Ref
+                  aufsichtsbehoerde: Musterbehoerde
+                  registrierungsnummer: '987654'
         description: |-
           Bei der serverseitigen Auswertung gelten folgende Regeln:
 
@@ -219,15 +248,38 @@ paths:
               examples:
                 Person:
                   value:
-                    partnerId: LUI92
+                    partnerId: SZY92
                     typ: PERSON
-                    externePartnerId: MAK004712
-                    avatar: 'https://api.europace.de/v2/LUI92.avatar'
+                    avatar: https://www.europace2.de/partnermanagement/984094aa488a4dd8e3273c4b898fe63e.avatar?id=4ff189174ad2e9f19178073b
+                    parent:
+                      partnerId: WER03
                     anrede: HERR
                     vorname: Max
                     nachname: Mustermann
-                    email: max@mustermann.de
+                    email: max.musterman@exmaple.org
                     gesperrt: false
+                    kreditsachbearbeiter: true
+                    externePartnerId: '123456'
+                    titelFunktion: Softwareentwickler
+                    geburtsdatum: '1970-01-01'
+                    telefonnummer: 030 123456
+                    mobilnummer: 030 123456
+                    faxnummer: 030 123456
+                    firmenname: Europace AG
+                    firmennameZusatz: Aktiengesellschaft
+                    webseite: https://github.com/europace/partner-api
+                    anschrift:
+                      strasse: Musterstraße
+                      hausnummer: '5'
+                      plz: '12345'
+                      ort: Musterstadt
+                    bankverbindung:
+                      kontoinhaber: Max Musterman
+                      bic: BYLADEM1001
+                      iban: DE02120300000000202051
+                      referenzFeld: Test Ref
+                    aufsichtsbehoerde: Musterbehoerde
+                    registrierungsnummer: '987654'
           headers:
             Location:
               schema:
@@ -300,8 +352,33 @@ paths:
               examples:
                 Beispiel:
                   value:
-                    dslSapGeschaeftspartnerNummerFuerRatenkredit: '1516119444'
-                    dslVertriebsWegSchluesselFuerRatenkredit: '1899010083'
+                    dslSapGeschaeftspartnerNummerFuerRatenkredit: cdts-dsl-sap-vo
+                    dslVertriebsWegSchluesselFuerRatenkredit: '1899026629'
+                    dkbVertriebsIdFuerRatenkredit: cdts-dkb-vertrieb
+                    kennzeichenIngDiba:
+                      vermittlerNummer: '9800002186'
+                      vermittlerVorname: wer
+                      vermittlerNachname: wer
+                      vermittlerNummerFuerRatenkredit: cdts-ing-diba-vermittler
+                    kennzeichenErgo: {}
+                    kennzeichenBhw:
+                      vgeNummer: 6248/205585.0
+                      orgaNummer: ORGA123
+                      zurIdentifikationsPruefungLegitimiert: 'false'
+                    lbsOstVermittlerNummer: lbsost-werwer-vermittler
+                    lbsShhVermittlerNummer: lbs-ssh-ldapvermittler
+                    lbsSuedwestVermittlerNummer: lbs-südwest-ldapvermittler
+                    lbsWestVermittlerNummer: lbs-west-ldapvermittler
+                    allianzVertreterNummer: 01/012/0123
+                    axaGeschaeftsPartnerNummer: MA 00352
+                    dslVermittlerGruppenSchluessel: '1200'
+                    bshVoNummer: abcdefghijklmnopqrstuvwxyz
+                    bshAkquisitionsWeg: AW1
+                    bshBlzVertriebsbank: '1234567890'
+                    dzHypVermittlerNummer: '1234'
+                    alteLeipzigerVerbundVermittlerNummer: '42'
+                    rundvBankAgenturNummer: RV_BAN
+                    rundvBlzVertriebsbank: RV_BLZ
         '401':
           description: Unauthorized
         '403':
