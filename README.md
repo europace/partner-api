@@ -15,8 +15,9 @@ Bei Fragen und Anregungen entweder ein Issue in GitHub anlegen oder an devsuppor
 - Partner zu modifizieren.
 
 ## Inhalt
-* [Datenformat der Partner Stammdaten](#datenformat-der-partner-stammdaten)
 * [Die HTTP Schnittstelle](#die-http-schnittstelle)
+* [Authentifizierung](#authentifizierung)
+* [Datenformat der Partner Stammdaten](#datenformat-der-partner-stammdaten)
 * [Anlegen eines neuen Partners](#anlegen-eines-neuen-partners)
 * [Abruf eines Partners](#abruf-eines-partners)
 * [Modifizieren eines Partners](#modifizieren-eines-partners)
@@ -25,6 +26,43 @@ Bei Fragen und Anregungen entweder ein Issue in GitHub anlegen oder an devsuppor
 * [Hinweise](#hinweise)
 * [Vorherige Releases](#vorherige-releases)
 * [Nutzungsbedingungen](#nutzungsbedingungen)
+
+## Die HTTP Schnittstelle
+
+Die HTTP Schnittstelle der PEX-API ist unter der Basis-Url
+```
+https://api.europace.de/v2/partner/
+```
+erreichbar.
+
+### Authentifizierung
+
+Für jeden Request ist eine Authentifizierung erforderlich. 
+Die Authentifizierung erfolgt über den OAuth 2.0 Client-Credentials Flow. 
+
+| Request Header Name | Beschreibung           |
+|---------------------|------------------------|
+| Authorization       | OAuth 2.0 Bearer Token |
+
+Das Bearer Token kann über die [Authorization-API](https://github.com/europace/authorization-api) angefordert werden. 
+Dazu wird ein Client benötigt der vorher von einer berechtigten Person über das Partnermanagement angelegt wurde, 
+eine Anleitung dafür befindet sich im [Help Center](https://europace2.zendesk.com/hc/de/articles/360012514780).
+
+Damit der Client für diese API genutzt werden kann, muss im Partnermanagement je nach Operation die Berechtigung
+ 
+- Darf neue Plaketten anlegen
+- Darf Partnerdaten lesen
+- Darf Partnerdaten schreiben
+- Darf Beziehungen zwischen Partnern lesen
+- Darf Beziehungen zwischen Partnern schreiben
+- Darf Rechte eines Partners lesen 
+- Darf Rechte eines Partners schreiben
+ 
+aktiviert sein.   
+ 
+Schlägt die Authentifizierung fehl, erhält der Aufrufer eine HTTP Response mit Statuscode **401 UNAUTHORIZED**.
+
+Hat der Client nicht die benötigte Berechtigung um die Resource abzurufen, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**.
 
 ## Datenformat der Partner Stammdaten
 
@@ -107,45 +145,6 @@ Dabei gilt:
 - Die Reihenfolge der Attribute spielt keine Rolle.
 - Die Attributbezeichner sind case-sensitive.
 - Zeilenumbrüche können durch '\n' erreicht werden.
-
-## Die HTTP Schnittstelle
-
-Die HTTP Schnittstelle der PEX-API ist unter der Basis-Url
-```
-https://api.europace.de/v2/partner/
-```
-erreichbar.
-
-
-### Authentifizierung
-
-Für jeden Request ist eine Authentifizierung erforderlich. 
-Die Authentifizierung erfolgt über den OAuth 2.0 Client-Credentials Flow. 
-
-| Request Header Name | Beschreibung           |
-|---------------------|------------------------|
-| Authorization       | OAuth 2.0 Bearer Token |
-
-
-Das Bearer Token kann über die [Authorization-API](https://github.com/europace/authorization-api) angefordert werden. 
-Dazu wird ein Client benötigt der vorher von einer berechtigten Person über das Partnermanagement angelegt wurde, 
-eine Anleitung dafür befindet sich im [Help Center](https://europace2.zendesk.com/hc/de/articles/360012514780).
-
-Damit der Client für diese API genutzt werden kann, muss im Partnermanagement je nach Operation die Berechtigung
- 
-- Darf neue Plaketten anlegen
-- Darf Partnerdaten lesen
-- Darf Partnerdaten schreiben
-- Darf Beziehungen zwischen Partnern lesen
-- Darf Beziehungen zwischen Partnern schreiben
-- Darf Rechte eines Partners lesen 
-- Darf Rechte eines Partners schreiben
- 
- aktiviert sein.  
- 
-Schlägt die Authentifizierung fehl, erhält der Aufrufer eine HTTP Response mit Statuscode **401 UNAUTHORIZED**.
-
-Hat der Client nicht die benötigte Berechtigung um die Resource abzurufen, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**.
 
 ### TraceId zur Nachverfolgbarkeit von Requests
 
@@ -295,7 +294,6 @@ Ein erfolgreicher Aufruf resultiert in einer Response mit dem HTTP Statuscode **
 
 Der Body der Response enthält die aktuellen Stammdaten im JSON Format.
 Attribute, die nicht gesetzt sind, sind in der Response nicht enthalten.
-
 
 ### GET Request Beispiel:
 ```
