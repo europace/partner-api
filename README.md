@@ -35,6 +35,10 @@ https://api.europace.de/v2/partner/
 ```
 erreichbar.
 
+Die PEX 2 API unterstützt das Datenformat OpenAPI 3. Unter 
+[openapi-generator](https://openapi-generator.tech/) und [swagger.io](https://swagger.io/tools/swagger-codegen/)
+kann man sich einen Client in seiner bevorzugten Programmiersprache generieren lassen.
+
 ### Authentifizierung
 
 Für jeden Request ist eine Authentifizierung erforderlich. 
