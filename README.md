@@ -439,7 +439,7 @@ Content-Type: application/json;charset=utf-8
 
 Das Übernahmerecht besagt, dass der Partner auf alle Vorgänge des anderen Partners lesend und schreiben zugreifen darf.
 
-#### GET Request Beispiel (viele Partner):
+#### GET Request Beispiel (alle explizit übernehmbaren Partner)
 
 ```
 GET /v2/partner/LUI92/uebernehmbare HTTP/1.1
