@@ -153,8 +153,7 @@ Dabei gilt:
 ### TraceId zur Nachverfolgbarkeit von Requests
 
 Für jeden Request sollte eine eindeutige id (TraceId) generiert werden, die den Request im EUROPACE 2 System nachverfolgbar macht und so bei etwaigen Problemen oder Fehlern die systemübergreifende Analyse erleichtert.
-Die Übermittlung der TraceId erfolgt über einen HTTP Header und wird als 
-solcher auch in der Response zurückgeliefert. 
+Die Übermittlung der TraceId erfolgt über einen HTTP Header und wird als solcher auch in der Response zurückgeliefert.  
 Wird keine TraceId übermittelt, enthält die Response eine in EUROPACE 2 
 automatisch erzeugte TraceId. 
 
