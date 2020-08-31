@@ -57,8 +57,6 @@ Damit der Client für diese API genutzt werden kann, muss im Partnermanagement j
 - Darf neue Plaketten anlegen
 - Darf Partnerdaten lesen
 - Darf Partnerdaten schreiben
-- Darf Beziehungen zwischen Partnern lesen
-- Darf Beziehungen zwischen Partnern schreiben
 - Darf Rechte eines Partners lesen 
 - Darf Rechte eines Partners schreiben
  
