@@ -43,9 +43,11 @@ paths:
                 Partner:
                   value:
                     partnerId: SZY92
-                    vorname: Test
+                    vorname: Max
+                    nachname: Musterman
                     typ: PERSON
                     email: community@europace2.de
+                    webseite: https://www.europace2.de
                     avatar: https://www.europace2.de/partnermanagement/984094aa488a4dd8e3273c4b898fe63e.avatar?id=4ff189174ad2e9f19178073b
                     gesperrt: false
                     parent:
