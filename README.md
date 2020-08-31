@@ -82,31 +82,42 @@ Die Datenhaushalte für Personen und Organisationen sind unterschiedlich.
 
 ```
 {
-    "partnerId": "...",
-    "vorname": "...",
-    "nachname": "...",
+    "partnerId": "<string>",
+    "avatar": "<string>",
     "typ": "PERSON",      
-    "email": "...",
-    "avatar": "...",
+    "vorname": "<string>",
+    "nachname": "<string>",
+    "name": "<string>",
+    "email": "<email>",
     "gesperrt": false,
-    "kreditsachbearbeiter": false,
+    "kreditsachbearbeiter": "<boolean>",
     "parent": {
-        "partnerId": "..."
+        "partnerId": "<string>"
     },
-    "anrede": "HERR",     // alternativ: FRAU
-    "telefonnummer": "...",
-    "firmenname": "...",
+    "externePartnerId": "<string>",
+    "titelFunktion": "<string>",
+    "anrede": "<string>",
+    "geburtsdatum": "<date>",
+    "telefonnummer": "<string>",
+    "mobilnummer": "<string>",
+    "faxnummer": "<string>",
+    "firmenname": "<string>",
+    "firmennameZusatz": "<string>",
+    "webseite": "<uri>",
     "anschrift": {
-        "strasse": "...",
-        "hausnummer": "...",
-        "plz": "...",
-        "ort": "..."
+        "strasse": "<string>",
+        "hausnummer": "<string>",
+        "plz": "<string>",
+        "ort": "<string>"
     },
     "bankverbindung": {
-        "kontoinhaber": "...",
-        "bic": "...",
-        "iban": "..."
-    }
+        "referenzFeld": "<string>",
+        "kontoinhaber": "<string>",
+        "bic": "<string>",
+        "iban": "<string>"
+    },
+    "aufsichtsbehoerde": "<string>",
+    "registrierungsnummer": "<string>"
 }
 ```
 
@@ -120,29 +131,34 @@ Dabei gilt:
 
 ```
 {
-    "partnerId": "...",
-    "name": "...",
+    "partnerId": "<string>",
+    "avatar": "<string>",
     "typ": "ORGANISATION",      
-    "email": "...",
-    "avatar": "...",
+    "name": "<string>",
+    "email": "<email>",
     "gesperrt": false,
     "parent": {
-        "partnerId": "..."
+        "partnerId": "<string>"
     },
-    "telefonnummer": "...",
-    "firmenname": "...",
-    "webseite": "...",
+    "telefonnummer": "<string>",
+    "faxnummer": "<string>",
+    "firmenname": "<string>",
+    "firmennameZusatz": "<string>",
+    "webseite": "<uri>",
     "anschrift": {
-        "strasse": "...",
-        "hausnummer": "...",
-        "plz": "...",
-        "ort": "..."
+        "strasse": "<string>",
+        "hausnummer": "<string>",
+        "plz": "<string>",
+        "ort": "<string>"
     },
     "bankverbindung": {
-        "kontoinhaber": "...",
-        "bic": "...",
-        "iban": "..."
-    }
+        "referenzFeld": "<string>",
+        "kontoinhaber": "<string>",
+        "bic": "<string>",
+        "iban": "<string>"
+    },
+    "aufsichtsbehoerde": "<string>",
+    "registrierungsnummer": "<string>"
 }
 ```
 Dabei gilt:
