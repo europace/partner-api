@@ -547,7 +547,6 @@ Authorization: Bearer eyJraWQiOiJWRDZZ...
 Accept: application/json
 X-TraceId: ff-request-2020-08-28
 Content-Type: application/json
-Content-Length: 779
 
 {
    "anrede":"HERR",
