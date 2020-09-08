@@ -2,7 +2,7 @@ openapi: 3.0.3
 
 info:
   title: partner-api
-  version: 'v2.0'
+  version: 'v2.1'
   description: 'Das Partnermanagment von Europace ermöglicht Organisationen ihre eigenen Struktur abzubilden, um jedem Partner oder Mitarbeiter einen Zugang zu geben und Rechte einzustellen.'
   contact:
     name: Europace AG
@@ -387,6 +387,32 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+    patch:
+      summary: Die Partnerkennzeichen eines Partners setzen
+      operationId: setPartnerkennzeichen
+      description: Alle Rechte eines Partners aktualisieren
+      security:
+        - europace_oauth2: ['partner:plakette:schreiben']
+      tags:
+        - Partner
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Partnerkennzeichen'
+      responses:
+        '200':
+          description: 'Es werden die geänderten Partnerkennzeichen eines Partners zurück gegeben.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Partnerkennzeichen'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
 
   '/partner/{partnerId}/administrierbare':
     parameters:

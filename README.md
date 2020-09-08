@@ -1,4 +1,4 @@
-# Partner API v2.0
+# Partner API v2.1
 
 Das Partnermanagment von EUROPACE 2 dient Organisationen zur Abbildung der eigenen Struktur. 
 Hierzu bietet die Weboberfläche des Partnermanagements umfassende Möglichkeiten. 
@@ -364,7 +364,7 @@ Content-Type: application/json;charset=utf-8
 ### Partnerkennzeichen
 
 Die Partnerkennzeichen identifizieren einen Vertrieb bei einem Produktanbieter.
-Die erfassten Werte können über diesen Endpunkt ausgelesen werden.
+Die erfassten Werte können über diesen Endpunkt ausgelesen (GET) und angepasst (PATCH) werden.
 
 #### GET Request Beispiele
 
