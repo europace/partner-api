@@ -1,8 +1,8 @@
 # Partner API v2.0
 
-Das Partnermanagment von EUROPACE 2 dient Organisationen zur Abbildung der eigenen Struktur. 
-Hierzu bietet die Weboberfläche des Partnermanagements umfassende Möglichkeiten. 
-Die PEX Partner API erlaubt Fremdsystemen einen automatisierten Zugriff auf die Partner 
+Das Partnermanagment von EUROPACE 2 dient Organisationen zur Abbildung der eigenen Struktur.
+Hierzu bietet die Weboberfläche des Partnermanagements umfassende Möglichkeiten.
+Die PEX Partner API erlaubt Fremdsystemen einen automatisierten Zugriff auf die Partner
 des Partnermanagement via HTTP.
 
 Bei Fragen und Anregungen entweder ein Issue in GitHub anlegen oder an devsupport@europace2.de schreiben.
@@ -35,33 +35,33 @@ https://api.europace.de/v2/partner/
 ```
 erreichbar.
 
-Die PEX 2 API unterstützt das Datenformat OpenAPI 3. Unter 
+Die PEX 2 API unterstützt das Datenformat OpenAPI 3. Unter
 [openapi-generator](https://openapi-generator.tech/) und [swagger.io](https://swagger.io/tools/swagger-codegen/)
 kann man sich einen Client in seiner bevorzugten Programmiersprache generieren lassen.
 
 ### Authentifizierung
 
-Für jeden Request ist eine Authentifizierung erforderlich. 
-Die Authentifizierung erfolgt über den OAuth 2.0 Client-Credentials Flow. 
+Für jeden Request ist eine Authentifizierung erforderlich.
+Die Authentifizierung erfolgt über den OAuth 2.0 Client-Credentials Flow.
 
 | Request Header Name | Beschreibung           |
 |---------------------|------------------------|
 | Authorization       | OAuth 2.0 Bearer Token |
 
-Das Bearer Token kann über die [Authorization-API](https://github.com/europace/authorization-api) angefordert werden. 
-Dazu wird ein Client benötigt der vorher von einer berechtigten Person über das Partnermanagement angelegt wurde, 
+Das Bearer Token kann über die [Authorization-API](https://github.com/europace/authorization-api) angefordert werden.
+Dazu wird ein Client benötigt der vorher von einer berechtigten Person über das Partnermanagement angelegt wurde,
 eine Anleitung dafür befindet sich im [Help Center](https://europace2.zendesk.com/hc/de/articles/360012514780).
 
 Damit der Client für diese API genutzt werden kann, muss im Partnermanagement je nach Operation die Berechtigung
- 
+
 - Darf neue Plaketten anlegen
 - Darf Partnerdaten lesen
 - Darf Partnerdaten schreiben
-- Darf Rechte eines Partners lesen 
+- Darf Rechte eines Partners lesen
 - Darf Rechte eines Partners schreiben
- 
+
 aktiviert sein.   
- 
+
 Schlägt die Authentifizierung fehl, erhält der Aufrufer eine HTTP Response mit Statuscode **401 UNAUTHORIZED**.
 
 Hat der Client nicht die benötigte Berechtigung um die Resource abzurufen, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**.
@@ -168,8 +168,8 @@ Dabei gilt:
 
 Für jeden Request sollte eine eindeutige id (TraceId) generiert werden, die den Request im EUROPACE 2 System nachverfolgbar macht und so bei etwaigen Problemen oder Fehlern die systemübergreifende Analyse erleichtert.
 Die Übermittlung der TraceId erfolgt über einen HTTP Header und wird als solcher auch in der Response zurückgeliefert.  
-Wird keine TraceId übermittelt, enthält die Response eine in EUROPACE 2 
-automatisch erzeugte TraceId. 
+Wird keine TraceId übermittelt, enthält die Response eine in EUROPACE 2
+automatisch erzeugte TraceId.
 
 Request / Response Header Name | Beschreibung
 -----------------|-------------
@@ -186,7 +186,7 @@ Accept      | application/json
 ## Anlegen eines neuen Partners
 
 Partner können per HTTP POST angelegt werden.
-Das Anlegen eines neuen Partners erfolgt immer unterhalb eines bestehenden Partners. 
+Das Anlegen eines neuen Partners erfolgt immer unterhalb eines bestehenden Partners.
 Das Url-Template für das Anlegen eines neuen Partners unterhalb von {PartnerId} lautet:
 
 ```
@@ -206,8 +206,8 @@ Bei der serverseitigen Auswertung gelten folgende Regeln:
 
 Ein erfolgreicher Aufruf resultiert in einer Response mit dem HTTP Statuscode **201 CREATED**.
 
-Der Body der Response enthält die aktuellen Stammdaten im JSON Format. 
-Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden bzw. für die es Defaultwerte gibt, sind dabei immer enthalten. 
+Der Body der Response enthält die aktuellen Stammdaten im JSON Format.
+Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden bzw. für die es Defaultwerte gibt, sind dabei immer enthalten.
 
 Im HTTP Header "Location" befindet sich die Url des neu angelegten Partners.
 
@@ -304,7 +304,7 @@ Das Url-Template für den Abfruf lautet:
 https://api.europace.de/v2/partner/{PartnerId}
 ```
 
-Ein erfolgreicher Aufruf resultiert in einer Response mit dem HTTP Statuscode **200 OK**. 
+Ein erfolgreicher Aufruf resultiert in einer Response mit dem HTTP Statuscode **200 OK**.
 
 Der Body der Response enthält die aktuellen Stammdaten im JSON Format.
 Attribute, die nicht gesetzt sind, sind in der Response nicht enthalten.
@@ -443,7 +443,7 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json;charset=utf-8
 
-{ "content": [{ 
+{ "content": [{
     "partnerId":"VGD43"
   }]
 }
@@ -470,7 +470,7 @@ X-TraceId: ff-request-2020-08-28-07-59
 200 OK
 Content-Type: application/json;charset=utf-8
 
-{ "content": [{ 
+{ "content": [{
     "partnerId":"VGD43"
   }]
 }
@@ -545,7 +545,7 @@ Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die bereits gesetzt wa
 - kreditsachbearbeiter
 - mobilnummer
 - name
-- vorname 
+- vorname
 - nachname
 - registrierungsnummer
 - telefonnummer
@@ -643,7 +643,7 @@ Content-Type: application/json;charset=utf-8
 - für den Zugriff auf einen Partner benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Ist sie nicht vorhanden, erhält der Aufrufer eine HTTP Response mit Statuscode **404 NOT FOUND**.
 - für Änderungen an einem Partner benötigt der Aufrufer Einstellungsrechte auf diesen. Sind sie nicht vorhanden, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**.
 - für das Anlegen neuer Partner benötigt der Aufrufer das Recht "Darf Organisationseinheiten anlegen" sowie Einstellungsrechte auf denjenigen Partner, unterhalb dessen der neue Partner angelegt werden soll. Sind diese nicht vorhanden, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**.
-- Rechte können nur vergeben bzw. geändert werden, wenn der Aufrufer sie selbst besitzt. Ist dies nicht gegeben, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**. 
+- Rechte können nur vergeben bzw. geändert werden, wenn der Aufrufer sie selbst besitzt. Ist dies nicht gegeben, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**.
 
 ## Validierungen
 
@@ -651,7 +651,7 @@ Folgende Attribute werden validiert:
 
 - "typ" gültige Werte: "PERSON", "ORGANISATION"
 - "anrede" gültige Werte: "HERR", "FRAU"
-- "geburtsdatum" gültiges Format ISO8601 extended: "YYYY-MM-DD" 
+- "geburtsdatum" gültiges Format ISO8601 extended: "YYYY-MM-DD"
 
 Schlägt eine dieser Validierungen fehl, erhält der Aufrufer eine HTTP Response mit Statuscode **400 BAD REQUEST**. Im Response Body befinden sich Details zur fehlgeschlagenen Validierung.
 
@@ -670,10 +670,10 @@ Für eine erfolgreiche Angebotsannahme in BaufiSmart ist es für die nachfolgend
 
 Eine Angebotsannahme ist andernfalls nicht möglich.
 
-## Vorherige Releases 
+## Vorherige Releases
 
-- [PEX v1.2](https://github.com/europace/partner-api/blob/1.0.2/README.md) 
+- [PEX v1.2](https://github.com/europace/partner-api/blob/1.0.2/README.md)
 
 ## Nutzungsbedingungen
 
-Die APIs werden unter folgenden [Nutzungsbedingungen](https://developer.europace.de/terms/) zur Verfügung gestellt.
+Die APIs werden unter folgenden [Nutzungsbedingungen](https://docs.api.europace.de/nutzungsbedingungen/) zur Verfügung gestellt.
