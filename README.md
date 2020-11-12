@@ -1,6 +1,6 @@
 # Partner API
 
-Das Partnermanagment dient Organisationen zur Abbildung der eigenen Nutzer- und Rechte-Struktur. Nutzer die im Partnermanagment mit ihren Stammdaten und Rechten hinterlegt sind heißen **Partner**.
+Das Partnermanagment dient Organisationen zur Abbildung der eigenen Nutzer- und Rechte-Struktur. Nutzer, die im Partnermanagment mit ihren Stammdaten und Rechten hinterlegt sind, heißen **Partner**.
 Die Partner API erlaubt einen automatisierten Zugriff auf die Partner via HTTP.
 Bei Fragen und Anregungen entweder ein [Issue in GitHub](https://github.com/europace/partner-api/issues) anlegen oder an devsupport@europace2.de schreiben.
 
