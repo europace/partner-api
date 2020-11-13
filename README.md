@@ -1,15 +1,12 @@
-# Partner API v2.0
+# Partner API
 
-Das Partnermanagment von EUROPACE 2 dient Organisationen zur Abbildung der eigenen Struktur.
-Hierzu bietet die Weboberfläche des Partnermanagements umfassende Möglichkeiten.
-Die PEX Partner API erlaubt Fremdsystemen einen automatisierten Zugriff auf die Partner
-des Partnermanagement via HTTP.
-
-Bei Fragen und Anregungen entweder ein Issue in GitHub anlegen oder an devsupport@europace2.de schreiben.
+Das Partnermanagment dient Organisationen zur Abbildung der eigenen Nutzer- und Rechte-Struktur. Nutzer, die im Partnermanagment mit ihren Stammdaten und Rechten hinterlegt sind, heißen **Partner**.
+Die Partner API erlaubt einen automatisierten Zugriff auf die Partner via HTTP.
+Bei Fragen und Anregungen entweder ein [Issue in GitHub](https://github.com/europace/partner-api/issues) anlegen oder an devsupport@europace2.de schreiben.
 
 # Dokumentation
 
-Über die PEX Partner API ist es möglich
+Über die Partner API ist es möglich
 - neue Partner anzulegen,
 - Daten zu Partnern abzurufen,
 - Partner zu modifizieren.
@@ -29,13 +26,13 @@ Bei Fragen und Anregungen entweder ein Issue in GitHub anlegen oder an devsuppor
 
 ## Die HTTP Schnittstelle
 
-Die HTTP Schnittstelle der PEX-API ist unter der Basis-Url
+Die HTTP Schnittstelle der API ist unter der Basis-Url
 ```
 https://api.europace.de/v2/partner/
 ```
 erreichbar.
 
-Die PEX 2 API unterstützt das Datenformat OpenAPI 3. Unter
+Die API unterstützt das Datenformat OpenAPI 3. Unter
 [openapi-generator](https://openapi-generator.tech/) und [swagger.io](https://swagger.io/tools/swagger-codegen/)
 kann man sich einen Client in seiner bevorzugten Programmiersprache generieren lassen.
 
@@ -66,9 +63,12 @@ Schlägt die Authentifizierung fehl, erhält der Aufrufer eine HTTP Response mit
 
 Hat der Client nicht die benötigte Berechtigung um die Resource abzurufen, erhält der Aufrufer eine HTTP Response mit Statuscode **403 FORBIDDEN**.
 
+## API Spezifikation
+Die API ist vollständig in Swagger definiert und steht im [YAML-Format zur Verfügung](https://raw.githubusercontent.com/europace/partner-api/master/partner-api.yaml). Für die Generierung eines Clients empfehlen wir Swagger Codegen.
+
 ## Datenformat der Partner Stammdaten
 
-Die PEX API stellt die Partner Stammdaten als JSON Dokument bereit.
+Die API stellt die Partner Stammdaten als JSON Dokument bereit.
 
 Die aus der Weboberfläche des Partnermanagments bekannte Vererbung von Werten bestimmter Attribute entlang der Hierarchie wird in der API nicht reflektiert. **Geerbte Werte werden also nicht ausgeliefert.**
 
@@ -672,7 +672,7 @@ Eine Angebotsannahme ist andernfalls nicht möglich.
 
 ## Vorherige Releases
 
-- [PEX v1.2](https://github.com/europace/partner-api/blob/1.0.2/README.md)
+- [Partner API v1.2 (genannt PEX)](https://github.com/europace/partner-api/blob/1.0.2/README.md)
 
 ## Nutzungsbedingungen
 
