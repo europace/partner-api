@@ -6,16 +6,16 @@ info:
   description: 'Das Partnermanagment von Europace ermöglicht Organisationen ihre eigenen Struktur abzubilden, um jedem Partner oder Mitarbeiter einen Zugang zu geben und Rechte einzustellen.'
   contact:
     name: Europace AG
-    url: 'http://developer.europace.de'
+    url: 'http://docs.api.europace.de'
     email: info@europace.de
-  termsOfService: 'https://developer.europace.de/terms/'
+  termsOfService: 'https://docs.api.europace.de/nutzungsbedingungen/'
 
 servers:
   - url: 'https://api.europace.de/v2'
     description: Produktion Server
 
 externalDocs:
-  url: https://developer.europace.de/api/partner-api/
+  url: https://docs.api.europace.de/baufinanzierung/partner/partner-api/
 
 paths:
   '/partner/{partnerId}':
