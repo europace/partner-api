@@ -190,7 +190,7 @@ Das Anlegen eines neuen Partners erfolgt immer unterhalb eines bestehenden Partn
 Das Url-Template für das Anlegen eines neuen Partners unterhalb von {PartnerId} lautet:
 
 ```
-https://api.europace.de/v2/partner/{PartnerId}/untergeordnetePartner
+https://api.europace.de/v2/partner/{PartnerId}/untergeordnete
 ```
 
 Die Daten werden als JSON Dokument im Body des POST Requests übermittelt.
@@ -201,7 +201,7 @@ Bei der serverseitigen Auswertung gelten folgende Regeln:
 - Für Organisationen werden personenspezifische Attribute ignoriert.
 - Für Personen werden organisationenspezifische Attribute ignoriert.
 - Leere Attribute bei Strings ("") werden ignoriert.
-- "id" ist nicht setzbar und wird deshalb ignoriert.
+- "partnerId" ist nicht setzbar und wird deshalb ignoriert.
 - Rechte werden für Personen -sofern nicht angegeben- mit "false" belegt.
 
 Ein erfolgreicher Aufruf resultiert in einer Response mit dem HTTP Statuscode **201 CREATED**.
@@ -213,7 +213,7 @@ Im HTTP Header "Location" befindet sich die Url des neu angelegten Partners.
 
 ### POST Request Beispiel
 ```
-POST /v2/partner/SZY92/untergeordnete HTTP/1.1
+POST /v2/partner/ABC12/untergeordnete HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 X-Trace-Id: ff-request-2020-08-28-07-55
@@ -256,11 +256,11 @@ Content-Type: application/json
 ### POST Response Beispiele
 ```
 201 CREATED
-Location: https://api.europace2.de/v2/partner/LUI92
+Location: https://api.europace2.de/v2/partner/ABC12
 Content-Type: application/json;charset=utf-8
 
 {
-   "id": "LUI92",
+   "partnerId": "ABC12",
    "typ": "PERSON",
    "avatarUrl": "https://www.europace2.de/partnermanagement/d71c58aeaed4022384b169f83e0d8842.avatar?anonymousAvatar=BENUTZER",
    "anrede":"HERR",
@@ -311,7 +311,7 @@ Attribute, die nicht gesetzt sind, sind in der Response nicht enthalten.
 
 ### GET Request Beispiel:
 ```
-GET /v2/partner/LUI92 HTTP/1.1
+GET /v2/partner/ABC12 HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 X-Trace-Id: ff-request-2020-08-28-07-55
@@ -324,7 +324,7 @@ Authorization: Bearer eyJraWQiO...
 Content-Type: application/json;charset=utf-8
 
 {
-   "id": "LUI92",
+   "partnerId": "ABC12",
    "typ": "PERSON",
    "avatarUrl": "https://www.europace2.de/partnermanagement/d71c58aeaed4022384b169f83e0d8842.avatar?anonymousAvatar=BENUTZER",
    "anrede":"HERR",
@@ -369,7 +369,7 @@ Die erfassten Werte können über diesen Endpunkt ausgelesen werden.
 #### GET Request Beispiele
 
 ```
-GET /v2/partner/LUI92/partnerkennzeichen HTTP/1.1
+GET /v2/partner/ABC12/partnerkennzeichen HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJ...
@@ -429,7 +429,7 @@ Dies jedoch nur zu Rechten, die der ausführende Partner selbst besitzt.
 #### GET Request Beispiel:
 
 ```
-GET /v2/partner/SZY92/administrierbare HTTP/1.1
+GET /v2/partner/ABC12/administrierbare HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJWRDZZTk...
@@ -443,9 +443,12 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json;charset=utf-8
 
-{ "content": [{
-    "partnerId":"VGD43"
-  }]
+{ 
+  "content": [ 
+    { 
+      "partnerId":"VGD43" 
+    } 
+  ]
 }
 ```
 
@@ -456,7 +459,7 @@ Das Übernahmerecht besagt, dass der Partner auf alle Vorgänge des anderen Part
 #### GET Request Beispiel (alle explizit übernehmbaren Partner)
 
 ```
-GET /v2/partner/LUI92/uebernehmbare HTTP/1.1
+GET /v2/partner/ABC12/uebernehmbare HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJ
@@ -470,16 +473,19 @@ X-TraceId: ff-request-2020-08-28-07-59
 200 OK
 Content-Type: application/json;charset=utf-8
 
-{ "content": [{
-    "partnerId":"VGD43"
-  }]
+{ 
+  "content": [ 
+    { 
+      "partnerId":"VGD43" 
+    } 
+  ]
 }
 ```
 
 #### GET Request Beispiel (ein Partner):
 
 ```
-GET /v2/partner/LUI92/uebernahmeRechtFuer/SZY92 HTTP/1.1
+GET /v2/partner/ABC12/uebernahmeRechtFuer/ABC12 HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOi...
@@ -495,7 +501,7 @@ Content-Type: application/json;charset=utf-8
 
 {
   "partner": {
-    "partnerId": "SZY92",
+    "partnerId": "ABC12",
     "gesperrt": false
   },
   "uebernehmbar": true
@@ -522,7 +528,7 @@ Bei der serverseitigen Auswertung gelten folgende Regeln:
 
 - **leere Attribute bei Strings ("") löschen den bestehenden Wert.**
 - unbekannte Attribute werden ignoriert.
-- "id" ist nicht änderbar und wird deshalb ignoriert.
+- "partnerId" ist nicht änderbar und wird deshalb ignoriert.
 - "typ" ist nicht änderbar und wird deshalb ignoriert.
 
 Ein erfolgreicher Aufruf resultiert in einer Response mit dem HTTP Statuscode **200 OK**.
@@ -555,7 +561,7 @@ Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die bereits gesetzt wa
 ### Beispiel: HTTP PATCH Request und Response
 
 ```
-PATCH /v2/partner/BVF52 HTTP/1.1
+PATCH /v2/partner/ABC12 HTTP/1.1
 Host: api.europace.de
 Authorization: Bearer eyJraWQiOiJWRDZZ...
 Accept: application/json
@@ -600,7 +606,7 @@ Content-Type: application/json
 Content-Type: application/json;charset=utf-8
 
 {
-   "partnerId":"BVF52",
+   "partnerId":"ABC12",
    "vorname":"Max",
    "nachname":"Mustermann",
    "typ":"PERSON",
@@ -609,7 +615,7 @@ Content-Type: application/json;charset=utf-8
    "gesperrt":false,
    "kreditsachbearbeiter":true,
    "parent":{
-      "partnerId":"SZY92"
+      "partnerId":"ABC12"
    },
    "externePartnerId":"123456",
    "titelFunktion":"Softwareentwickler",
