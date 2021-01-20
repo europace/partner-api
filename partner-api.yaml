@@ -554,18 +554,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
               examples:
+                usernameNotAllowed:
+                  value:
+                    message: Username not allowed
+                    statusCode: 406
+                    statusMessage: Dieser Benutzername existiert bereits in Europace
+                    timestamp: '2021-01-20T10:03:29.02'
+                    traceId: XABC-2333...
                 alreadyExists:
                   value:
                     message: Already Exists
                     statusCode: 406
-                    statusMessage: Dieser Benutzername existiert bereits in Europace
+                    statusMessage: Es existiert bereits ein Zugang
                     timestamp: '2021-01-20T10:03:29.02'
                     traceId: XABC-2333...
                 wrongPartnerType:
                   value:
                     message: wrongPartnerType
                     statusCode: 406
-                    statusMessage: Ein Zugang kann nur an einer Person angelegt werden.
+                    statusMessage: Ein Zugang kann nur an einer Person nicht einer Organisation angelegt werden.
                     timestamp: '2021-01-20T10:03:29.02'
                     traceId: XABC-122...
         '500':
@@ -874,11 +881,11 @@ components:
       type: object
       description: Beschreibt die Zugangsdaten einer Person.
       x-examples:
-        example-1:
+        über eigenen Identity Provider:
           partnerId: SCR06
           benutzername: max.mustermann@email.de
-          status: REGISTERED
-          identityProvider: Europace
+          status: ZUGANG_REGISTRIERT
+          identityProviderConfigURL: 'https://auth.meineDomain.de/adfs/.well-known/openid-configuration'
       properties:
         partnerId:
           type: string
@@ -886,16 +893,24 @@ components:
         benutzername:
           type: string
           example: max.mustermann@email.de
+          description: eindeutiger Benutzername bei Europace als E-Mail-Adresse
         status:
           type: string
           enum:
-            - REGISTERED
-            - NO_USER_CREDENTIALS
-            - UNVERIFIED
+            - KEIN_ZUGANG
+            - ZUGANG_UNBESTAETIGT
+            - ZUGANG_REGISTRIERT
+            - ZUGANG_REGISTRIERT_KEIN_ZUGANG
+            - BENUTZERNAME_AENDERUNG_UNBESTAETIGT
+          description: |-
+            KEIN_ZUGANG = es ist kein Benutzername vergeben
+            ZUGANG_UNBESTAETIGT = Benutzername ist vergeben aber noch nicht verifiziert
+            ZUGANG_REGISTRIERT = Benutzername ist vergeben und verifiziert
+            ZUGANG_REGISTRIERT_KEIN_ZUGANG = Benutzername ist vergeben und verifiziert aber gesperrt
+            BENUTZERNAME_AENDERUNG_UNBESTAETIGT = Benutzername wurde geändert und noch nicht verifiziert
         identityProviderConfigURL:
           type: string
-        '':
-          type: string
+          description: 'Gültiger Identity Provider, der bei einer Authentifizierung durch den Benutzer verwendet wird.'
       required:
         - partnerId
         - status
