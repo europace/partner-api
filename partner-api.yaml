@@ -514,7 +514,7 @@ paths:
         required: true
         description: ID des Partners
     get:
-      summary: Your GET endpoint
+      summary: Zugang abfragen
       tags: []
       responses:
         '200':
@@ -527,13 +527,13 @@ paths:
           description: Forbidden - kein Zugriff
         '404':
           description: Not Found - Partner nicht gefunden
-      operationId: get-partner-partnerId-zugang
+      operationId: getZugang
       description: Liefert die Zugangsdaten eines Partners. Bei einer Person werden die Benutzer-Zugangsdaten und bei einer Organisation die Daten des Identity Provider geliefert.
     post:
       summary: Zugang anlegen
       tags:
         - Partner
-      operationId: post-partner-partnerId-zugang
+      operationId: updateZugang
       responses:
         '204':
           description: No Content - Zugang angelegt
