@@ -525,7 +525,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ZugangPerson'
+                $ref: '#/components/schemas/Zugang'
         '403':
           description: Forbidden - kein Zugriff
         '404':
@@ -872,8 +872,8 @@ components:
       enum:
         - PERSON
         - ORGANISATION
-    ZugangPerson:
-      title: ZugangPerson
+    Zugang:
+      title: Zugang
       type: object
       description: Beschreibt die Zugangsdaten einer Person.
       x-examples:
