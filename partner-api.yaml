@@ -516,6 +516,9 @@ paths:
     get:
       summary: Zugang abfragen
       tags: []
+      security:
+        - europace_oauth2:
+            - 'partner:plakette:lesen'
       responses:
         '200':
           description: OK
@@ -534,6 +537,9 @@ paths:
       tags:
         - Partner
       operationId: updateZugang
+      security:
+        - europace_oauth2:
+            - 'partner:plakette:schreiben'
       responses:
         '204':
           description: No Content - Zugang angelegt
