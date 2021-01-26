@@ -90,15 +90,7 @@ paths:
           content:
             application/json:
               schema:
-                title: Error
-                type: object
-                properties:
-                  message:
-                    type: string
-                  traceId:
-                    type: string
-                required:
-                  - message
+                $ref: '#/components/schemas/Error'
               examples:
                 Beispiel:
                   value:
@@ -575,8 +567,6 @@ paths:
                     statusMessage: Ein Zugang kann nur an einer Person nicht einer Organisation angelegt werden.
                     timestamp: '2021-01-20T10:03:29.02'
                     traceId: XABC-122...
-        '500':
-          description: Internal Server Error
       requestBody:
         content:
           application/json:
@@ -915,20 +905,15 @@ components:
         - partnerId
         - status
     Error:
+      title: Error
       type: object
       properties:
         message:
           type: string
-        statusCode:
-          type: integer
-          format: int32
-        statusMessage:
-          type: string
-        timestamp:
-          type: string
         traceId:
           type: string
-      title: Error
+      required:
+        - message
   responses: {}
 security:
   - europace_oauth2: []
