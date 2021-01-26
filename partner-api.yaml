@@ -515,7 +515,8 @@ paths:
         description: ID des Partners
     get:
       summary: Zugang abfragen
-      tags: []
+      tags:
+        - Partner
       security:
         - europace_oauth2:
             - 'partner:plakette:lesen'
