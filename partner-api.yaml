@@ -535,8 +535,8 @@ paths:
         - Partner
       operationId: post-partner-partnerId-zugang
       responses:
-        '200':
-          description: OK - Zugang angelegt
+        '204':
+          description: No Content - Zugang angelegt
         '400':
           description: Bad Request - Anfrage ungültig/konnte nicht verstanden werden
         '406':
