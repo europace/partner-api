@@ -1,22 +1,21 @@
 openapi: 3.0.3
-
+tags:
+  - name: Partner
+  - name: Rechte
 info:
   title: partner-api
-  version: 'v2.0'
+  version: v2.0
   description: 'Das Partnermanagment von Europace ermöglicht Organisationen ihre eigenen Struktur abzubilden, um jedem Partner oder Mitarbeiter einen Zugang zu geben und Rechte einzustellen.'
   contact:
     name: Europace AG
     url: 'http://docs.api.europace.de'
     email: info@europace.de
   termsOfService: 'https://docs.api.europace.de/nutzungsbedingungen/'
-
 servers:
   - url: 'https://api.europace.de/v2'
     description: Produktion Server
-
 externalDocs:
-  url: https://docs.api.europace.de/baufinanzierung/partner/partner-api/
-
+  url: 'https://docs.api.europace.de/baufinanzierung/partner/partner-api/'
 paths:
   '/partner/{partnerId}':
     parameters:
@@ -31,7 +30,8 @@ paths:
       operationId: getPartner
       description: Liefert die Daten eines Partners
       security:
-        - europace_oauth2: ['partner:plakette:lesen']
+        - europace_oauth2:
+            - 'partner:plakette:lesen'
       responses:
         '200':
           description: 'Es werden je nach Typ (Person, Organisation) unterschiedliche Datenstrukturen geliefert.'
@@ -47,12 +47,12 @@ paths:
                     nachname: Musterman
                     typ: PERSON
                     email: community@europace2.de
-                    webseite: https://www.europace2.de
-                    avatar: https://www.europace2.de/partnermanagement/984094aa488a4dd8e3273c4b898fe63e.avatar?id=4ff189174ad2e9f19178073b
+                    webseite: 'https://www.europace2.de'
+                    avatar: 'https://www.europace2.de/partnermanagement/984094aa488a4dd8e3273c4b898fe63e.avatar?id=4ff189174ad2e9f19178073b'
                     gesperrt: false
                     parent:
                       partnerId: WER03
-                    telefonnummer: "(030) 12345678"
+                    telefonnummer: (030) 12345678
                     firmenname: Firma
                     anschrift:
                       strasse: Heidestraße
@@ -71,6 +71,7 @@ paths:
           description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
       tags:
         - Partner
+      parameters: []
     patch:
       summary: Partner anpassen
       operationId: updatePartner
@@ -89,19 +90,11 @@ paths:
           content:
             application/json:
               schema:
-                title: Error
-                type: object
-                properties:
-                  message:
-                    type: string
-                  traceId:
-                    type: string
-                required:
-                  - message
+                $ref: '#/components/schemas/Error'
               examples:
                 Beispiel:
                   value:
-                    message: "Enum literal für 'anrede' muss FRAU oder HERR sein.: abc"
+                    message: 'Enum literal für ''anrede'' muss FRAU oder HERR sein.: abc'
                     traceId: ' ff-request-2014-10-01-07-55'
         '401':
           description: Unauthorized
@@ -117,10 +110,10 @@ paths:
         description: 'Es brauchen nur die Attribute angegeben werden, die sich verändern sollen.'
       description: Partner anpassen
       security:
-        - europace_oauth2: ['partner:plakette:schreiben']
+        - europace_oauth2:
+            - 'partner:plakette:schreiben'
       tags:
         - Partner
-
   '/partner/{partnerId}/rechte':
     parameters:
       - schema:
@@ -134,12 +127,14 @@ paths:
       operationId: getPartnerRechte
       description: Liefert die Rechte eines Partners
       security:
-        - europace_oauth2: ['partner:rechte:lesen']
+        - europace_oauth2:
+            - 'partner:rechte:lesen'
       tags:
         - Partner
+        - Rechte
       responses:
         '200':
-          description: 'Es werden die Rechte eines Partners zurück gegeben.'
+          description: Es werden die Rechte eines Partners zurück gegeben.
           content:
             application/json:
               schema:
@@ -155,7 +150,8 @@ paths:
       operationId: setPartnerRecht
       description: Alle Rechte eines Partners aktualisieren
       security:
-        - europace_oauth2: ['partner:rechte:schreiben']
+        - europace_oauth2:
+            - 'partner:rechte:schreiben'
       tags:
         - Partner
       requestBody:
@@ -165,7 +161,7 @@ paths:
               $ref: '#/components/schemas/Rechte'
       responses:
         '200':
-          description: 'Es werden die geänderten Rechte eines Partners zurück gegeben.'
+          description: Es werden die geänderten Rechte eines Partners zurück gegeben.
           content:
             application/json:
               schema:
@@ -176,7 +172,6 @@ paths:
           description: Forbidden
         '404':
           description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
-
   '/partner/{partnerId}/untergeordnete':
     parameters:
       - schema:
@@ -186,11 +181,12 @@ paths:
         required: true
         description: ID des Partners
     post:
-      summary: Partner erstellen
+      summary: Partner anlegen
       operationId: createPartner
       description: 'Erstellt einen neuen Partner als Organisation oder Person, abhängig vom Typ.'
       security:
-        - europace_oauth2: ['partner:plakette:anlegen']
+        - europace_oauth2:
+            - 'partner:plakette:anlegen'
       requestBody:
         content:
           application/json:
@@ -213,7 +209,7 @@ paths:
                   faxnummer: 030 123456
                   firmenname: Europace AG
                   firmennameZusatz: Aktiengesellschaft
-                  webseite: https://github.com/europace/partner-api
+                  webseite: 'https://github.com/europace/partner-api'
                   anschrift:
                     strasse: Musterstraße
                     hausnummer: '5'
@@ -240,7 +236,7 @@ paths:
       responses:
         '201':
           description: |-
-            Partner wurde erstellt.
+            Partner wurde angelegt.
 
             Der Body der Response enthält die aktuellen Stammdaten im JSON Format. Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden bzw. für die es Defaultwerte gibt, sind dabei immer enthalten.
           content:
@@ -252,7 +248,7 @@ paths:
                   value:
                     partnerId: SZY92
                     typ: PERSON
-                    avatar: https://www.europace2.de/partnermanagement/984094aa488a4dd8e3273c4b898fe63e.avatar?id=4ff189174ad2e9f19178073b
+                    avatar: 'https://www.europace2.de/partnermanagement/984094aa488a4dd8e3273c4b898fe63e.avatar?id=4ff189174ad2e9f19178073b'
                     parent:
                       partnerId: WER03
                     anrede: HERR
@@ -269,7 +265,7 @@ paths:
                     faxnummer: 030 123456
                     firmenname: Europace AG
                     firmennameZusatz: Aktiengesellschaft
-                    webseite: https://github.com/europace/partner-api
+                    webseite: 'https://github.com/europace/partner-api'
                     anschrift:
                       strasse: Musterstraße
                       hausnummer: '5'
@@ -309,7 +305,8 @@ paths:
       operationId: getChildren
       description: Liefert eine Liste von untergeordneten Partnern.
       security:
-        - europace_oauth2: ['partner:plakette:lesen']
+        - europace_oauth2:
+            - 'partner:plakette:lesen'
       responses:
         '200':
           description: Liste von untergeordneten Partnern.
@@ -327,7 +324,7 @@ paths:
           description: Not Found
       tags:
         - Partner
-
+        - Rechte
   '/partner/{partnerId}/partnerkennzeichen':
     parameters:
       - schema:
@@ -341,7 +338,8 @@ paths:
       operationId: getPartnerkennzeichen
       description: Die Partnerkennzeichen identifizieren einen Vertrieb bei einem Produktanbieter. Die erfassten Werte können über diesen Endpunkt ausgelesen werden.
       security:
-        - europace_oauth2: ['partner:plakette:lesen']
+        - europace_oauth2:
+            - 'partner:plakette:lesen'
       tags:
         - Partner
       responses:
@@ -387,7 +385,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-
   '/partner/{partnerId}/administrierbare':
     parameters:
       - in: path
@@ -396,19 +393,20 @@ paths:
           type: string
         required: true
         description: ID des Partners
-
     get:
-      summary: Alle Plaketten abrufen, auf die der Partner Einstellungsrechte hat.
+      summary: 'Alle Plaketten abrufen, auf die der Partner Einstellungsrechte hat.'
       operationId: getAdministrierbare
       tags:
         - Partner
+        - Rechte
       description: |
         Liefert alle Partner, bei denen dieser Partner die Daten und Berechtigungen ändern oder das Reporting abrufen darf.
         Es wird mindestens der Partner selbst zurückgegeben, da jeder mindestens sich selbst einstellen oder sein eigenes Reporting abrufen darf.
         Um eine bessere Performance zu erreichen, wurde in der neuen PEX2 darauf verzichtet die implizit administrierbaren Partner mit ausgegeben.
         Um diese zu ermitteln, ist es notwendig über die Untergeordneten der Resultliste zu iterieren.
       security:
-        - europace_oauth2: ['partner:beziehungen:lesen']
+        - europace_oauth2:
+            - 'partner:beziehungen:lesen'
       responses:
         '200':
           description: 'Liste aller Partner, bei denen dieser Partner die Daten und Berechtigungen ändern oder das Reporting abrufen darf.'
@@ -422,7 +420,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-
   '/partner/{partnerId}/uebernehmbare':
     parameters:
       - name: partnerId
@@ -431,7 +428,6 @@ paths:
         required: true
         schema:
           type: string
-
     get:
       summary: |
         Alle Partner abrufen, für die ein Übernahmerecht im Partnermanagement angelegt ist. Um eine bessere Performance
@@ -440,9 +436,11 @@ paths:
       operationId: getUebernehmbare
       tags:
         - Partner
+        - Rechte
       description: 'Liefert alle Partner, deren Daten von dem Partner gesehen, geöffnet und bearbeitet werden können (Zugriff). '
       security:
-        - europace_oauth2: ['partner:beziehungen:lesen']
+        - europace_oauth2:
+            - 'partner:beziehungen:lesen'
       responses:
         '200':
           description: 'Liste alle Partner, deren Vorgänge von dem Partner gesehen, geöffnet und bearbeitet werden können (Zugriff). '
@@ -456,7 +454,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-
   '/partner/{partnerId}/uebernahmeRechtFuer/{target}':
     parameters:
       - schema:
@@ -476,9 +473,11 @@ paths:
       operationId: getUebernahmeRechtFuer
       tags:
         - Partner
+        - Rechte
       description: 'Ermittelt, ob der Partner auf die Vorgänge eines anderen Partner zugreifen darf'
       security:
-        - europace_oauth2: ['partner:beziehungen:lesen']
+        - europace_oauth2:
+            - 'partner:beziehungen:lesen'
       responses:
         '200':
           description: OK
@@ -506,12 +505,104 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+  '/partner/{partnerId}/zugang':
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+        description: ID des Partners
+    get:
+      summary: Zugang abfragen
+      tags:
+        - Partner
+      security:
+        - europace_oauth2:
+            - 'partner:plakette:lesen'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zugang'
+        '403':
+          description: Forbidden - kein Zugriff
+        '404':
+          description: Not Found - Partner nicht gefunden
+      operationId: getZugang
+      description: Liefert die Zugangsdaten eines Partners. Bei einer Person werden die Benutzer-Zugangsdaten und bei einer Organisation die Daten des Identity Provider geliefert.
+    post:
+      summary: Zugang anlegen
+      tags:
+        - Partner
+      operationId: createZugang
+      security:
+        - europace_oauth2:
+            - 'partner:plakette:schreiben'
+      responses:
+        '201':
+          description: |-
+            Zugang wurde angelegt.
 
+            Der Body der Response enthält die aktuellen Zugangsdaten im JSON Format. Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden, sind dabei immer enthalten.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zugang'
+        '400':
+          description: Bad Request - Anfrage ungültig/konnte nicht verstanden werden
+        '406':
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                usernameNotAllowed:
+                  value:
+                    message: Username not allowed
+                    statusCode: 406
+                    statusMessage: Dieser Benutzername existiert bereits in Europace
+                    timestamp: '2021-01-20T10:03:29.02'
+                    traceId: XABC-2333...
+                alreadyExists:
+                  value:
+                    message: Already Exists
+                    statusCode: 406
+                    statusMessage: Es existiert bereits ein Zugang
+                    timestamp: '2021-01-20T10:03:29.02'
+                    traceId: XABC-2333...
+                wrongPartnerType:
+                  value:
+                    message: wrongPartnerType
+                    statusCode: 406
+                    statusMessage: Ein Zugang kann nur an einer Person nicht einer Organisation angelegt werden.
+                    timestamp: '2021-01-20T10:03:29.02'
+                    traceId: XABC-122...
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: CreateZugang
+              properties:
+                benutzername:
+                  type: string
+                  example: max.mustermann@email.de
+                  format: email
+                  description: 'Eine in Europace eindeutige Emailadresse, die als Identifikation des Benutzers verwendet wird. '
+              required:
+                - benutzername
+        description: ''
+      description: Erzeugt einen Zugang für eine Person.
 components:
   securitySchemes:
     europace_oauth2:
-      $ref: 'https://raw.githubusercontent.com/europace/authorization-api/master/europace_security.yaml'
-
+      type: http
+      scheme: bearer
+      description: ''
   schemas:
     PartnerId:
       type: object
@@ -521,7 +612,6 @@ components:
           description: Europace PartnerId (readonly)
           minLength: 5
           readOnly: true
-
     Plakette:
       type: object
       properties:
@@ -532,21 +622,19 @@ components:
           readOnly: true
         vorname:
           type: string
-          description: "Dieses Feld ist nur für den Typ 'PERSON' gefüllt."
+          description: Dieses Feld ist nur für den Typ 'PERSON' gefüllt.
         nachname:
           type: string
-          description: "Dieses Feld ist nur für den Typ 'PERSON' gefüllt."
+          description: Dieses Feld ist nur für den Typ 'PERSON' gefüllt.
         name:
           type: string
-          description: "Dieses Feld ist nur für den Typ 'ORGANISATION' gefüllt."
+          description: Dieses Feld ist nur für den Typ 'ORGANISATION' gefüllt.
         typ:
-          readOnly: true
           $ref: '#/components/schemas/Typ'
         email:
           type: string
           format: email
-          example:
-            john.doe@example.org
+          example: john.doe@example.org
         avatar:
           type: string
           format: uri
@@ -557,7 +645,6 @@ components:
           description: 'true, wenn der Partner oder ein übergeordneter Partner gesperrt ist.'
         kreditsachbearbeiter:
           type: boolean
-
     Partner:
       title: Partner
       allOf:
@@ -583,7 +670,7 @@ components:
               type: string
               format: date
               description: ISO-8601 Calender extended(YYYY-MM-DD) format.
-              example: 1980-12-11
+              example: '1980-12-11'
             telefonnummer:
               type: string
             mobilnummer:
@@ -606,7 +693,6 @@ components:
               type: string
             registrierungsnummer:
               type: string
-
     Rechte:
       title: Rechte
       type: object
@@ -664,7 +750,6 @@ components:
             vorgaengeUeberOberflaecheAnlegen:
               type: boolean
               default: false
-
     Bankverbindung:
       title: bankverbindung
       type: object
@@ -679,7 +764,6 @@ components:
           type: string
           minLength: 22
           maxLength: 22
-
     Anschrift:
       title: anschrift
       type: object
@@ -694,7 +778,6 @@ components:
           maxLength: 5
         ort:
           type: string
-
     ContentPartnerIds:
       title: content
       type: object
@@ -705,11 +788,10 @@ components:
             $ref: '#/components/schemas/PartnerId'
         next:
           type: string
-          description: Optional, present if next page exist.
+          description: 'Optional, present if next page exist.'
         prev:
           type: string
-          description: Optional, present if previous page exist.
-
+          description: 'Optional, present if previous page exist.'
     Partnerkennzeichen:
       type: object
       properties:
@@ -794,9 +876,59 @@ components:
           type: string
         commerzbankVermittlerNummer:
           type: string
-
     Typ:
       type: string
       enum:
         - PERSON
         - ORGANISATION
+    Zugang:
+      title: Zugang
+      type: object
+      description: Beschreibt die Zugangsdaten einer Person.
+      x-examples:
+        über eigenen Identity Provider:
+          partnerId: SCR06
+          benutzername: max.mustermann@email.de
+          status: ZUGANG_REGISTRIERT
+          identityProviderConfigURL: 'https://auth.meineDomain.de/adfs/.well-known/openid-configuration'
+      properties:
+        partnerId:
+          type: string
+          example: SCR06
+        benutzername:
+          type: string
+          example: max.mustermann@email.de
+          description: eindeutiger Benutzername bei Europace als E-Mail-Adresse
+        status:
+          type: string
+          enum:
+            - KEIN_ZUGANG
+            - ZUGANG_UNBESTAETIGT
+            - ZUGANG_REGISTRIERT
+            - ZUGANG_REGISTRIERT_KEIN_ZUGANG
+            - BENUTZERNAME_AENDERUNG_UNBESTAETIGT
+          description: |-
+            KEIN_ZUGANG = es ist kein Benutzername vergeben
+            ZUGANG_UNBESTAETIGT = Benutzername ist vergeben aber noch nicht verifiziert
+            ZUGANG_REGISTRIERT = Benutzername ist vergeben und verifiziert
+            ZUGANG_REGISTRIERT_KEIN_ZUGANG = Benutzername ist vergeben und verifiziert aber gesperrt
+            BENUTZERNAME_AENDERUNG_UNBESTAETIGT = Benutzername wurde geändert und noch nicht verifiziert
+        identityProviderConfigURL:
+          type: string
+          description: 'Gültiger Identity Provider, der bei einer Authentifizierung durch den Benutzer verwendet wird.'
+      required:
+        - partnerId
+        - status
+    Error:
+      title: Error
+      type: object
+      properties:
+        message:
+          type: string
+        traceId:
+          type: string
+      required:
+        - message
+  responses: {}
+security:
+  - europace_oauth2: []
