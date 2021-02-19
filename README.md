@@ -351,7 +351,7 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-### Post Request und Response Beispiel
+### Post Request Beispiel
 
 ```
 POST /v2/partner/ABC12/zugang HTTP/1.1
@@ -361,9 +361,11 @@ Authorization: Bearer eyJraWQiOiJWRDZZTk...
 X-TraceId: ff-request-2020-08-28-07-59
 Content-Type: application/json
 
-200 OK
+{
+    "benutzername" : "max.musterman@exmaple.org"
+}
 ```
-Der Body des Reponses bleibt leer.
+Der Body des Responses bleibt leer.
 
 
 ## Abruf eines Partners
