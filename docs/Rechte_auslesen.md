@@ -1,5 +1,38 @@
 # Beispiel: Rechte eines Partners
 
+## Personen-Rechte auslesen
+Beispiel-Request:
+``` http
+GET /v2/partner/ABC12/rechte HTTP/1.1
+Host: api.europace.de
+Authorization: Bearer eyJraWQ...
+```
+
+Beispiel-Response:
+```json
+{
+    "partnermanagement": {
+        "apiClientEinstellungenVornehmen": true,
+        "einstellungenOeffnen": true,
+        "baufiSmartEinstellungenVornehmen": true,
+        "partnerAnlegen": true
+    },
+    "baufismart": {
+        "baufiSmartNutzen": true,
+        "echtgeschaeft": true,
+        "vorgaengeUeberOberflaecheAnlegen": true,
+        "ergebnisListeNutzen": true,
+        "loeschen": false
+    },
+    "kreditsmart": {
+        "echtgeschaeft": true,
+        "kreditSmartSichtbar": true,
+        "versicherungAnbieten": true,
+        "vorgaengeUeberOberflaecheAnlegen": true
+    }
+}
+```
+
 ## Übernahmerecht
 
 Das Übernahmerecht berechtigt Partner auf alle Vorgänge eines anderen Partners lesend und schreiben zugreifen zu dürfen.
