@@ -187,6 +187,9 @@ Accept      | application/json
 
 Partner können per HTTP POST angelegt werden.
 Das Anlegen eines neuen Partners erfolgt immer unterhalb eines bestehenden Partners.
+
+Ein neu angelegter Partner braucht einen "Zugang" um sich an der Plattform einloggen zu können. Der Zugang kann entweder über die grafische Oberfläche gewehrt werden oder mittels eines weiteren POST Requests. Siehe nächsten Abschnitt weiter unten.
+
 Das Url-Template für das Anlegen eines neuen Partners unterhalb von {PartnerId} lautet:
 
 ```
@@ -294,6 +297,76 @@ Content-Type: application/json;charset=utf-8
    "registrierungsnummer":"987654"
 }
 ```
+
+## Anlegen eines Partner-Zugangs
+
+Ein neu angelegter Partner braucht einen "Zugang" um sich an der Plattform einloggen zu können. Der Zugang kann entweder über die grafische Oberfläche gewehrt werden oder mittels eines  POST Requests.
+
+HINWEIS: das Anlegen eines Zugangs per POST Request macht in der aktuellen Ausbaustufe nur sinn, wenn der Partner einen **externen Identity Provider (zB Active Directory) nutzt**. Denn ein Partner, dessen Zugang per POST Request angelegt wird, hat bei Europace kein eigenes Passwort (sein Passwort ist im externen Identity Provider hinterlegt).
+
+Das Url-Template für das Anlegen eines Zugangs für den Partner mit {PartnerId} lautet:
+
+```
+https://api.europace.de/v2/partner/{PartnerId}/zugang
+```
+
+Mittels eines GET Requests können die Zugangsdaten abgerufen werden.
+
+#### GET Request Beispiel:
+
+```
+GET /v2/partner/ABC12/zugang HTTP/1.1
+Host: api.europace.de
+Accept: application/json
+Authorization: Bearer eyJraWQiOiJWRDZZTk...
+X-TraceId: ff-request-2020-08-28-07-59
+Content-Type: application/json
+```
+
+#### GET Response Beispiele:
+In folgenden Beispiel loggt der Partner sich mit dem Europace Identity Provider ein
+
+```
+200 OK
+Content-Type: application/json;charset=utf-8
+
+{
+    "partnerId": "ABC12",
+    "status": "ZUGANG_REGISTRIERT",
+    "benutzername": "max.mustermann@email.de"
+}
+```
+
+In folgenden Beispiel loggt der Partner über einen externen Identity Provider ein
+
+```
+200 OK
+Content-Type: application/json;charset=utf-8
+
+{
+    "partnerId": "SCR06",
+    "benutzername": "max.mustermann@email.de",
+    "status": "ZUGANG_REGISTRIERT",
+    "identityProviderConfigURL": "https://auth.meineDomain.de/adfs/.well-known/openid-configuration"
+}
+```
+
+### Post Request Beispiel
+
+```
+POST /v2/partner/ABC12/zugang HTTP/1.1
+Host: api.europace.de
+Accept: application/json
+Authorization: Bearer eyJraWQiOiJWRDZZTk...
+X-TraceId: ff-request-2020-08-28-07-59
+Content-Type: application/json
+
+{
+    "benutzername" : "max.musterman@exmaple.org"
+}
+```
+Der Body des Responses bleibt leer.
+
 
 ## Abruf eines Partners
 
@@ -443,11 +516,11 @@ Content-Type: application/json
 200 OK
 Content-Type: application/json;charset=utf-8
 
-{ 
-  "content": [ 
-    { 
-      "partnerId":"VGD43" 
-    } 
+{
+  "content": [
+    {
+      "partnerId":"VGD43"
+    }
   ]
 }
 ```
@@ -473,11 +546,11 @@ X-TraceId: ff-request-2020-08-28-07-59
 200 OK
 Content-Type: application/json;charset=utf-8
 
-{ 
-  "content": [ 
-    { 
-      "partnerId":"VGD43" 
-    } 
+{
+  "content": [
+    {
+      "partnerId":"VGD43"
+    }
   ]
 }
 ```
