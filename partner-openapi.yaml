@@ -90,15 +90,7 @@ paths:
           content:
             application/json:
               schema:
-                title: Error
-                type: object
-                properties:
-                  message:
-                    type: string
-                  traceId:
-                    type: string
-                required:
-                  - message
+                $ref: '#/components/schemas/Error'
               examples:
                 Beispiel:
                   value:
@@ -189,7 +181,7 @@ paths:
         required: true
         description: ID des Partners
     post:
-      summary: Partner erstellen
+      summary: Partner anlegen
       operationId: createPartner
       description: 'Erstellt einen neuen Partner als Organisation oder Person, abhängig vom Typ.'
       security:
@@ -244,7 +236,7 @@ paths:
       responses:
         '201':
           description: |-
-            Partner wurde erstellt.
+            Partner wurde angelegt.
 
             Der Body der Response enthält die aktuellen Stammdaten im JSON Format. Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden bzw. für die es Defaultwerte gibt, sind dabei immer enthalten.
           content:
@@ -522,29 +514,43 @@ paths:
         required: true
         description: ID des Partners
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Zugang abfragen
+      tags:
+        - Partner
+      security:
+        - europace_oauth2:
+            - 'partner:plakette:lesen'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ZugangPerson'
+                $ref: '#/components/schemas/Zugang'
         '403':
           description: Forbidden - kein Zugriff
         '404':
           description: Not Found - Partner nicht gefunden
-      operationId: get-partner-partnerId-zugang
+      operationId: getZugang
       description: Liefert die Zugangsdaten eines Partners. Bei einer Person werden die Benutzer-Zugangsdaten und bei einer Organisation die Daten des Identity Provider geliefert.
     post:
       summary: Zugang anlegen
       tags:
         - Partner
-      operationId: post-partner-partnerId-zugang
+      operationId: createZugang
+      security:
+        - europace_oauth2:
+            - 'partner:plakette:schreiben'
       responses:
-        '200':
-          description: OK - Zugang angelegt
+        '201':
+          description: |-
+            Zugang wurde angelegt.
+
+            Der Body der Response enthält die aktuellen Zugangsdaten im JSON Format. Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden, sind dabei immer enthalten.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zugang'
         '400':
           description: Bad Request - Anfrage ungültig/konnte nicht verstanden werden
         '406':
@@ -575,13 +581,12 @@ paths:
                     statusMessage: Ein Zugang kann nur an einer Person nicht einer Organisation angelegt werden.
                     timestamp: '2021-01-20T10:03:29.02'
                     traceId: XABC-122...
-        '500':
-          description: Internal Server Error
       requestBody:
         content:
           application/json:
             schema:
               type: object
+              title: CreateZugang
               properties:
                 benutzername:
                   type: string
@@ -876,8 +881,8 @@ components:
       enum:
         - PERSON
         - ORGANISATION
-    ZugangPerson:
-      title: ZugangPerson
+    Zugang:
+      title: Zugang
       type: object
       description: Beschreibt die Zugangsdaten einer Person.
       x-examples:
@@ -915,20 +920,15 @@ components:
         - partnerId
         - status
     Error:
+      title: Error
       type: object
       properties:
         message:
           type: string
-        statusCode:
-          type: integer
-          format: int32
-        statusMessage:
-          type: string
-        timestamp:
-          type: string
         traceId:
           type: string
-      title: Error
+      required:
+        - message
   responses: {}
 security:
   - europace_oauth2: []
