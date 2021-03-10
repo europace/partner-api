@@ -38,9 +38,9 @@ Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)
 
 ## Anwendungsfälle der API
 
-- [Stammdaten eines Partners auslesen](https://docs.api.europace.de/baufinanzierung/partner/partner-api/partner_auslesen/)
-- [neuen Benutzer anlegen](https://docs.api.europace.de/baufinanzierung/partner/partner-api/partner_anlegen)
-- [Zugang anlegen](https://docs.api.europace.de/baufinanzierung/partner/partner-api/zugang/)
-- [Partnerkennzeichen auslesen](https://docs.api.europace.de/baufinanzierung/partner/partner-api/partnerkennzeichen_auslesen/)
-- [Rechte eines Benutzer auslesen](https://docs.api.europace.de/baufinanzierung/partner/partner-api/partnerrechte_auslesen/)
-- [Partner aktualisieren](https://docs.api.europace.de/baufinanzierung/partner/partner-api/partner_aktualsieren/)
+- [Stammdaten eines Partners auslesen](https://github.com/europace/partner-api/blob/master/docs/Partner_auslesen.md)
+- [neuen Benutzer anlegen](https://github.com/europace/partner-api/blob/master/docs/Partner_anlegen.md)
+- [Zugang anlegen](https://github.com/europace/partner-api/blob/master/docs/Zugang.md)
+- [Partnerkennzeichen auslesen](https://github.com/europace/partner-api/blob/master/docs/Partnerkennzeichen_auslesen.md)
+- [Rechte eines Benutzer auslesen](https://github.com/europace/partner-api/blob/master/docs/Rechte_auslesen.md)
+- [Partner aktualisieren](https://github.com/europace/partner-api/blob/master/docs/Partner_aktualisieren.md)
