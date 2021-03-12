@@ -582,6 +582,7 @@ paths:
                     timestamp: '2021-01-20T10:03:29.02'
                     traceId: XABC-122...
       requestBody:
+        required: true
         content:
           application/json:
             schema:
