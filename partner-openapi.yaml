@@ -507,10 +507,10 @@ paths:
           description: Not Found
   '/partner/{partnerId}/zugang':
     parameters:
-      - schema:
-          type: string
+      - in: path
         name: partnerId
-        in: path
+        schema:
+          type: string
         required: true
         description: ID des Partners
     get:
@@ -541,6 +541,15 @@ paths:
       security:
         - europace_oauth2:
             - 'partner:plakette:schreiben'
+      parameters:
+        - in: query
+          name: sendEmail
+          schema: 
+            type: boolean
+            default: false
+          required: false
+          example: true
+          description: 'Es wird eine E-Mail an den Benutzernamen gesendet, der ihn zur Vergabe eines Passwortes anleitet.'
       responses:
         '201':
           description: |-
