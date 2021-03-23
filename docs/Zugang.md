@@ -10,9 +10,11 @@ https://api.europace.de/v2/partner/{PartnerId}/zugang
 
 ## Zugang anlegen
 
+Dem Benutzer mit der PartnerId:ABC12 wird ein Zugang mit dem Benutzernamen "max.musterman@exmaple.org" eingerichtet und eine Aktivierungs-E-Mail (sendEmail=true) an seinen Benutzernamen gesendet, die ihn zur Festlegung seines Passwortes auffordert.
+
 Beispiel-Request: 
 ```
-POST /v2/partner/ABC12/zugang HTTP/1.1
+POST /v2/partner/ABC12/zugang?sendEmail=true HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJWRDZZTk...
@@ -29,6 +31,7 @@ Beispiel-Response:
 HTTP-Code: 201 created
 ```
 Der Body des Responses bleibt leer.
+
 
 ## Zugang auslesen
 
