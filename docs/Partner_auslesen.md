@@ -1,5 +1,9 @@
 # Beispiel: Stammdaten eines Benutzers auslesen
 
+Voraussetzungen:
+* Scope ` partner:plakette:lesen `
+* Für den Zugriff auf einen Partner benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
+
 Beispiel-Request: 
 ``` curl
 curl --location --request GET 'https://api.europace.de/v2/partner/ABC12/' \
@@ -7,8 +11,6 @@ curl --location --request GET 'https://api.europace.de/v2/partner/ABC12/' \
 --header 'X-TraceId: {{meineTraceId}}' \
 --header 'Authorization: Bearer {{access_token}}'
 ```
-
-Für den Zugriff auf einen Partner benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
 
 Die aus den Einstellungen bekannte Vererbung von Werten bestimmter Attribute entlang der Hierarchie wird in der API nicht reflektiert. **Geerbte Werte werden also nicht ausgeliefert.**
 

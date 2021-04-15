@@ -12,6 +12,10 @@ https://api.europace.de/v2/partner/{PartnerId}/zugang
 
 Dem Benutzer mit der PartnerId:ABC12 wird ein Zugang mit dem Benutzernamen "max.musterman@exmaple.org" eingerichtet und eine Aktivierungs-E-Mail (sendEmail=true) an seinen Benutzernamen gesendet, die ihn zur Festlegung seines Passwortes auffordert.
 
+Voraussetzung:
+* Scope `partner:plakette:schreiben`
+* für den Zugriff auf einen Partner und dessen Partnerkennzeichen benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
+
 Beispiel-Request: 
 ```
 POST /v2/partner/ABC12/zugang?sendEmail=true HTTP/1.1
@@ -34,6 +38,9 @@ Der Body des Responses bleibt leer.
 
 
 ## Zugang auslesen
+Voraussetzungen:
+* Scope `partner:plakette:lesen`
+* für den Zugriff auf einen Partner und dessen Partnerkennzeichen benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
 
 Beispiel-Request:
 ```
@@ -44,8 +51,6 @@ Authorization: Bearer eyJraWQiOiJWRDZZTk...
 X-TraceId: ff-request-2020-08-28-07-59
 Content-Type: application/json
 ```
-
-In folgenden Beispiel loggt der .
 
 Beispiel-Response, für einen Partner, der sich am Europace-Identity-Provider authentifizert (Europace-Passwort):
 ```

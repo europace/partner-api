@@ -28,6 +28,9 @@ Für Änderungen an einem Partner benötigt der Aufrufer Einstellungsrechte auf 
 - webseite
 
 ## Beispiel
+Voraussetzungen:
+* Scope `partner:plakette:schreiben`
+* Aufrufer hat Einstellungsrechte auf den Partner
 
 Beispiel-Request:
 ```

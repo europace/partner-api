@@ -2,6 +2,10 @@
 
 Die Partnerkennzeichen identifizieren einen Vertrieb bei einem Produktanbieter. 
 
+Vorausetzungen:
+* Scope ` partner:plakette:lesen `
+* für den Zugriff auf einen Partner und dessen Partnerkennzeichen benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
+
 Beispiel-Request:
 ```
 GET /v2/partner/ABC12/partnerkennzeichen HTTP/1.1
@@ -11,8 +15,6 @@ Authorization: Bearer eyJraWQiOiJ...
 X-TraceId: request-2020-08-28-07-59
 Accept: application/json
 ```
-
-Für den Zugriff auf einen Partner und dessen Partnerkennzeichen benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
 
 Die aus den Einstellungen bekannte Vererbung von Werten bestimmter Attribute entlang der Hierarchie wird in der API nicht reflektiert. **Geerbte Werte werden also nicht ausgeliefert.**
 
