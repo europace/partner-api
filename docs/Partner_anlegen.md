@@ -5,7 +5,11 @@ Das Anlegen eines neuen Partners erfolgt immer unterhalb eines bestehenden Partn
 https://api.europace.de/v2/partner/{PartnerId}/untergeordnete
 ```
 
-Für das Anlegen neuer Partner benötigt der Aufrufer das Recht "Darf Organisationseinheiten anlegen" sowie Einstellungsrechte auf denjenigen Partner, unterhalb dessen der neue Partner angelegt werden soll. 
+Voraussetzungen:
+* Scope ` partner:plakette:anlegen `
+* Aufrufer ist ein Partner vom Typ Person
+* Aufrufer hat das Recht "Darf Organisationseinheiten anlegen" 
+* Aufrufer hat Einstellungsrechte auf den Partner, unter dem der neue Partner angelegt werden soll
 
 Beispiel-Request:
 ``` curl 
