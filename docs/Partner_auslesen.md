@@ -1,7 +1,7 @@
 # Beispiel: Stammdaten eines Benutzers auslesen
 
 Voraussetzungen:
-* Scope ` partner:plakette:lesen `
+* OAuth Token hat den Scope `partner:plakette:lesen `
 * Für den Zugriff auf einen Partner benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
 
 Beispiel-Request: 
