@@ -6,7 +6,7 @@ https://api.europace.de/v2/partner/{PartnerId}/untergeordnete
 ```
 
 Voraussetzungen:
-* Scope ` partner:plakette:anlegen `
+* OAuth Token hat den Scope `partner:plakette:anlegen `
 * Aufrufer ist ein Partner vom Typ Person
 * Aufrufer hat das Recht "Darf Organisationseinheiten anlegen" 
 * Aufrufer hat Einstellungsrechte auf den Partner, unter dem der neue Partner angelegt werden soll
@@ -120,4 +120,3 @@ Content-Type: application/json;charset=utf-8
 > - email
 > 
 > Eine Angebotsannahme ist andernfalls nicht möglich.
-
