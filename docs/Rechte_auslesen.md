@@ -1,6 +1,6 @@
 # Beispiel: Rechte eines Partners
 Voraussetzungen für alle Anwendungsfälle und Beispiele:
-* Scope `partner:plakette:lesen`
+* OAuth Token hat den Scope `partner:plakette:lesen`
 * für den Zugriff auf einen Partner und dessen Partnerkennzeichen benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
 
 ## Personen-Rechte auslesen
@@ -123,5 +123,4 @@ Content-Type: application/json;charset=utf-8
   ]
 }
 ```
-
 
