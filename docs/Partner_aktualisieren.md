@@ -28,6 +28,9 @@ Für Änderungen an einem Partner benötigt der Aufrufer Einstellungsrechte auf 
 - webseite
 
 ## Beispiel
+Voraussetzungen:
+* OAuth Token hat den Scope `partner:plakette:schreiben`
+* Aufrufer hat Einstellungsrechte auf den Partner
 
 Beispiel-Request:
 ```
