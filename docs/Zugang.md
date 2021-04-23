@@ -1,16 +1,19 @@
 # Beispiel: Zugang anlegen und auslesen
 
-Ein neu angelegter Partner braucht einen "Zugang" um sich an der Plattform mit seinem Benutzernamen anmelden zu können. Der Zugang kann entweder über die grafische Oberfläche werden oder durch eines POST Requests hergestellt werden.
+Ein neu angelegter Partner braucht einen "Zugang" um sich an der Plattform mit seinem Benutzernamen anmelden zu können. Der Zugang kann entweder über die Einstellungen (Partnermanagement) oder durch einen API-Request erstellt werden.
 
 HINWEIS: das Anlegen eines Zugangs per POST Request macht in der aktuellen Ausbaustufe nur Sinn, wenn der Partner einen externen Identity Provider (z.B. Active Directory) nutzt. Denn ein Partner, dessen Zugang per POST Request angelegt wird, hat bei Europace kein eigenes Passwort (sein Passwort ist im externen Identity Provider hinterlegt).
 
 Das Url-Template für das Anlegen eines Zugangs für den Partner mit {PartnerId} lautet:
-
 https://api.europace.de/v2/partner/{PartnerId}/zugang
 
 ## Zugang anlegen
 
 Dem Benutzer mit der PartnerId:ABC12 wird ein Zugang mit dem Benutzernamen "max.musterman@exmaple.org" eingerichtet und eine Aktivierungs-E-Mail (sendEmail=true) an seinen Benutzernamen gesendet, die ihn zur Festlegung seines Passwortes auffordert.
+
+Hinweis:
+Als Antwort-Adresse in der Aktivierungs-E-Mail wird die E-Mail oder der Benutzername des Subject im OAuth-Token verwendet.
+Ist keine E-Mail oder Benutzername vorhanden geht die Antwort an noreply@europace2.de.
 
 Voraussetzung:
 * OAuth Token hat den Scope `partner:plakette:schreiben`
