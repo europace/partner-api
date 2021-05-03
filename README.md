@@ -16,7 +16,7 @@ Die Partner API ermöglicht eine Automatisierung der Benutzerverwaltung von Euro
 [![Pattern](https://img.shields.io/badge/Pattern-Tolerant%20Reader-yellowgreen)](https://martinfowler.com/bliki/TolerantReader.html)
 
 ## Dokumentation
-[![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://refined-github-html-preview.kidonng.workers.dev/europace/partner-api/raw/master/reference/index.html)
+[![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/partner-api)
 [![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://github.com/europace/partner-api/blob/master/partner-openapi.yaml)
 
 Feedback und Fragen sind als [GitHub Issue](https://github.com/europace/partner-api/issues/new) willkommen.
