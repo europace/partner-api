@@ -26,7 +26,7 @@ paths:
         required: true
         description: ID des Partners
     get:
-      summary: Lese die Daten eines Partners
+      summary: Partnerdaten abrufen
       operationId: getPartner
       description: Liefert die Daten eines Partners
       security:
@@ -123,7 +123,7 @@ paths:
         required: true
         description: ID des Partners
     get:
-      summary: Rechte des Partners lesen.
+      summary: Partner-Rechte abrufen
       operationId: getPartnerRechte
       description: Liefert die Rechte eines Partners
       security:
@@ -146,7 +146,7 @@ paths:
         '404':
           description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
     patch:
-      summary: Ein Recht eines Partners setzen
+      summary: Partner-Recht setzen
       operationId: setPartnerRecht
       description: Alle Rechte eines Partners aktualisieren
       security:
@@ -394,7 +394,7 @@ paths:
         required: true
         description: ID des Partners
     get:
-      summary: 'Alle Plaketten abrufen, auf die der Partner Einstellungsrechte hat.'
+      summary: administrierbare Partner abrufen
       operationId: getAdministrierbare
       tags:
         - Partner
@@ -402,8 +402,8 @@ paths:
       description: |
         Liefert alle Partner, bei denen dieser Partner die Daten und Berechtigungen ändern oder das Reporting abrufen darf.
         Es wird mindestens der Partner selbst zurückgegeben, da jeder mindestens sich selbst einstellen oder sein eigenes Reporting abrufen darf.
-        Um eine bessere Performance zu erreichen, wurde in der neuen PEX2 darauf verzichtet die implizit administrierbaren Partner mit ausgegeben.
-        Um diese zu ermitteln, ist es notwendig über die Untergeordneten der Resultliste zu iterieren.
+
+        Um eine bessere Performance zu erreichen, wurde in der neuen PEX2 darauf verzichtet die implizit administrierbaren Partner mit ausgegeben. Um diese zu ermitteln, ist es notwendig über die Untergeordneten der Resultliste zu iterieren.
       security:
         - europace_oauth2:
             - 'partner:beziehungen:lesen'
@@ -429,15 +429,15 @@ paths:
         schema:
           type: string
     get:
-      summary: |
-        Alle Partner abrufen, für die ein Übernahmerecht im Partnermanagement angelegt ist. Um eine bessere Performance
-        zu erreichen, wurde in der neuen PEX2 darauf verzichtet die implizit Übernehmbaren mit ausgegeben.
-        Um diese zu ermitteln, ist es notwendig über die Untergeordneten der Resultliste zu iterieren.
+      summary: übernehmbare Partner abrufen
       operationId: getUebernehmbare
       tags:
         - Partner
         - Rechte
-      description: 'Liefert alle Partner, deren Daten von dem Partner gesehen, geöffnet und bearbeitet werden können (Zugriff). '
+      description: |-
+        Liefert alle Partner, deren Vorgänge vom Partner gesehen, geöffnet und bearbeitet werden können (Zugriff). 
+
+        Um eine bessere Performancezu erreichen, wurde in der neuen PEX2 darauf verzichtet die implizit Übernehmbaren mit ausgegeben. Um diese zu ermitteln, ist es notwendig über die Untergeordneten der Resultliste zu iterieren.
       security:
         - europace_oauth2:
             - 'partner:beziehungen:lesen'
@@ -469,7 +469,7 @@ paths:
         required: true
         description: 'Partner, auf den zugegriffenen werden soll'
     get:
-      summary: Zugriffrecht auf einen bestimmten Partner prüfen
+      summary: Übernahmerecht für einen Partner prüfen
       operationId: getUebernahmeRechtFuer
       tags:
         - Partner
@@ -544,7 +544,7 @@ paths:
       parameters:
         - in: query
           name: sendEmail
-          schema: 
+          schema:
             type: boolean
             default: false
           required: false
