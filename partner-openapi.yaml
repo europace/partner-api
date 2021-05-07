@@ -770,6 +770,8 @@ components:
           type: string
         bic:
           type: string
+          minLength: 11
+          maxLength: 11
         iban:
           type: string
           minLength: 22
