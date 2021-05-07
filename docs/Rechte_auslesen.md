@@ -99,7 +99,7 @@ Content-Type: application/json;charset=utf-8
 In dem Beispiel wird dem Partner ABC12 das Übernahmerecht auf XYZ56 gegeben. ABC12 kann danach auf die Vorgänge von XYZ56 zugreifen.
 
 Voraussetzungen:
-* OAuth Token hat den Scope `partner:beziehung:schreiben `
+* OAuth Token hat den Scope `partner:beziehungen:schreiben `
 * Aufrufer hat Einstellungsrechte auf den Partner, dem das Übernahmerecht hinzugefügt wird 
 * Aufrufer hat Einstellungsrechte auf den Partner, auf den der Zugriff gewährt wird
 
@@ -145,4 +145,3 @@ Content-Type: application/json;charset=utf-8
   ]
 }
 ```
-
