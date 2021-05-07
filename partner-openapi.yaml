@@ -790,7 +790,6 @@ components:
         bic:
           type: string
           pattern: '(^.{0}$|[A-Z,0-9]{11,11})'
-          maxLength: 11
         iban:
           type: string
           minLength: 22
