@@ -80,6 +80,7 @@ Bei der serverseitigen Auswertung gelten folgende Regeln:
 - unbekannte Attribute werden ignoriert.
 - "partnerId" ist nicht änderbar und wird deshalb ignoriert.
 - "typ" ist nicht änderbar und wird deshalb ignoriert.
+- wenn ein Feld übergeben wird, dass ein ENUM erwartet, muss ein Wert angeben werden (Anrede)
 
 Der Body der Response enthält die aktuellen Stammdaten im JSON Format.
 Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die bereits gesetzt waren bzw. für die es Default Werte gibt, sind dabei immer enthalten.
