@@ -514,7 +514,7 @@ paths:
       description: Erzeugt ein Zugriffsrecht auf einen Partner
       security:
         - europace_oauth2:
-            - 'partner:beziehung:schreiben'
+            - 'partner:beziehungen:schreiben'
       responses:
         '201':
           description: Created
