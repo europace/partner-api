@@ -505,25 +505,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-    post:
-      summary: Zugriffrecht auf einen Partner vergeben
-      operationId: setUebernahmeRechtFuer
-      tags:
-        - Partner
-        - Rechte
-      description: Erzeugt ein Zugriffsrecht auf einen Partner
-      security:
-        - europace_oauth2:
-            - 'partner:beziehung:schreiben'
-      responses:
-        '201':
-          description: Created
-        '401':
-          description: Unauthorized - AccessToken ungültig
-        '403':
-          description: 'Forbidden - Administrierbar-Recht auf Partner-Id oder Scope ''partner:beziehung:schreiben'' nicht vorhanden'
-        '404':
-          description: Not Found - PartnerId oder target wurden nicht gefunden
   '/partner/{partnerId}/zugang':
     parameters:
       - in: path
