@@ -94,6 +94,28 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
+### Übernahmerecht vergeben
+
+In dem Beispiel wird dem Partner ABC12 das Übernahmerecht auf XYZ56 gegeben. ABC12 kann danach auf die Vorgänge von XYZ56 zugreifen.
+
+Voraussetzungen:
+* OAuth Token hat den Scope `partner:beziehung:schreiben `
+* Aufrufer hat Einstellungsrechte auf den Partner, dem das Übernahmerecht hinzugefügt wird 
+* Aufrufer hat Einstellungsrechte auf den Partner, auf den der Zugriff gewährt wird
+
+Beispiel-Request:
+```
+POST /v2/partner/ABC12/uebernahmeRechtFuer/XYZ56 HTTP/1.1
+Host: api.europace.de
+X-Trace-Id: My-COLLECTION-8301
+Authorization: Bearer eyJraWQiOiJFT05...
+```
+
+Beispiel-Response:
+```
+201 Created
+```
+
 ## Administrationsrecht
 
 Jeder Partner darf Änderungen an sich selbst oder anderen Partnern ausführen, wenn er das Administrationsrecht besitzt. Damit können Stammdaten oder Berechtigungen angepasst werden. Berechtigungen können nur vergeben werden, wenn der ausführende Partner diese selbst besitzt.
