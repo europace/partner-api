@@ -27,7 +27,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/otp-response'
+                $ref: '#/components/schemas/otp'
+              examples:
+                example-1:
+                  value:
+                    otp: 05448389-4014-49af-896e-15b60a07ae8b
         '401':
           description: Unauthorized - access-token ist abgelaufen
           content:
@@ -118,19 +122,7 @@ components:
           minLength: 32
           maxLength: 32
           description: one-time-password
-    otp-response:
-      title: otp-Response
-      type: object
-      description: One-Time-Password für Silent-Sign-In
-      properties:
-        otp:
-          $ref: '#/components/schemas/otp'
-        expires_in:
-          type: integer
-          description: Gültigkeitsdauer in Sekunden
-      required:
-        - otp
-        - expires_in
+      x-examples: {}
     Error:
       title: Error
       type: object

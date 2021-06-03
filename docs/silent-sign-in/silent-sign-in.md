@@ -10,6 +10,7 @@ Die Silent-Sign-In API von Europace ermöglicht das Anmelden von Benutzern durch
 
 [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/baufinanzierung/authentifizierung/)
 ![Release](https://img.shields.io/badge/release-1.0-blue)
+![](https://img.shields.io/badge/state-DEPRECATED-red)
 
 ## Dokumentation
 [![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/partner-api/ssi.html)
@@ -51,8 +52,7 @@ Authorization: Bearer [user-access-token]
 Beispiel-Resonse:
 ``` json
 {
-  "otp": "05448389A4014F49AFC896EB15B60A07AE8B",
-  "expires_in": 300
+  "otp": "05448389A4014F49AFC896EB15B60A07AE8B"
 }
 ```
 
