@@ -109,7 +109,7 @@ components:
     europace_oauth2:
       type: http
       scheme: bearer
-      description: ''
+      description: 'partner:login:silent-sign-in'
   schemas:
     otp:
       title: one-time-password

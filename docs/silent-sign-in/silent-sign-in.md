@@ -40,7 +40,7 @@ Um die API verwenden zu können, benötigt der OAuth2-Client folgende Scopes:
 Um diesen als Client zu erzeugen, kann das Impersonieren angewendet werden. Siehe: [Authorization-API-Impersonieren](https://docs.api.europace.de/common/authentifizierung/authorization-api/#wie-authentifiziere-ich-verschiedene-benutzer-mit-einem-client-impersionieren)
 
 ### Schritt 2 - One-Time-Password erzeugen
-Aus Sicherheitgründen wird ein One-Tome-Password für den Aufruf von Europace über den Browser verwendet.
+Aus Sicherheitgründen wird ein One-Time-Password für den Aufruf von Europace über den Browser verwendet.
 
 Beispiel-Request:
 ``` http
@@ -57,7 +57,7 @@ Beispiel-Resonse:
 ```
 
 ### Schritt 3 - Europace öffnen
-Mit dem OTP kann nun ein Europace geöffnet werden. Um den Vorgang AB45C2 direkt anzuzeigen, kann die redirect_uri mit `/vorgang/oeffne/[vorgangsnummer]` übergeben werden.
+Mit dem OTP kann nun Europace geöffnet werden. Um den Vorgang AB45C2 direkt anzuzeigen, wird die redirect_uri mit `/vorgang/oeffne/[vorgangsnummer]` übergeben werden.
 
 Beispiel-Request:
 ``` http
