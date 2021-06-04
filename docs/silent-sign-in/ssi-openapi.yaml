@@ -22,7 +22,7 @@ paths:
       summary: create Silent-Sign-In OTP
       operationId: create-ssi-otp
       responses:
-        '201':
+        '200':
           description: Created - otp wurde erzeugt
           content:
             application/json:
@@ -109,7 +109,7 @@ components:
     europace_oauth2:
       type: http
       scheme: bearer
-      description: ''
+      description: 'partner:login:silent-sign-in'
   schemas:
     otp:
       title: one-time-password
