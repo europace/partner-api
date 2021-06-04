@@ -22,7 +22,7 @@ paths:
       summary: create Silent-Sign-In OTP
       operationId: create-ssi-otp
       responses:
-        '201':
+        '200':
           description: Created - otp wurde erzeugt
           content:
             application/json:
