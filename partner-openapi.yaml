@@ -546,6 +546,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Zugang'
+        '401':
+          description: Unauthorized
         '403':
           description: Forbidden - kein Zugriff
         '404':
@@ -568,7 +570,7 @@ paths:
             default: false
           required: false
           example: true
-          description: 'Es wird eine E-Mail an den Benutzernamen gesendet, der ihn zur Vergabe eines Passwortes anleitet.'
+          description: 'Wenn der Benutzername gesetzt ist, wird eine E-Mail an den Benutzernamen gesendet, der ihn zur Vergabe eines Passwortes anleitet.'
       responses:
         '201':
           description: |-
@@ -581,6 +583,8 @@ paths:
                 $ref: '#/components/schemas/Zugang'
         '400':
           description: Bad Request - Anfrage ungültig/konnte nicht verstanden werden
+        '401':
+          description: Unauthorized
         '406':
           description: Not Acceptable
           content:
@@ -609,6 +613,8 @@ paths:
                     statusMessage: Ein Zugang kann nur an einer Person nicht einer Organisation angelegt werden.
                     timestamp: '2021-01-20T10:03:29.02'
                     traceId: XABC-122...
+        '409':
+          description: Conflict - es existiert bereits ein benutzername im Zugang
       requestBody:
         required: true
         content:
@@ -622,10 +628,44 @@ paths:
                   example: max.mustermann@email.de
                   format: email
                   description: 'Eine in Europace eindeutige Emailadresse, die als Identifikation des Benutzers verwendet wird. '
-              required:
-                - benutzername
+                identityProviderBenutzername:
+                  type: string
+                  description: Benutzername für den IdentityProvider. Die Eindeutigkeit ist nicht relevant. Ist das Feld <null> wird der Benutzername für den Identity Provider verwendet.
         description: ''
       description: Erzeugt einen Zugang für eine Person.
+    patch:
+      summary: ''
+      operationId: patchZugang
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zugang'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - kein Zugriff
+        '404':
+          description: Not Found - Partner nicht gefunden
+      description: Ändert Benutzernamen und/oder IdP-Benutzernamen.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: PatchZugang
+              properties:
+                identityProviderBenutzername:
+                  type: string
+                  description: Benutzername für den IdentityProvider. Die Eindeutigkeit ist nicht relevant. Ist das Feld <null> wird der Benutzername für den Identity Provider verwendet.
+                  example: max.mustermann
+            examples:
+              IdP-Benutzernamen ändern:
+                identityProviderBenutzername: max.mustermann01
+        description: 'Es brauchen nur die Attribute angegeben werden, die sich verändern sollen.'
 components:
   securitySchemes:
     europace_oauth2:
@@ -943,6 +983,9 @@ components:
             ZUGANG_REGISTRIERT = Benutzername ist vergeben und verifiziert
             ZUGANG_REGISTRIERT_KEIN_ZUGANG = Benutzername ist vergeben und verifiziert aber gesperrt
             BENUTZERNAME_AENDERUNG_UNBESTAETIGT = Benutzername wurde geändert und noch nicht verifiziert
+        identityProviderBenutzername:
+          type: string
+          description: Benutzername am Identity Provider. Ist er <null> wird `benutzername` verwendet.
         identityProviderConfigURL:
           type: string
           description: 'Gültiger Identity Provider, der bei einer Authentifizierung durch den Benutzer verwendet wird.'
