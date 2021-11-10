@@ -17,6 +17,35 @@ servers:
 externalDocs:
   url: 'https://docs.api.europace.de/baufinanzierung/partner/partner-api/'
 paths:
+  /partners:
+    get:
+      summary: Partner finden
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PartnerId'
+        '204':
+          description: No Content - kein Partner gefunden
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+      operationId: findPartners
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: externePartnerId
+          description: extId des Partners
+      description: Liefert die zu einer externen Referenz (extId) gefundenen Partner.
+      x-internal: false
+    parameters: []
   '/partner/{partnerId}':
     parameters:
       - schema:
