@@ -38,6 +38,7 @@ Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)
 
 ## Anwendungsfälle der API
 
+- [Kontaktdaten eines Partners auslesen](https://github.com/europace/partner-api/blob/master/docs/Kontaktdaten_auslesen.md)
 - [Stammdaten eines Partners auslesen](https://github.com/europace/partner-api/blob/master/docs/Partner_auslesen.md)
 - [neuen Benutzer anlegen](https://github.com/europace/partner-api/blob/master/docs/Partner_anlegen.md)
 - [Zugang anlegen](https://github.com/europace/partner-api/blob/master/docs/Zugang.md)
