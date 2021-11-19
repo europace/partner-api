@@ -114,6 +114,48 @@ paths:
             - 'partner:plakette:schreiben'
       tags:
         - Partner
+  '/partner/{partnerId}/kontaktdaten':
+    get:
+      summary: Kontaktdaten abrufen
+      tags:
+        - Partner
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kontaktdaten'
+        '401':
+          description: Unauthorized - nicht angemeldet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - kein Zugriffsrecht oder Handelsbeziehung zum Partner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - Partner existiert nicht
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: getKontaktdaten
+      description: |-
+        Liefert die Kontaktdaten eines Partners, wenn man Zugriff auf ihn hat oder eine Handelsbeziehung.
+
+        Die Kontaktdaten von Partnern werden zur Verfügung gestellt, um zusammmenarbeiten zu können.
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+        description: ID des Partners
   '/partner/{partnerId}/rechte':
     parameters:
       - schema:
@@ -637,6 +679,8 @@ paths:
       summary: ''
       operationId: patchZugang
       parameters: []
+      tags:
+        - Partner
       responses:
         '200':
           description: OK
@@ -681,6 +725,35 @@ components:
           description: Europace PartnerId (readonly)
           minLength: 5
           readOnly: true
+    Kontaktdaten:
+      title: Kontaktdaten
+      type: object
+      description: Visitenkarte des Partners für Handelspartner
+      properties:
+        person:
+          oneOf:
+            - $ref: '#/components/schemas/Person'
+        organisation:
+          oneOf:
+            - $ref: '#/components/schemas/Organisation'
+        firmenName:
+          type: string
+        firmenNameZusatz:
+          type: string
+        telefon:
+          type: string
+        fax:
+          type: string
+        mobiltelefon:
+          type: string
+        email:
+          type: string
+        website:
+          type: string
+        anschrift:
+          $ref: '#/components/schemas/Anschrift'
+        Paragraph34c:
+          $ref: '#/components/schemas/Paragraph34c'
     Plakette:
       type: object
       properties:
@@ -946,6 +1019,17 @@ components:
           type: string
         commerzbankVermittlerNummer:
           type: string
+    Paragraph34c:
+      title: Paragraph34c
+      type: object
+      description: Nachweisinformationen für die Zulassung zur Baufinanzierungsberatung.
+      properties:
+        registrierungsNummer:
+          type: string
+          example: D-W-153-ULVY-65
+        aufsichtsBehörde:
+          type: string
+          example: 'IHK Berlin, Fasanenstraße 85, 10623 Berlin'
     Typ:
       type: string
       enum:
@@ -992,6 +1076,28 @@ components:
       required:
         - partnerId
         - status
+    Person:
+      title: Person
+      type: object
+      properties:
+        anrede:
+          type: string
+        vorname:
+          type: string
+        nachname:
+          type: string
+        titelFunktion:
+          type: string
+        geburtsdatum:
+          type: string
+      description: ''
+    Organisation:
+      title: Organisation
+      type: object
+      properties:
+        organisationsName:
+          type: string
+      description: ''
     Error:
       title: Error
       type: object
