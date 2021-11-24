@@ -46,6 +46,7 @@ Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)
 - [Partner anlegen](#Partner-anlegen)
 - [Partner aktualisieren](#Partner-aktualisieren)
 - [Partner-Zugang anlegen und ändern](#Zugang-anlegen-und-ändern)
+- [Partner-Rechte auslesen](#Partner-Rechte-ändern)
 
 # Kontaktdaten eines Partners auslesen 
 
@@ -369,27 +370,7 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-### Übernahmerecht vergeben
 
-In dem Beispiel wird dem Partner ABC12 das Übernahmerecht auf XYZ56 gegeben. ABC12 kann danach auf die Vorgänge von XYZ56 zugreifen.
-
-Voraussetzungen:
-* OAuth Token hat den Scope `partner:beziehungen:schreiben `
-* Aufrufer hat Einstellungsrechte auf den Partner, dem das Übernahmerecht hinzugefügt wird 
-* Aufrufer hat Einstellungsrechte auf den Partner, auf den der Zugriff gewährt wird
-
-Beispiel-Request:
-```
-POST /v2/partner/ABC12/uebernahmeRechtFuer/XYZ56 HTTP/1.1
-Host: api.europace.de
-X-Trace-Id: My-COLLECTION-8301
-Authorization: Bearer eyJraWQiOiJFT05...
-```
-
-Beispiel-Response:
-```
-201 Created
-```
 
 ## Administrationsrecht
 
@@ -820,3 +801,64 @@ HTTP-Code: 200 okay
 }
 ```
 
+# Partner-Rechte ändern
+
+## Personen-Rechte ändern
+
+Voraussetzungen:
+* OAuth Token hat den Scope `partner:rechte:schreiben`
+* Aufrufer hat ein Administrationsrecht auf den Partner
+
+Beispiel-Request:
+``` http
+POST /v2/partner/ABC12/rechte HTTP/1.1
+Host: api.europace.de
+Authorization: Bearer eyJraWQ...
+```
+
+Beispiel-Response:
+```json
+{
+    "partnermanagement": {
+        "apiClientEinstellungenVornehmen": true,
+        "einstellungenOeffnen": true,
+        "baufiSmartEinstellungenVornehmen": true,
+        "partnerAnlegen": true
+    },
+    "baufismart": {
+        "baufiSmartNutzen": true,
+        "echtgeschaeft": true,
+        "vorgaengeUeberOberflaecheAnlegen": true,
+        "ergebnisListeNutzen": true,
+        "loeschen": false
+    },
+    "kreditsmart": {
+        "echtgeschaeft": true,
+        "kreditSmartSichtbar": true,
+        "versicherungAnbieten": true,
+        "vorgaengeUeberOberflaecheAnlegen": true
+    }
+}
+```
+
+### Übernahmerecht vergeben
+
+In dem Beispiel wird dem Partner ABC12 das Übernahmerecht auf XYZ56 gegeben. ABC12 kann danach auf die Vorgänge von XYZ56 zugreifen.
+
+Voraussetzungen:
+* OAuth Token hat den Scope `partner:beziehungen:schreiben `
+* Aufrufer hat Einstellungsrechte auf den Partner, dem das Übernahmerecht hinzugefügt wird 
+* Aufrufer hat Einstellungsrechte auf den Partner, auf den der Zugriff gewährt wird
+
+Beispiel-Request:
+```
+POST /v2/partner/ABC12/uebernahmeRechtFuer/XYZ56 HTTP/1.1
+Host: api.europace.de
+X-Trace-Id: My-COLLECTION-8301
+Authorization: Bearer eyJraWQiOiJFT05...
+```
+
+Beispiel-Response:
+```
+201 Created
+```
