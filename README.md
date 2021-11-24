@@ -46,7 +46,7 @@ Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)
 - [Partner anlegen](#Partner-anlegen)
 - [Partner aktualisieren](#Partner-aktualisieren)
 - [Partner-Zugang anlegen und ändern](#Zugang-anlegen-und-ändern)
-- [Partner-Rechte auslesen](#Partner-Rechte-ändern)
+- [Partner-Rechte ändern](#Partner-Rechte-ändern)
 
 # Kontaktdaten eines Partners auslesen 
 
@@ -841,7 +841,7 @@ Beispiel-Response:
 }
 ```
 
-### Übernahmerecht vergeben
+## Übernahmerecht vergeben
 
 In dem Beispiel wird dem Partner ABC12 das Übernahmerecht auf XYZ56 gegeben. ABC12 kann danach auf die Vorgänge von XYZ56 zugreifen.
 
