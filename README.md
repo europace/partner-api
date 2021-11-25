@@ -38,17 +38,17 @@ Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)
 
 ## Anwendungsfälle der API
 
-- [Kontaktdaten eines Partners auslesen](#Kontaktdaten-eines-Partners-auslesen)
-- [Partners-Stammdaten auslesen](#Stammdaten-eines-Partners-auslesen)
-- [Partner-Kennzeichen auslesen](#Partner-Kennzeichen-auslesen)
-- [Partner-Zugang auslesen](#Zugang-auslesen)
-- [Partner-Rechte auslesen](#Partner-Rechte-auslesen)
-- [Partner anlegen](#Partner-anlegen)
-- [Partner aktualisieren](#Partner-aktualisieren)
-- [Partner-Zugang anlegen und ändern](#Zugang-anlegen-und-ändern)
-- [Partner-Rechte ändern](#Partner-Rechte-ändern)
+- [Kontaktdaten eines Partners auslesen](#kontaktdaten-eines-partners-auslesen)
+- [Partners-Stammdaten auslesen](#stammdaten-eines-partners-auslesen)
+- [Partner-Kennzeichen auslesen](#partner-kennzeichen-auslesen)
+- [Partner-Zugang auslesen](#zugang-auslesen)
+- [Partner-Rechte auslesen](#partner-rechte-auslesen)
+- [Partner anlegen](#partner-anlegen)
+- [Partner aktualisieren](#partner-aktualisieren)
+- [Partner-Zugang anlegen und ändern](#zugang-anlegen-und-ändern)
+- [Partner-Rechte ändern](#partner-rechte-ändern)
 
-# Kontaktdaten eines Partners auslesen 
+## Kontaktdaten eines Partners auslesen 
 
 Die Kontaktdaten lassen sich für alle Handelspartner abrufen, um die Zusammenarbeit zu unterstützen.
 
@@ -120,7 +120,7 @@ Beispiel-Response Organisation:
 }
 ```
 
-# Stammdaten eines Partners auslesen
+## Stammdaten eines Partners auslesen
 
 Voraussetzungen:
 * OAuth Token hat den Scope `partner:plakette:lesen `
@@ -174,7 +174,7 @@ Beispiel-Response:
 }
 ```
 
-# Partner-Kennzeichen auslesen
+## Partner-Kennzeichen auslesen
 
 Die Partnerkennzeichen identifizieren einen Vertrieb bei einem Produktanbieter. 
 
@@ -232,7 +232,7 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-# Zugang auslesen
+## Zugang auslesen
 Um den aktuellen Zugang zu ermitteln, läßt sich dieser auslesen.
 
 Voraussetzungen:
@@ -274,12 +274,12 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-# Partner-Rechte auslesen
+## Partner-Rechte auslesen
 Voraussetzungen für alle Anwendungsfälle und Beispiele:
 * OAuth Token hat den Scope `partner:plakette:lesen`
 * für den Zugriff auf einen Partner und dessen Partnerkennzeichen benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
 
-## Personen-Rechte auslesen
+### Personen-Rechte auslesen
 
 Beispiel-Request:
 ``` http
@@ -313,12 +313,12 @@ Beispiel-Response:
 }
 ```
 
-## Übernahmerecht
+### Übernahmerecht
 
 Das Übernahmerecht berechtigt Partner auf alle Vorgänge eines anderen Partners lesend und schreiben zugreifen zu dürfen.
 
 
-### Auf welche Partner habe ich Zugriff?
+#### Auf welche Partner habe ich Zugriff?
 
 Beispiel-Request:
 ```
@@ -344,7 +344,7 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-### Habe ich Zugriff auf Partner XYZ15?
+#### Habe ich Zugriff auf Partner XYZ15?
 
 Beispiel-Request:
 ```
@@ -372,11 +372,11 @@ Content-Type: application/json;charset=utf-8
 
 
 
-## Administrationsrecht
+### Administrationsrecht
 
 Jeder Partner darf Änderungen an sich selbst oder anderen Partnern ausführen, wenn er das Administrationsrecht besitzt. Damit können Stammdaten oder Berechtigungen angepasst werden. Berechtigungen können nur vergeben werden, wenn der ausführende Partner diese selbst besitzt.
 
-### Welche Partner kann ich verwalten?
+#### Welche Partner kann ich verwalten?
 
 Beispiel-Request:
 ```
@@ -402,7 +402,7 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-# Partner anlegen
+## Partner anlegen
 
 Das Anlegen eines neuen Partners erfolgt immer unterhalb eines bestehenden Partners:
 ```
@@ -525,14 +525,14 @@ Content-Type: application/json;charset=utf-8
 > 
 > Eine Angebotsannahme ist andernfalls nicht möglich.
 
-# Partner aktualisieren
+## Partner aktualisieren
 
 Attribute eines Partners können mittels HTTP PATCH modifiziert werden.
 Dabei werden **ausschließlich** diejenigen Attribute überschrieben, die im PATCH Request enthalten sind. Alle anderen Attribute werden nicht geändert.
 
 Für Änderungen an einem Partner benötigt der Aufrufer Einstellungsrechte auf diesen. 
 
-## Attribute die per PATCH geändert werden können
+### Attribute die per PATCH geändert werden können
 
 - anrede
 - anschrift
@@ -554,7 +554,7 @@ Für Änderungen an einem Partner benötigt der Aufrufer Einstellungsrechte auf 
 - titelFunktion
 - webseite
 
-## Beispiel
+### Beispiel
 Voraussetzungen:
 * OAuth Token hat den Scope `partner:plakette:schreiben`
 * Aufrufer hat Einstellungsrechte auf den Partner
@@ -656,17 +656,17 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-# Zugang anlegen und ändern
+## Zugang anlegen und ändern
 
 Eine neu angelegte Partner:in braucht einen "Zugang" um sich an Europace mit ihrem Benutzernamen anmelden zu können. Der Zugang kann entweder über die Einstellungen (Partnermanagement) oder durch die Partner-API erstellt werden.
 
-## Zugang anlegen
+### Zugang anlegen
 
 Voraussetzung für alle Anwendungsfälle:
 * OAuth Token hat den Scope `partner:plakette:schreiben`
 * für den Zugriff auf die Partner:in und ihre Partnerkennzeichen benötigt die Aufrufer:in grundsätzlich die Berechtigung, diese zu sehen. Dieses Recht besteht, wenn die abgerufenene Partner:in in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
 
-### Anwendungsfall 1: Europace-Benutzer anlegen
+#### Anwendungsfall 1: Europace-Benutzer anlegen
 Der Benutzer:in mit der PartnerId:ABC12 wird ein Zugang mit dem Benutzernamen "max.musterman@exmaple.org" eingerichtet und eine Aktivierungs-E-Mail (`sendEmail=true`) an ihren Benutzernamen gesendet. In der Aktivierungs-E-Mail wird die Benutzer:in zur Festlegung ihres Passwortes auffordert.
 
 >Hinweis: \
@@ -701,7 +701,7 @@ HTTP-Code: 201 created
 }
 ```
 
-### Anwendungsfall 2: Benutzer für eigenen Identity Provider anlegen
+#### Anwendungsfall 2: Benutzer für eigenen Identity Provider anlegen
 Dieser Anwendungsfall ist vor allem bei Bankpartnern oder Direktvertrieben üblich, bei denen alle Mitarbeiter eine firmeneigene E-Mail mit eigener Domäne haben und die Mitarbeiter ausschließlich innerhalb dieser Organisation arbeiten.
 
 In diesem Anwendungsfall wird der Identity Provider des Partners konfiguriert und der Benutzername als Benutzers-Identifikation bei Europace und dem Identity Provider des Partners verwendet.
@@ -737,7 +737,7 @@ HTTP-Code: 201 created
 }
 ```
 
-### Anwendungsfall 3: Benutzername ist Europace-weit nicht eindeutig oder keine E-Mail-Adresse 
+#### Anwendungsfall 3: Benutzername ist Europace-weit nicht eindeutig oder keine E-Mail-Adresse 
 Es soll eine Benutzer:in für den eigenen Identity Provider angelegt werden, aber der Benutzername ist Europace-weit nicht eindeutig oder keine E-Mail-Adresse. In diesem Fall wird das Feld `benutzername` gar nicht verwendet, sondern ausschließlich das Feld `identityProviderBenutzername`. Die Identifikation der Benutzer:in auf der Anmelde-Maske kann nur noch über die Partner-Id erfolgen. Die Partner-Id kann in manchen Anwendungsfällen mit dem Parameter `login_hint` an die Anmelde-Maske übergeben werden, um die Benutzererfahrung zu verbessern.
 
 Da es sich um eine bestehende Benutzer:in im Identity Provider des Partners handelt und der identityProviderBenutzername nur dort verwendet wird, wird keine Aktivierungs-E-Mail versendet, unabhängig vom Parameter `sendEmail`.
@@ -770,7 +770,7 @@ HTTP-Code: 201 created
 }
 ```
 
-## Benutzernamen für Identity Provider ändern
+### Benutzernamen für Identity Provider ändern
 Die Benutzernamen von externen Identity Providern können über die Partner-API geändert werden.
 
 Einschränkung:
@@ -801,9 +801,9 @@ HTTP-Code: 200 okay
 }
 ```
 
-# Partner-Rechte ändern
+## Partner-Rechte ändern
 
-## Personen-Rechte ändern
+### Personen-Rechte ändern
 
 Voraussetzungen:
 * OAuth Token hat den Scope `partner:rechte:schreiben`
@@ -841,7 +841,7 @@ Beispiel-Response:
 }
 ```
 
-## Übernahmerecht vergeben
+### Übernahmerecht vergeben
 
 In dem Beispiel wird dem Partner ABC12 das Übernahmerecht auf XYZ56 gegeben. ABC12 kann danach auf die Vorgänge von XYZ56 zugreifen.
 
