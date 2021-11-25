@@ -38,17 +38,17 @@ Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)
 
 ## Anwendungsfälle der API
 
-- [Kontaktdaten eines Partners auslesen](#Kontaktdaten-eines-Partners-auslesen)
-- [Partners-Stammdaten auslesen](#Stammdaten-eines-Partners-auslesen)
-- [Partner-Kennzeichen auslesen](#Partner-Kennzeichen-auslesen)
-- [Partner-Zugang auslesen](#Zugang-auslesen)
-- [Partner-Rechte auslesen](#Partner-Rechte-auslesen)
-- [Partner anlegen](#Partner-anlegen)
-- [Partner aktualisieren](#Partner-aktualisieren)
-- [Partner-Zugang anlegen und ändern](#Zugang-anlegen-und-ändern)
-- [Partner-Rechte ändern](#Partner-Rechte-ändern)
+- [Kontaktdaten eines Partners auslesen](#kontaktdaten-eines-partners-auslesen)
+- [Partners-Stammdaten auslesen](#stammdaten-eines-partners-auslesen)
+- [Partner-Kennzeichen auslesen](#partner-kennzeichen-auslesen)
+- [Partner-Zugang auslesen](#zugang-auslesen)
+- [Partner-Rechte auslesen](#partner-rechte-auslesen)
+- [Partner anlegen](#partner-anlegen)
+- [Partner aktualisieren](#partner-aktualisieren)
+- [Partner-Zugang anlegen und ändern](#zugang-anlegen-und-ändern)
+- [Partner-Rechte ändern](#partner-rechte-ändern)
 
-# Kontaktdaten eines Partners auslesen 
+## Kontaktdaten eines Partners auslesen 
 
 Die Kontaktdaten lassen sich für alle Handelspartner abrufen, um die Zusammenarbeit zu unterstützen.
 
