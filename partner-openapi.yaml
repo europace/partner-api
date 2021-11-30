@@ -1,11 +1,11 @@
 openapi: 3.0.3
 tags:
-  - name: Partner
-  - name: Rechte
+  - name: partner
+  - name: permissions
 info:
   title: partner-api
   version: v2.0
-  description: 'Das Partnermanagment von Europace ermöglicht Organisationen ihre eigenen Struktur abzubilden, um jedem Partner oder Mitarbeiter einen Zugang zu geben und Rechte einzustellen.'
+  description: Europaces partner management allows organizations to map their own structure to give each partner or employee access and set rights.
   contact:
     name: Europace AG
     url: 'http://docs.api.europace.de'
@@ -24,17 +24,25 @@ paths:
         name: partnerId
         in: path
         required: true
-        description: ID des Partners
+        description: unique identifier of the partner
     get:
-      summary: Partnerdaten abrufen
-      operationId: getPartner
-      description: Liefert die Daten eines Partners
+      summary: get partner data
+      operationId: getPartnerData
+      description: |
+        Provides the data of a partner.
+
+        Requirements:
+        * OAuth token has scope `partner:plakette:lesen`.
+        * To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
       security:
         - europace_oauth2:
             - 'partner:plakette:lesen'
       responses:
         '200':
-          description: 'Es werden je nach Typ (Person, Organisation) unterschiedliche Datenstrukturen geliefert.'
+          description: |
+            Different data structures are supplied depending on the type (person, organization).
+
+            **Inherited values are therefore not delivered.** The inheritance of values of certain attributes along thehierarchy, which is known from the settings-frontend, is not reflected in the API. 
           content:
             application/json:
               schema:
@@ -60,7 +68,7 @@ paths:
                       plz: '10557'
                       ort: Berlin
                     bankverbindung:
-                      kontoinhaber: Dr. Klein & Co. AG
+                      kontoinhaber: Immofin GmbH
                       bic: PBNKDEFFXXX
                       iban: DE94370100500040661506
         '401':
@@ -68,25 +76,89 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
+          description: Not found - partner is not present or may not be accessed.
       tags:
-        - Partner
+        - partner
       parameters: []
     patch:
-      summary: Partner anpassen
-      operationId: updatePartner
+      summary: update partner data
+      operationId: updatePartnerData
+      description: |
+        update partner data
+
+        This overwrites **only** those attributes that are included in the PATCH request. All other attributes are not changed.
+
+        Requirements:
+        * OAuth token has the scope `partner:plakette:schreiben`.
+        * Caller has Einstellungsrechte on the partner
+
+        ### Attributes that can be changed via PATCH
+        - anrede
+        - anschrift
+        - aufsichtsbehoerde
+        - bankverbindung
+        - email
+        - externePartnerId
+        - faxnummer
+        - firmenname
+        - firmennameZusatz
+        - geburtsdatum
+        - kreditsachbearbeiter
+        - mobilnummer
+        - name
+        - vorname
+        - nachname
+        - registrierungsnummer
+        - telefonnummer
+        - titelFunktion
+        - webseite
       responses:
         '200':
           description: |-
-            Partner wurde angepasst.
+            Partner has been updated.
 
-            Der Body der Response enthält die aktuellen Stammdaten im JSON Format. Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden bzw. für die es Defaultwerte gibt, sind dabei immer enthalten.
+            The body of the response contains the current partner data in JSON format. This can be used for success control. Attributes that are set on the server side or for which there are default values are always included.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Partner'
+              examples:
+                example-1:
+                  value:
+                    partnerId: ABC12
+                    vorname: Max
+                    nachname: Mustermann
+                    typ: PERSON
+                    email: max.musterman@example.org
+                    avatar: 'https://ep2.mtp.rz-hypoport.local/partnermanagement/d71c58aeaed4022384b169f83e0d8842.avatar?anonymousAvatar=BENUTZER'
+                    gesperrt: false
+                    kreditsachbearbeiter: true
+                    parent:
+                      partnerId: ABC12
+                    externePartnerId: '123456'
+                    titelFunktion: Softwareentwickler
+                    anrede: HERR
+                    geburtsdatum: '1970-01-01'
+                    telefonnummer: 030 123456
+                    mobilnummer: 030 123456
+                    faxnummer: 030 123456
+                    firmenname: Europace AG
+                    firmennameZusatz: Aktiengesellschaft
+                    webseite: 'https://github.com/europace/partner-api'
+                    anschrift:
+                      strasse: Musterstraße
+                      hausnummer: '5'
+                      plz: '12345'
+                      ort: Musterstadt
+                    bankverbindung:
+                      referenzFeld: Test Ref
+                      kontoinhaber: Max Musterman
+                      bic: BYLADEM1001
+                      iban: DE02120300000000202051
+                    aufsichtsbehoerde: Musterbehoerde
+                    registrierungsnummer: '987654'
         '400':
-          description: Bad Request - Validierung ist fehlgeschlagen
+          description: Bad Request - Validation failed
           content:
             application/json:
               schema:
@@ -101,146 +173,19 @@ paths:
         '403':
           description: Forbidden
         '404':
-          description: Not Found
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Partner'
-        description: 'Es brauchen nur die Attribute angegeben werden, die sich verändern sollen.'
-      description: Partner anpassen
-      security:
-        - europace_oauth2:
-            - 'partner:plakette:schreiben'
-      tags:
-        - Partner
-  '/partner/{partnerId}/kontaktdaten':
-    get:
-      summary: Kontaktdaten abrufen
-      tags:
-        - Partner
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Kontaktdaten'
-        '401':
-          description: Unauthorized - nicht angemeldet
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: Forbidden - kein Zugriffsrecht oder Handelsbeziehung zum Partner
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Not Found - Partner existiert nicht
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      operationId: getKontaktdaten
-      description: |-
-        Liefert die Kontaktdaten eines Partners, wenn man Zugriff auf ihn hat oder eine Handelsbeziehung.
-
-        Die Kontaktdaten von Partnern werden zur Verfügung gestellt, um zusammmenarbeiten zu können.
-    parameters:
-      - schema:
-          type: string
-        name: partnerId
-        in: path
-        required: true
-        description: ID des Partners
-  '/partner/{partnerId}/rechte':
-    parameters:
-      - schema:
-          type: string
-        name: partnerId
-        in: path
-        required: true
-        description: ID des Partners
-    get:
-      summary: Partner-Rechte abrufen
-      operationId: getPartnerRechte
-      description: Liefert die Rechte eines Partners
-      security:
-        - europace_oauth2:
-            - 'partner:rechte:lesen'
-      tags:
-        - Partner
-        - Rechte
-      responses:
-        '200':
-          description: Es werden die Rechte eines Partners zurück gegeben.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Rechte'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
-    patch:
-      summary: Partner-Recht setzen
-      operationId: setPartnerRecht
-      description: Alle Rechte eines Partners aktualisieren
-      security:
-        - europace_oauth2:
-            - 'partner:rechte:schreiben'
-      tags:
-        - Partner
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Rechte'
-      responses:
-        '200':
-          description: Es werden die geänderten Rechte eines Partners zurück gegeben.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Rechte'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
-  '/partner/{partnerId}/untergeordnete':
-    parameters:
-      - schema:
-          type: string
-        name: partnerId
-        in: path
-        required: true
-        description: ID des Partners
-    post:
-      summary: Partner anlegen
-      operationId: createPartner
-      description: 'Erstellt einen neuen Partner als Organisation oder Person, abhängig vom Typ.'
-      security:
-        - europace_oauth2:
-            - 'partner:plakette:anlegen'
+          description: Not Found - partner is not present or may not be accessed.
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Partner'
             examples:
-              Person:
+              example-1:
                 value:
                   anrede: HERR
                   vorname: Max
                   nachname: Mustermann
-                  email: max.musterman@exmaple.org
+                  email: max.musterman@example.org
                   gesperrt: false
                   kreditsachbearbeiter: true
                   externePartnerId: '123456'
@@ -265,22 +210,309 @@ paths:
                   aufsichtsbehoerde: Musterbehoerde
                   registrierungsnummer: '987654'
         description: |-
-          Bei der serverseitigen Auswertung gelten folgende Regeln:
+          You only need to give the attributes, who have to change.
 
-          * unbekannte Attribute werden ignoriert.
-          * Für Organisationen werden personenspezifische Attribute ignoriert.
-          * Für Personen werden organisationenspezifische Attribute ignoriert.
-          * Leere Attribute bei Strings ("") werden ignoriert.
-          * "id" ist nicht setzbar und wird deshalb ignoriert.
-          * Rechte werden für Personen -sofern nicht angegeben- mit "false" belegt.
+          The following rules apply to server-side evaluation:
+
+          - empty attributes for strings ("") delete the existing value.
+          - unknown attributes are ignored.
+          - `partnerId` cannot be changed and will be ignored.
+          - `type` is not changeable and will be ignored.
+          - if a field expects an ENUM, a value must be specified (Anrede)
+      security:
+        - europace_oauth2:
+            - 'partner:plakette:schreiben'
       tags:
-        - Partner
+        - partner
+  '/partner/{partnerId}/kontaktdaten':
+    get:
+      summary: get contact details
+      operationId: getContactDetails
+      description: |
+        Provides the contact details of a partner if you have access to him or a trade relationship.
+
+        The contact details of partners are provided in order to be able to work together.
+
+        Requirements:
+        * the caller has a trading relationship with the partner
+        and/or
+        * the caller has an [Zugriffsrecht](https://docs.api.europace.de/common/glossary/) to the partner
+        and/or
+        * the caller has a [Einstellungsrecht](https://docs.api.europace.de/common/glossary/) to the partner
+        and/or
+        * the caller is above the partner in the hierarchy
+      tags:
+        - partner
+      responses:
+        '200':
+          description: Retrieve the contact details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kontaktdaten'
+              examples:
+                Person:
+                  value:
+                    person:
+                      anrede: FRAU
+                      vorname: Maxi
+                      nachname: Musterfrau
+                      titelFunktion: Baufi-Beraterin
+                      geburtsdatum: '1995-05-05'
+                    firmenName: Immofin AG
+                    telefon: 030-12345-0
+                    mobiltelefon: 0151-12345678
+                    email: maxi.musterfrau@immofin.de
+                    anschrift:
+                      strasse: Teststr.
+                      hausnummer: '69'
+                      plz: '10557'
+                      ort: Berlin
+                    Paragraph34c:
+                      registrierungsNummer: D-W-7943497238942
+                      aufsichtsBehörde: 'IHK Berlin, Fasanenstr. 85, 10623 Berlin'
+        '401':
+          description: Unauthorized - Not signed in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden - No access right or trading relationship with the partner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - partner does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+        description: unique identifier of the partner
+  '/partner/{partnerId}/rechte':
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+        description: unique identifier of the partner
+    get:
+      summary: get user permissions
+      operationId: getUserPermissions
+      description: |-
+        Provides the permissions of a user.
+
+        Requirements:
+        * OAuth token has scope partner:plakette:lesen
+        * To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
+      security:
+        - europace_oauth2:
+            - 'partner:rechte:lesen'
+      tags:
+        - partner
+        - permission
+      responses:
+        '200':
+          description: You will get the permissions of the partner.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rechte'
+              examples:
+                example-1:
+                  value:
+                    partnermanagement:
+                      apiClientEinstellungenVornehmen: false
+                      einstellungenOeffnen: false
+                      baufiSmartEinstellungenVornehmen: false
+                      partnerAnlegen: false
+                    baufismart:
+                      baufiSmartNutzen: true
+                      echtgeschaeft: false
+                      vorgaengeUeberOberflaecheAnlegen: true
+                      ergebnisListeNutzen: false
+                      loeschen: false
+                    kreditsmart:
+                      echtgeschaeft: false
+                      kreditSmartSichtbar: false
+                      versicherungAnbieten: false
+                      vorgaengeUeberOberflaecheAnlegen: false
+        '401':
+          description: Unauthorized - not signed in
+        '403':
+          description: Forbidden - no access
+        '404':
+          description: Not found - partner does not exist
+    patch:
+      summary: set user permissions
+      operationId: setUserPermissions
+      description: |-
+        Update permissions of a user.
+
+        Requirements:
+        * OAuth token has the scope `partner:rechte:schreiben`.
+        * Caller has a [Einstellungsrecht](https://docs.api.europace.de/common/glossary/) on the partner
+      security:
+        - europace_oauth2:
+            - 'partner:rechte:schreiben'
+      tags:
+        - partner
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Rechte'
+            examples:
+              example-1:
+                value:
+                  baufismart:
+                    baufiSmartNutzen: true
+                    echtgeschaeft: true
+        description: |
+          This overwrites **only** those attributes that are included in the PATCH request. All other attributes are notchanged.
+      responses:
+        '200':
+          description: |-
+            The changed permissions of a partner are returned.
+
+            The body of the response contains the current partner data in JSON format.
+            This can be used for success control. Attributes that were already set or for which there are default values are always included.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Rechte'
+              examples:
+                example-1:
+                  value:
+                    partnermanagement:
+                      apiClientEinstellungenVornehmen: true
+                      einstellungenOeffnen: true
+                      baufiSmartEinstellungenVornehmen: true
+                      partnerAnlegen: true
+                    baufismart:
+                      baufiSmartNutzen: true
+                      echtgeschaeft: true
+                      vorgaengeUeberOberflaecheAnlegen: true
+                      ergebnisListeNutzen: true
+                      loeschen: false
+                    kreditsmart:
+                      echtgeschaeft: true
+                      kreditSmartSichtbar: true
+                      versicherungAnbieten: true
+                      vorgaengeUeberOberflaecheAnlegen: true
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Partner ist nicht vorhanden oder es darf nicht auf ihn zugegriffen werden.
+  '/partner/{partnerId}/untergeordnete':
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+        description: ID des Partners
+    post:
+      summary: create partner
+      operationId: createPartner
+      description: |-
+        Creates a new partner as an organization or person, depending on the type.
+
+        Creating a new partner is always done below an existing partner:
+        `https://api.europace.de/v2/partner/{PartnerId}/untergeordnete`
+
+        Requirements:
+        * OAuth token has scope `partner:plakette:anlegen`.
+        * Caller is a partner of type Person
+        * Caller has the `may create organizational units` permission. 
+        * Caller has [Einstellungsrechte](https://docs.api.europace.de/common/glossary/) on the partner under which the new partner is to be created
+
+        The following rules apply to server-side evaluation:
+
+        - unknown attributes are ignored.
+        - For organizations, person-specific attributes are ignored.
+        - For persons, organization-specific attributes are ignored.
+        - Empty attributes for strings ("") are ignored.
+        - "partnerId" cannot be set and will be ignored.
+        - Rights are set to false for persons if not specified.
+
+        > **Note**
+        > 
+        > For a successful offer acceptance in BaufiSmart it is necessary for the following processes that the following attributes are maintained in the partner management for the account manager of the transaction:
+        > - anrede
+        > - vorname
+        > - nachname
+        > - anschrift
+        > - bankverbindung
+        > - email
+      security:
+        - europace_oauth2:
+            - 'partner:plakette:anlegen'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Partner'
+            examples:
+              Person:
+                value:
+                  anrede: HERR
+                  vorname: Max
+                  nachname: Mustermann
+                  email: max.musterman@example.org
+                  gesperrt: false
+                  kreditsachbearbeiter: true
+                  externePartnerId: '123456'
+                  titelFunktion: Softwareentwickler
+                  geburtsdatum: '1970-01-01'
+                  telefonnummer: 030 123456
+                  mobilnummer: 030 123456
+                  faxnummer: 030 123456
+                  firmenname: Europace AG
+                  firmennameZusatz: Aktiengesellschaft
+                  webseite: 'https://github.com/europace/partner-api'
+                  anschrift:
+                    strasse: Musterstraße
+                    hausnummer: '5'
+                    plz: '12345'
+                    ort: Musterstadt
+                  bankverbindung:
+                    kontoinhaber: Max Musterman
+                    bic: BYLADEM1001
+                    iban: DE02120300000000202051
+                    referenzFeld: Test Ref
+                  aufsichtsbehoerde: Musterbehoerde
+                  registrierungsnummer: '987654'
+        description: |-
+          The following rules apply to server-side evaluation:
+
+          - unknown attributes are ignored.
+          - For organizations, person-specific attributes are ignored.
+          - For persons, organization-specific attributes are ignored.
+          - Empty attributes for strings ("") are ignored.
+          - "partnerId" cannot be set and will be ignored.
+          - Rights are set to false for persons if not specified.
+      tags:
+        - partner
       responses:
         '201':
           description: |-
-            Partner wurde angelegt.
+            Partner created.
 
-            Der Body der Response enthält die aktuellen Stammdaten im JSON Format. Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden bzw. für die es Defaultwerte gibt, sind dabei immer enthalten.
+            The body of the response contains the current master data in JSON format.
+            This can be used for success control. Attributes that are set on the server side or for which there are default values are always included.
+
+            The HTTP header "Location" contains the url of the newly created partner.
           content:
             application/json:
               schema:
@@ -296,7 +528,7 @@ paths:
                     anrede: HERR
                     vorname: Max
                     nachname: Mustermann
-                    email: max.musterman@exmaple.org
+                    email: max.musterman@example.org
                     gesperrt: false
                     kreditsachbearbeiter: true
                     externePartnerId: '123456'
@@ -326,7 +558,7 @@ paths:
                 type: string
               description: 'Link auf den neu angelegten Partner '
         '205':
-          description: Partner konnte anhand der PartnerId oder externen PartnerId gefunden werden und wurde aktualisiert.
+          description: Partner could be found by PartnerId or external PartnerId and was updated.
           content:
             application/json:
               schema:
@@ -341,17 +573,17 @@ paths:
         '401':
           description: Unauthorized
         '403':
-          description: 'Für das Anlegen neuer Partner benötigt der Aufrufer das Recht "Darf Organisationseinheiten anlegen" sowie Einstellungsrechte auf denjenigen Partner, unterhalb dessen der neue Partner angelegt werden soll. Sind diese nicht vorhanden, erhält der Aufrufer eine HTTP Response mit Statuscode 403 FORBIDDEN.'
+          description: Forbidden - see requirements
     get:
-      summary: untergeordnete Partner abrufen
+      summary: get subordinate partners
       operationId: getChildren
-      description: Liefert eine Liste von untergeordneten Partnern.
+      description: Returns a list of child partners.
       security:
         - europace_oauth2:
             - 'partner:plakette:lesen'
       responses:
         '200':
-          description: Liste von untergeordneten Partnern.
+          description: List of subordinate partners.
           content:
             application/json:
               schema:
@@ -365,8 +597,8 @@ paths:
         '404':
           description: Not Found
       tags:
-        - Partner
-        - Rechte
+        - partner
+        - permissions
   '/partner/{partnerId}/partnerkennzeichen':
     parameters:
       - schema:
@@ -376,17 +608,25 @@ paths:
         required: true
         description: ID des Partners
     get:
-      summary: Partnerkennzeichen abrufen
-      operationId: getPartnerkennzeichen
-      description: Die Partnerkennzeichen identifizieren einen Vertrieb bei einem Produktanbieter. Die erfassten Werte können über diesen Endpunkt ausgelesen werden.
+      summary: get partner code
+      operationId: getPartnerCode
+      description: |-
+        The partner codes identify a sales organisation at a loan provider. The recorded values can be read out with this endpoint. The specific value for a loan provider will be delivered in the Antraege-API to him. This endpoint is for managing purpose.
+
+        Requirements:
+        * OAuth token has scope `partner:plakette:lesen `
+        * To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
       security:
         - europace_oauth2:
             - 'partner:plakette:lesen'
       tags:
-        - Partner
+        - partner
       responses:
         '200':
-          description: Liste mit Partnerkennzeichen
+          description: |-
+            List with partner codes.
+
+            **Inherited values are therefore not delivered.** The inheritance of values of certain attributes along the hierarchy, which is known from the settings, is not reflected in the API. 
           content:
             application/json:
               schema:
@@ -436,26 +676,36 @@ paths:
         required: true
         description: ID des Partners
     get:
-      summary: administrierbare Partner abrufen
-      operationId: getAdministrierbare
+      summary: get setting right
+      operationId: getSettingRight
       tags:
-        - Partner
-        - Rechte
-      description: |
-        Liefert alle Partner, bei denen dieser Partner die Daten und Berechtigungen ändern oder das Reporting abrufen darf.
-        Es wird mindestens der Partner selbst zurückgegeben, da jeder mindestens sich selbst einstellen oder sein eigenes Reporting abrufen darf.
+        - partner
+        - permissions
+      description: |-
+        Returns all partners for which this partner is allowed to change the data and authorizations or retrieve the reporting.
 
-        Um eine bessere Performance zu erreichen, wurde in der neuen PEX2 darauf verzichtet die implizit administrierbaren Partner mit ausgegeben. Um diese zu ermitteln, ist es notwendig über die Untergeordneten der Resultliste zu iterieren.
+        At least the partner itself is returned, since everyone may at least set itself or retrieve its own reporting.
+
+        In order to achieve a better performance, the implicitly administrable partners have been omitted in the partner-api. To determine these, it is necessary to iterate over the subordinates of the result list.
+
+        Requirements:
+        * OAuth token has scope `partner:plakette:lesen`.
+        * Each partner may make changes to himself or other partners if he has the [Einstellungsrecht](https://docs.api.europace.de/common/glossary/). This means that partner data or authorizations can be adjusted. Authorizations can only be assigned if the executing partner has them himself.
       security:
         - europace_oauth2:
             - 'partner:beziehungen:lesen'
       responses:
         '200':
-          description: 'Liste aller Partner, bei denen dieser Partner die Daten und Berechtigungen ändern oder das Reporting abrufen darf.'
+          description: List of all partners where this partner is allowed to change the data and authorizations or to retrieve the reporting.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ContentPartnerIds'
+              examples:
+                example-1:
+                  value:
+                    content:
+                      - partnerId: XYZ15
         '401':
           description: Unauthorized
         '403':
@@ -471,25 +721,33 @@ paths:
         schema:
           type: string
     get:
-      summary: übernehmbare Partner abrufen
-      operationId: getUebernehmbare
+      summary: get access rights
+      operationId: getAccessRights
       tags:
-        - Partner
-        - Rechte
+        - partner
+        - permissions
       description: |-
-        Liefert alle Partner, deren Vorgänge vom Partner gesehen, geöffnet und bearbeitet werden können (Zugriff). 
+        The [Zugriffrecht](https://docs.api.europace.de/common/glossary/) entitles partners to read and write access to all [Vorgänge](https://docs.api.europace.de/common/glossary/) of another partner.
 
-        Um eine bessere Performancezu erreichen, wurde in der neuen PEX2 darauf verzichtet die implizit Übernehmbaren mit ausgegeben. Um diese zu ermitteln, ist es notwendig über die Untergeordneten der Resultliste zu iterieren.
+        In order to achieve better performance, the partner-api does not output the implicitly acceptable ones. To determine these, it is necessary to iterate over the subordinates of the result list.
+
+        * OAuth token has scope `partner:rechte:lesen `
+        * To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
       security:
         - europace_oauth2:
             - 'partner:beziehungen:lesen'
       responses:
         '200':
-          description: 'Liste alle Partner, deren Vorgänge von dem Partner gesehen, geöffnet und bearbeitet werden können (Zugriff). '
+          description: 'List of all partners whose cases can be seen, opened and edited by the partner (access). '
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ContentPartnerIds'
+              examples:
+                example-1:
+                  value:
+                    content:
+                      - partnerId: XYZ15
         '401':
           description: Unauthorized
         '403':
@@ -511,12 +769,16 @@ paths:
         required: true
         description: 'Partner, auf den zugegriffenen werden soll'
     get:
-      summary: Übernahmerecht für einen Partner prüfen
-      operationId: getUebernahmeRechtFuer
+      summary: check access right
+      operationId: checkAccessRight
       tags:
-        - Partner
-        - Rechte
-      description: 'Ermittelt, ob der Partner auf die Vorgänge eines anderen Partner zugreifen darf'
+        - partner
+        - permissions
+      description: |-
+        Determines whether the partner is allowed to access the operations of another partner.
+        Do I have access to Partner XYZ15?
+
+        The [Zugriffrecht](https://docs.api.europace.de/common/glossary/) entitles partners to read and write access to all [Vorgänge](https://docs.api.europace.de/common/glossary/) of another partner.
       security:
         - europace_oauth2:
             - 'partner:beziehungen:lesen'
@@ -548,12 +810,20 @@ paths:
         '404':
           description: Not Found
     post:
-      summary: Zugriffrecht auf einen Partner vergeben
-      operationId: setUebernahmeRechtFuer
+      summary: add access right
+      operationId: addAccessRight
       tags:
-        - Partner
-        - Rechte
-      description: Erzeugt ein Zugriffsrecht auf einen Partner
+        - partner
+        - permissions
+      description: |
+        Creates an access right to a partner.
+
+        Example: partner ABC12 is getting the [Zugriffsrecht](https://docs.api.europace.de/common/glossary/) from XYZ56. ABC12 can then access the [Vorgänge](https://docs.api.europace.de/common/glossary/) of XYZ56.
+
+        Requirements:
+        * OAuth token has scope `partner:beziehung:schreiben`.
+        * Caller has Einstellungsrecht on the partner to which the Zugriffsrecht is added 
+        * Caller has Einstellungsrecht on the partner to which the access is granted
       security:
         - europace_oauth2:
             - 'partner:beziehungen:schreiben'
@@ -561,11 +831,11 @@ paths:
         '201':
           description: Created
         '401':
-          description: Unauthorized - AccessToken ungültig
+          description: Unauthorized - AccessToken invalid
         '403':
-          description: 'Forbidden - Administrierbar-Recht auf Partner-Id oder Scope ''partner:beziehung:schreiben'' nicht vorhanden'
+          description: 'Forbidden - Einstellungsrecht on partner-id or scope ''partner:beziehung:schreiben'' not available'
         '404':
-          description: Not Found - PartnerId oder target wurden nicht gefunden
+          description: Not Found - PartnerId or target were not found
   '/partner/{partnerId}/zugang':
     parameters:
       - in: path
@@ -575,9 +845,9 @@ paths:
         required: true
         description: ID des Partners
     get:
-      summary: Zugang abfragen
+      summary: get user access
       tags:
-        - Partner
+        - partner
       security:
         - europace_oauth2:
             - 'partner:plakette:lesen'
@@ -588,19 +858,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Zugang'
+              examples:
+                'Example response, for a partner authenticating to the Europace identity ':
+                  value:
+                    partnerId: ABC12
+                    status: ZUGANG_REGISTRIERT
+                    benutzername: maxi.musterman@example.org
+                'Example response, for a partner authenticating with its own identity provider (e.g. Actice Directory)':
+                  value:
+                    partnerId: ABC12
+                    status: ZUGANG_REGISTRIERT
+                    identityProviderBenutzername: maxi.muster
+                    identityProviderConfigURL: 'https://auth.deineOrganisation.de/adfs/.well-known/openid-configuration'
         '401':
           description: Unauthorized
         '403':
-          description: Forbidden - kein Zugriff
+          description: Forbidden - no access
         '404':
-          description: Not Found - Partner nicht gefunden
-      operationId: getZugang
-      description: Liefert die Zugangsdaten eines Partners. Bei einer Person werden die Benutzer-Zugangsdaten und bei einer Organisation die Daten des Identity Provider geliefert.
+          description: Not Found - partner does not exists
+      operationId: getUserAccess
+      description: |-
+        Delivers the user access of a partner. 
+        In the case of a person, the usernames are supplied. 
+        In the case of an organization, the identity provider configuration are supplied.
+
+        Requirements:
+        * OAuth token has scope `partner:plakette:lesen`
+        * To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
     post:
-      summary: Zugang anlegen
+      summary: create user access
       tags:
-        - Partner
-      operationId: createZugang
+        - partner
+      operationId: createUserAccess
       security:
         - europace_oauth2:
             - 'partner:plakette:schreiben'
@@ -610,21 +899,38 @@ paths:
           schema:
             type: boolean
             default: false
-          required: false
           example: true
-          description: 'Wenn der Benutzername gesetzt ist, wird eine E-Mail an den Benutzernamen gesendet, der ihn zur Vergabe eines Passwortes anleitet.'
+          description: 'If the benutzername is set, an email will be sent to the benutzername instructing him/her to assign a password.'
       responses:
         '201':
           description: |-
-            Zugang wurde angelegt.
+            User access has been created.
 
-            Der Body der Response enthält die aktuellen Zugangsdaten im JSON Format. Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden, sind dabei immer enthalten.
+            The body of the response contains the current access data in JSON format. This can be used for success control. Attributes that are set on the server side are always included.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Zugang'
+              examples:
+                'Use case 1:':
+                  value:
+                    partnerId: ABC12
+                    status: ZUGANG_UNBESTAETIGT
+                    benutzername: maxi.musterman@example.org
+                'Use case 2:':
+                  value:
+                    partnerId: ABC12
+                    status: ZUGANG_REGISTRIERT
+                    benutzername: maxi.musterman@deineOrganisation.de
+                    identityProviderConfigURL: 'https://idp.deineOrganisation.de/auth/realms/.well-known/openid-configuration'
+                'Use case 3:':
+                  value:
+                    partnerId: ABC12
+                    status: ZUGANG_REGISTRIERT
+                    identityProviderBenutzername: maxi.mustermann01
+                    identityProviderConfigURL: 'https://idp.deineOrganisation.de/auth/realms/.well-known/openid-configuration'
         '400':
-          description: Bad Request - Anfrage ungültig/konnte nicht verstanden werden
+          description: Bad Request - Request invalid
         '401':
           description: Unauthorized
         '406':
@@ -656,7 +962,7 @@ paths:
                     timestamp: '2021-01-20T10:03:29.02'
                     traceId: XABC-122...
         '409':
-          description: Conflict - es existiert bereits ein benutzername im Zugang
+          description: Conflict - benutzername already exists
       requestBody:
         required: true
         content:
@@ -673,14 +979,61 @@ paths:
                 identityProviderBenutzername:
                   type: string
                   description: Benutzername für den IdentityProvider. Die Eindeutigkeit ist nicht relevant. Ist das Feld <null> wird der Benutzername für den Identity Provider verwendet.
+            examples:
+              'Use case 1: Create Europace user':
+                value:
+                  benutzername: maxi.musterman@example.org
+              'Use case 2: Create user for own identity provider':
+                value:
+                  benutzername: maxi.musterman@deineOrganisation.de
+              'Use case 3: Username is not unique Europace-wide or no email address ':
+                value:
+                  identityProviderBenutzername: maxi.mustermann01
         description: ''
-      description: Erzeugt einen Zugang für eine Person.
+      description: |-
+        Creates an user access for a person.
+
+        A newly created partner needs a [Zugang](https://docs.api.europace.de/common/glossary/) to be able to log in to Europace with username. The Zugang can be created by the settings-frontend (Einstellungen) or the partner-API.
+
+        Requirements for all use cases and examples:
+        * OAuth token has scope `partner:plakette:schreiben`
+        * To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
+
+        #### Use case 1: Create Europace user.
+        The user with the PartnerId:ABC12 is set up an Zugang with the username "max.musterman@example.org" and an activation email (`sendEmail=true`) is sent to the username. In the activation email, the user is prompted to set a password.
+
+        >Note: \
+        >The reply address in the activation email is the email or username of the subject in the access-token that created the Zugang.
+        >If no email address or username is available, the reply goes to noreply@europace2.de.
+
+        Requirement for use case 1:
+        * the username is Europace-wide unique
+        * the username is an e-mail address
+
+        #### Use case 2: Create user for own identity provider.
+        This use case is most common with banking partners or direct sales organizations where allemployees have a company email with their own domain and the employees work exclusively within this organization.
+
+        In this use case, the partner's identity provider is configured and the username is used as the user identifier at Europace and the partner's identity provider.
+
+        Don't send an activation email (`sendEmail=false`), because the user already exists in the partner's Identity Provider.
+
+        Requirement for use case 2:
+        * the username is Europace-wide unique
+        * the username is an e-mail address
+
+        #### Use case 3: Username is not unique Europace-wide or no email address 
+        A user:in is to be created for the own Identity Provider, but the username is Europace-wide not unique or no e-mail address. In this case the field 'benutzername' is not used at all, but only the field 'identityProviderBenutzername'. The identification of the user on the login mask can only be done via a `partnerId`. The `partnerId` can be passed to the login mask with the `username` parameter in some use cases to improve the user experience.
+
+        Since it is an existing user in the identity provider of the partner and the identityProvider username is only used here, no activation email is sent, regardless of the `sendEmail` parameter.
+
+        Requirements for use case 3:
+        * No further
     patch:
       summary: ''
       operationId: patchZugang
       parameters: []
       tags:
-        - Partner
+        - partner
       responses:
         '200':
           description: OK
@@ -693,8 +1046,12 @@ paths:
         '403':
           description: Forbidden - kein Zugriff
         '404':
-          description: Not Found - Partner nicht gefunden
-      description: Ändert Benutzernamen und/oder IdP-Benutzernamen.
+          description: Not Found - partner nicht gefunden
+      description: |-
+        The [Benutzernamen](https://docs.api.europace.de/common/glossary/) of external identity providers can be changed with Partner API.
+
+        Restriction:
+        * the field `benutzername` cannot be changed
       requestBody:
         content:
           application/json:
@@ -709,7 +1066,9 @@ paths:
             examples:
               IdP-Benutzernamen ändern:
                 identityProviderBenutzername: max.mustermann01
-        description: 'Es brauchen nur die Attribute angegeben werden, die sich verändern sollen.'
+                value:
+                  identityProviderBenutzername: maxi.muster
+        description: ''
 components:
   securitySchemes:
     europace_oauth2:
