@@ -1,14 +1,14 @@
 # Partner API
 
-Die Partner API ermöglicht eine Automatisierung der Benutzerverwaltung von Europace. Das Partnermanagment (Einstellungen) dient Europpace-Partnern zur Abbildung der eigenen Benutzer- und Rechte-Struktur. 
+The Partner API enables automation of Europace's user management. The partner management (settings) is used by Europace partners to map their own user and rights structure. 
 
-**Partner** können Benutzer mit ihren Stammdaten und Rechten sein als auch Organisationen wie Firmen, Abteilungen oder Teams. Jeder Partner wird im Hierarchiebaum als **Plakette** vom Typ **Person** oder **Organisation** angelegt.
+Partners can be users as well as organizations like companies, departments or teams. Each partner is created in the hierarchy tree as [Plakette](https://docs.api.europace.de/common/glossary/) of type [Person](https://docs.api.europace.de/common/glossary/) or [Organisation](https://docs.api.europace.de/common/glossary/).
 
 ---- 
-![Vertrieb](https://img.shields.io/badge/-Vertrieb-lightblue)
-![Produktanbieter](https://img.shields.io/badge/-Produktanbieter-lightblue)
-![Baufinanzierung](https://img.shields.io/badge/-Baufinanzierung-lightblue)
-![Privatkredit](https://img.shields.io/badge/-Privatkredit-lightblue)
+![advisor](https://img.shields.io/badge/-advisor-lightblue)
+![loanProvider](https://img.shields.io/badge/-loanProvider-lightblue)
+![mortgageLoan](https://img.shields.io/badge/-mortgageLoan-lightblue)
+![consumerLoan](https://img.shields.io/badge/-consumerLoan-lightblue)
 
 [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/baufinanzierung/authentifizierung/)
 [![GitHub release](https://img.shields.io/github/v/release/europace/partner-api)](https://github.com/europace/partner-api/releases)
@@ -19,49 +19,53 @@ Die Partner API ermöglicht eine Automatisierung der Benutzerverwaltung von Euro
 [![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/partner-api)
 [![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://github.com/europace/partner-api/blob/master/partner-openapi.yaml)
 
-Feedback und Fragen sind als [GitHub Issue](https://github.com/europace/partner-api/issues/new) willkommen.
+For translation of our german domain-specific-language the [glossary](https://docs.api.europace.de/common/glossary/) will support you.
 
-## Schnellstart
-Damit du unsere APIs und deinen Anwendungsfall schnellstmöglich testen kannst, haben wir eine [Postman-Collection](https://docs.api.europace.de/baufinanzierung/schnellstart/) für dich zusammengestellt. 
+Feedback and questions are welcome as [GitHub Issue](https://github.com/europace/partner-api/issues/new).
 
-### Authentifizierung
-Bitte benutze [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/baufinanzierung/authentifizierung/), um Zugang zur API bekommen. Um die API verwenden zu können, benötigt der OAuth2-Client folgende Scopes:
+## Quick Start
+To help you test our APIs and your use case as quickly as possible, we've put together a [Postman Collection](https://docs.api.europace.de/baufinanzierung/quickstart/) for you. 
+
+### Authentication
+Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/baufinanzierung/authentifizierung/) to get access to the API. The OAuth2 client requires the following scopes:
 
 | Scope                                  | API-Usecase                                                      |
 | -------------------------------------- | ---------------------------------------------------------------- |
-| ` partner:plakette:anlegen `           |   Darf neue Plaketten anlegen.                                   |
-| ` partner:plakette:lesen `             |   Darf Partner-Daten lesen                                       |
-| ` partner:plakette:schreiben `         |   Darf Partner-Daten schreiben                                   |
-| ` partner:beziehungen:lesen `          |   Darf Beziehungen zwischen Partnern lesen Erlaubt es unter anderem UebernahmeRecht, Administrierbare und Uebernehmbare abzurufen  |
-| ` partner:rechte:lesen `               |   Darf Rechte eines Partners lesen                               |
-| ` partner:rechte:schreiben `           |   Darf Rechte eines Partners schreiben                           |
+| ` partner:plakette:anlegen `           |   Allows to create new [Plaketten](https://docs.api.europace.de/common/glossary/)|
+| ` partner:plakette:lesen `             |   Allows to read partner data                                    |
+| ` partner:plakette:schreiben `         |   Allows to write partner data                                   |
+| ` partner:beziehungen:lesen `          |   Allows to read relations between partners. Allows to retrieve UebernahmeRecht, Administrierbare and Uebernehmbare  |
+| ` partner:rechte:lesen `               |   Allows to read partner rights                                  |
+| ` partner:rechte:schreiben `           |   Allows to write partner rights                                 |
 
-## Anwendungsfälle der API
+## Use cases of the API
 
-- [Kontaktdaten eines Partners auslesen](#kontaktdaten-eines-partners-auslesen)
-- [Partners-Stammdaten auslesen](#stammdaten-eines-partners-auslesen)
-- [Partner-Kennzeichen auslesen](#partner-kennzeichen-auslesen)
-- [Partner-Zugang auslesen](#zugang-auslesen)
-- [Partner-Rechte auslesen](#partner-rechte-auslesen)
-- [Partner anlegen](#partner-anlegen)
-- [Partner aktualisieren](#partner-aktualisieren)
-- [Partner-Zugang anlegen und ändern](#zugang-anlegen-und-ändern)
-- [Partner-Rechte ändern](#partner-rechte-ändern)
+### get information
+- [Read contact details of a partner](#read-contact-details-of-a-partner)
+- [Read partner data](#read-partner-data)
+- [Read Partnerkennzeichen](#read-partnerkennzeichen)
+- [Read Zugang](#read-zugang)
+- [Read Partner-Rechte](#read-partner-rechte)
+### manage partner
+- [create partner](#partner-create)
+- [update partner](#partner-update)
+- [create or change Zugang](#create-or-change-zugang)
+- [change Partner-Rechte](#change-partner-rechte)
 
-## Kontaktdaten eines Partners auslesen 
+## Read contact details of a partner 
 
-Die Kontaktdaten lassen sich für alle Handelspartner abrufen, um die Zusammenarbeit zu unterstützen.
+Contact details can be retrieved for all trading partners to support collaboration.
 
-Voraussetzungen:
-* der Aufrufer hat eine Handelsbeziehung zu dem Partner
-und/oder
-* der Aufrufer hat ein Zugriffsrecht auf den Partner
-und/oder
-* der Aufrufer hat ein Einstellungsrecht auf den Partner
-und/oder
-* der Aufrufer liegt in der Hierachie über dem Partner
+Requirements:
+* the caller has a trading relationship with the partner
+and/or
+* the caller has an [Zugriffsrecht](https://docs.api.europace.de/common/glossary/) to the partner
+and/or
+* the caller has a [Einstellungsrecht](https://docs.api.europace.de/common/glossary/) to the partner
+and/or
+* the caller is above the partner in the hierarchy
 
-Beispiel-Request: 
+Example request: 
 ``` curl
 curl --location --request GET 'https://api.europace.de/v2/partner/ABC12/kontaktdaten' \
 --header 'Content-Type: application/json' \
@@ -69,7 +73,7 @@ curl --location --request GET 'https://api.europace.de/v2/partner/ABC12/kontaktd
 --header 'Authorization: Bearer {{access_token}}'
 ```
 
-Beispiel-Response Person: 
+Example response Person: 
 ```json
 {
     "person": {
@@ -96,7 +100,7 @@ Beispiel-Response Person:
 }
 ```
 
-Beispiel-Response Organisation: 
+Example response Organisation: 
 ```json
 {
     "organisation": {
@@ -120,13 +124,13 @@ Beispiel-Response Organisation:
 }
 ```
 
-## Stammdaten eines Partners auslesen
+## Read partner data
 
-Voraussetzungen:
-* OAuth Token hat den Scope `partner:plakette:lesen `
-* Für den Zugriff auf einen Partner benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
+Requirements:
+* OAuth token has scope `partner:plakette:lesen`.
+* To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
 
-Beispiel-Request: 
+Example request: 
 ``` curl
 curl --location --request GET 'https://api.europace.de/v2/partner/ABC12/' \
 --header 'Content-Type: application/json' \
@@ -134,9 +138,9 @@ curl --location --request GET 'https://api.europace.de/v2/partner/ABC12/' \
 --header 'Authorization: Bearer {{access_token}}'
 ```
 
-Die aus den Einstellungen bekannte Vererbung von Werten bestimmter Attribute entlang der Hierarchie wird in der API nicht reflektiert. **Geerbte Werte werden also nicht ausgeliefert.**
+The inheritance of values of certain attributes along the hierarchy, which is known from the settings, is not reflected in the API. **Inherited values are therefore not delivered.**
 
-Beispiel-Response: 
+Example response: 
 ```json
 {
    "partnerId": "ABC12",
@@ -174,16 +178,16 @@ Beispiel-Response:
 }
 ```
 
-## Partner-Kennzeichen auslesen
+## Read Partnerkennzeichen
 
-Die Partnerkennzeichen identifizieren einen Vertrieb bei einem Produktanbieter. 
+[Partnerkennzeichen](https://docs.api.europace.de/common/glossary/) identify a [Vertriebsorganisation](https://docs.api.europace.de/common/glossary/) on the [Produktanbieter](https://docs.api.europace.de/common/glossary/)-side. 
 
-Vorausetzungen:
-* OAuth Token hat den Scope `partner:plakette:lesen `
-* für den Zugriff auf einen Partner und dessen Partnerkennzeichen benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
+Requirements:
+* OAuth token has scope `partner:plakette:lesen `
+* To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
 
-Beispiel-Request:
-```
+Example request:
+```http
 GET /v2/partner/ABC12/partnerkennzeichen HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -192,10 +196,10 @@ X-TraceId: request-2020-08-28-07-59
 Accept: application/json
 ```
 
-Die aus den Einstellungen bekannte Vererbung von Werten bestimmter Attribute entlang der Hierarchie wird in der API nicht reflektiert. **Geerbte Werte werden also nicht ausgeliefert.**
+The inheritance of values of certain attributes along the hierarchy, which is known from the settings, is not reflected in the API. **Inherited values are therefore not delivered.**
 
-Beispiel-Response:
-```
+Example response:
+```json
 200 OK
 Content-Type: application/json;charset=utf-8
 
@@ -232,15 +236,15 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-## Zugang auslesen
-Um den aktuellen Zugang zu ermitteln, läßt sich dieser auslesen.
+## Read Zugang
+To determine the current Zugang, this can be read out.
 
-Voraussetzungen:
-* OAuth Token hat den Scope `partner:plakette:lesen`
-* für den Zugriff auf einen Partner und dessen Partnerkennzeichen benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
+Requirements:
+* OAuth token has scope `partner:plakette:lesen `
+* To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
 
-Beispiel-Request:
-```
+Example request:
+```http
 GET /v2/partner/ABC12/zugang HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -249,8 +253,8 @@ X-TraceId: ff-request-2020-08-28-07-59
 Content-Type: application/json
 ```
 
-Beispiel-Response, für einen Partner, der sich am Europace-Identity-Provider authentifizert (Europace-Passwort):
-```
+Example response, for a partner authenticating to the Europace identity provider (Europace password):
+```json
 200 OK
 Content-Type: application/json;charset=utf-8
 
@@ -261,8 +265,8 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-Beispiel-Response, für einen Partner, der sich mit einem eigenen Identity-Provider authentifizert (z.B. Actice Directory):
-```
+Example response, for a partner authenticating with its own identity provider (e.g. Actice Directory):
+```json
 200 OK
 Content-Type: application/json;charset=utf-8
 
@@ -274,21 +278,22 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-## Partner-Rechte auslesen
-Voraussetzungen für alle Anwendungsfälle und Beispiele:
-* OAuth Token hat den Scope `partner:plakette:lesen`
-* für den Zugriff auf einen Partner und dessen Partnerkennzeichen benötigt der Aufrufer grundsätzlich die Berechtigung, diesen zu sehen. Dieses Recht besteht, wenn der abgerufenene Partner in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
+## Read Partner-Rechte
+ 
+Requirements for all use cases and examples:
+* OAuth token has scope `partner:plakette:lesen `
+* To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
 
-### Personen-Rechte auslesen
+### Read Personen-Rechte
 
-Beispiel-Request:
+Example request:
 ``` http
 GET /v2/partner/ABC12/rechte HTTP/1.1
 Host: api.europace.de
 Authorization: Bearer eyJraWQ...
 ```
 
-Beispiel-Response:
+Example response:
 ```json
 {
     "partnermanagement": {
@@ -313,15 +318,14 @@ Beispiel-Response:
 }
 ```
 
-### Übernahmerecht
+### Zugriffrecht
 
-Das Übernahmerecht berechtigt Partner auf alle Vorgänge eines anderen Partners lesend und schreiben zugreifen zu dürfen.
+The [Zugriffrecht](https://docs.api.europace.de/common/glossary/) entitles partners to read and write access to all [Vorgänge](https://docs.api.europace.de/common/glossary/) of another partner.
 
+#### Which partners do I have access to?
 
-#### Auf welche Partner habe ich Zugriff?
-
-Beispiel-Request:
-```
+Example request:
+```http
 GET /v2/partner/ABC12/uebernehmbare HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -330,8 +334,8 @@ Content-Type: application/json
 X-TraceId: ff-request-2020-08-28-07-59
 ```
 
-Beispiel-Response:
-```
+Example response:
+```json
 200 OK
 Content-Type: application/json;charset=utf-8
 
@@ -344,10 +348,10 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-#### Habe ich Zugriff auf Partner XYZ15?
+#### Do I have access to Partner XYZ15?
 
-Beispiel-Request:
-```
+Example request:
+```http
 GET /v2/partner/ABC12/uebernahmeRechtFuer/XYZ15 HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -356,8 +360,8 @@ Content-Type: application/json
 X-TraceId: ff-request-2020-08-28-07-59
 ```
 
-Beispiel-Response:
-```
+Example response:
+```json
 200 OK
 Content-Type: application/json;charset=utf-8
 
@@ -370,16 +374,14 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
+### Einstellungsrecht
 
+Each partner may make changes to himself or other partners if he has the [Einstellungsrecht](https://docs.api.europace.de/common/glossary/). This means that partner data or authorizations can be adjusted. Authorizations can only be assigned if the executing partner has them himself.
 
-### Administrationsrecht
+#### Which partners can I manage?
 
-Jeder Partner darf Änderungen an sich selbst oder anderen Partnern ausführen, wenn er das Administrationsrecht besitzt. Damit können Stammdaten oder Berechtigungen angepasst werden. Berechtigungen können nur vergeben werden, wenn der ausführende Partner diese selbst besitzt.
-
-#### Welche Partner kann ich verwalten?
-
-Beispiel-Request:
-```
+Example request:
+```http
 GET /v2/partner/ABC12/administrierbare HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -388,8 +390,8 @@ X-TraceId: ff-request-2020-08-28-07-59
 Content-Type: application/json
 ```
 
-Beispiel-Response:
-```
+Example response:
+```json
 200 OK
 Content-Type: application/json;charset=utf-8
 
@@ -402,20 +404,18 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-## Partner anlegen
+## Create partner
 
-Das Anlegen eines neuen Partners erfolgt immer unterhalb eines bestehenden Partners:
-```
-https://api.europace.de/v2/partner/{PartnerId}/untergeordnete
-```
+Creating a new partner is always done below an existing partner:
+`https://api.europace.de/v2/partner/{PartnerId}/untergeordnete`
 
-Voraussetzungen:
-* OAuth Token hat den Scope `partner:plakette:anlegen `
-* Aufrufer ist ein Partner vom Typ Person
-* Aufrufer hat das Recht "Darf Organisationseinheiten anlegen" 
-* Aufrufer hat Einstellungsrechte auf den Partner, unter dem der neue Partner angelegt werden soll
+Requirements:
+* OAuth token has scope `partner:plakette:anlegen`.
+* Caller is a partner of type Person
+* Caller has the `may create organizational units` permission. 
+* Caller has [Einstellungsrechte](https://docs.api.europace.de/common/glossary/) on the partner under which the new partner is to be created
 
-Beispiel-Request:
+Example request:
 ``` json 
 POST /v2/partner/ABC12/untergeordnete HTTP/1.1
 Host: api.europace.de
@@ -457,21 +457,21 @@ Content-Type: application/json
 }
 ```
 
-Bei der serverseitigen Auswertung gelten folgende Regeln:
+The following rules apply to server-side evaluation:
 
-- unbekannte Attribute werden ignoriert.
-- Für Organisationen werden personenspezifische Attribute ignoriert.
-- Für Personen werden organisationenspezifische Attribute ignoriert.
-- Leere Attribute bei Strings ("") werden ignoriert.
-- "partnerId" ist nicht setzbar und wird deshalb ignoriert.
-- Rechte werden für Personen -sofern nicht angegeben- mit "false" belegt.
+- unknown attributes are ignored.
+- For organizations, person-specific attributes are ignored.
+- For persons, organization-specific attributes are ignored.
+- Empty attributes for strings ("") are ignored.
+- "partnerId" cannot be set and will be ignored.
+- Rights are set to false for persons if not specified.
 
-Der Body der Response enthält die aktuellen Stammdaten im JSON Format.
-Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die serverseitig gesetzt werden bzw. für die es Defaultwerte gibt, sind dabei immer enthalten.
+The body of the response contains the current master data in JSON format.
+This can be used for success control. Attributes that are set on the server side or for which there are default values are always included.
 
-Im HTTP Header "Location" befindet sich die Url des neu angelegten Partners.
+The HTTP header "Location" contains the url of the newly created partner.
 
-Beispiel-Response:
+Example response:
 ``` json
 201 CREATED
 Location: https://api.europace2.de/v2/partner/ABC12
@@ -513,26 +513,24 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-> **Hinweis**
+> **Note**
 > 
-> Für eine erfolgreiche Angebotsannahme in BaufiSmart ist es für die nachfolgenden Prozesse erforderlich, daß für den Kundenbetreuer des Vorgangs die folgenden Attribute im Partnermanagement gepflegt sind:
+> For a successful offer acceptance in BaufiSmart it is necessary for the following processes that the following attributes are maintained in the partner management for the account manager of the transaction:
 > - anrede
 > - vorname
 > - nachname
 > - anschrift
 > - bankverbindung
 > - email
-> 
-> Eine Angebotsannahme ist andernfalls nicht möglich.
 
-## Partner aktualisieren
+## Change Partner
 
-Attribute eines Partners können mittels HTTP PATCH modifiziert werden.
-Dabei werden **ausschließlich** diejenigen Attribute überschrieben, die im PATCH Request enthalten sind. Alle anderen Attribute werden nicht geändert.
+Attributes of a partner can be modified using HTTP PATCH.
+This overwrites **only** those attributes that are included in the PATCH request. All other attributes are not changed.
 
-Für Änderungen an einem Partner benötigt der Aufrufer Einstellungsrechte auf diesen. 
+To make changes to a partner, the caller needs Einstellungsrechte. 
 
-### Attribute die per PATCH geändert werden können
+### Attributes that can be changed via PATCH
 
 - anrede
 - anschrift
@@ -554,13 +552,13 @@ Für Änderungen an einem Partner benötigt der Aufrufer Einstellungsrechte auf 
 - titelFunktion
 - webseite
 
-### Beispiel
-Voraussetzungen:
-* OAuth Token hat den Scope `partner:plakette:schreiben`
-* Aufrufer hat Einstellungsrechte auf den Partner
+### Example
+Requirements:
+* OAuth token has the scope `partner:plakette:schreiben`.
+* Caller has Einstellungsrechte on the partner
 
-Beispiel-Request:
-```
+Example request:
+``` json
 PATCH /v2/partner/ABC12 HTTP/1.1
 Host: api.europace.de
 Authorization: Bearer eyJraWQiOiJWRDZZ...
@@ -601,19 +599,19 @@ Content-Type: application/json
 }
 ```
 
-Bei der serverseitigen Auswertung gelten folgende Regeln:
+The following rules apply to server-side evaluation:
 
-- leere Attribute bei Strings ("") löschen den bestehenden Wert.
-- unbekannte Attribute werden ignoriert.
-- "partnerId" ist nicht änderbar und wird deshalb ignoriert.
-- "typ" ist nicht änderbar und wird deshalb ignoriert.
-- wenn ein Feld übergeben wird, dass ein ENUM erwartet, muss ein Wert angeben werden (Anrede)
+- empty attributes for strings ("") delete the existing value.
+- unknown attributes are ignored.
+- `partnerId` cannot be changed and will be ignored.
+- `type` is not changeable and will be ignored.
+- if a field expects an ENUM, a value must be specified (Anrede)
 
-Der Body der Response enthält die aktuellen Stammdaten im JSON Format.
-Dies kann zur Erfolgskontrolle genutzt werden. Attribute, die bereits gesetzt waren bzw. für die es Default Werte gibt, sind dabei immer enthalten.
+DThe body of the response contains the current partner data in JSON format.
+This can be used for success control. Attributes that were already set or for which there are default values are always included.
 
-Beispiel-Response:
-```
+Example response:
+```json
 200 OK
 Content-Type: application/json;charset=utf-8
 
@@ -656,29 +654,29 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-## Zugang anlegen und ändern
+## create or change Zugang
 
-Eine neu angelegte Partner:in braucht einen "Zugang" um sich an Europace mit ihrem Benutzernamen anmelden zu können. Der Zugang kann entweder über die Einstellungen (Partnermanagement) oder durch die Partner-API erstellt werden.
+A newly created partner needs a [Zugang](https://docs.api.europace.de/common/glossary/) to be able to log in to Europace with username. The Zugang can be created by the settings-frontend (partner management) or the partner-API.
 
-### Zugang anlegen
+### create Zugang
 
-Voraussetzung für alle Anwendungsfälle:
-* OAuth Token hat den Scope `partner:plakette:schreiben`
-* für den Zugriff auf die Partner:in und ihre Partnerkennzeichen benötigt die Aufrufer:in grundsätzlich die Berechtigung, diese zu sehen. Dieses Recht besteht, wenn die abgerufenene Partner:in in der Hierachie unter der authentifizierten Plakette liegt oder das Administrationsrecht an die authentifizierte Plakette vergeben ist.
+Requirements for all use cases and examples:
+* OAuth token has scope `partner:plakette:schreiben`
+* To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
 
-#### Anwendungsfall 1: Europace-Benutzer anlegen
-Der Benutzer:in mit der PartnerId:ABC12 wird ein Zugang mit dem Benutzernamen "max.musterman@exmaple.org" eingerichtet und eine Aktivierungs-E-Mail (`sendEmail=true`) an ihren Benutzernamen gesendet. In der Aktivierungs-E-Mail wird die Benutzer:in zur Festlegung ihres Passwortes auffordert.
+#### Use case 1: Create Europace user.
+The user with the PartnerId:ABC12 is set up an Zugang with the username "max.musterman@example.org" and an activation email (`sendEmail=true`) is sent to the username. In the activation email, the user is prompted to set a password.
 
->Hinweis: \
->Als Antwort-Adresse in der Aktivierungs-E-Mail wird die E-Mail oder der Benutzername des Subject im OAuth-Token verwendet, die den Zugang angelegt hat.
->Ist keine E-Mail-Adresse oder Benutzername vorhanden geht die Antwort an noreply@europace2.de.
+>Note: \
+>The reply address in the activation email is the email or username of the subject in the access-token that created the Zugang.
+>If no email address or username is available, the reply goes to noreply@europace2.de.
 
-Voraussetzung für Anwendungsfall 1:
-* der Benutzername ist Europace-weit eindeutig
-* der Benutzername ist eine E-Mail-Adresse
+Requirement for use case 1:
+* the username is Europace-wide unique
+* the username is an e-mail address
 
-Beispiel-Request: 
-```
+Example request: 
+```http
 POST /v2/partner/ABC12/zugang?sendEmail=true HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -691,8 +689,8 @@ Content-Type: application/json
 }
 ```
 
-Beispiel-Response:
-```
+Example response:
+```json
 HTTP-Code: 201 created
 {
     "partnerId": "ABC12",
@@ -701,19 +699,19 @@ HTTP-Code: 201 created
 }
 ```
 
-#### Anwendungsfall 2: Benutzer für eigenen Identity Provider anlegen
-Dieser Anwendungsfall ist vor allem bei Bankpartnern oder Direktvertrieben üblich, bei denen alle Mitarbeiter eine firmeneigene E-Mail mit eigener Domäne haben und die Mitarbeiter ausschließlich innerhalb dieser Organisation arbeiten.
+#### Use case 2: Create user for own identity provider.
+This use case is most common with banking partners or direct sales organizations where all employees have a company email with their own domain and the employees work exclusively within this organization.
 
-In diesem Anwendungsfall wird der Identity Provider des Partners konfiguriert und der Benutzername als Benutzers-Identifikation bei Europace und dem Identity Provider des Partners verwendet.
+In this use case, the partner's identity provider is configured and the username is used as the user identifier at Europace and the partner's identity provider.
 
-Da es sich um einen bestehende Benutzer:in im Identity Provider des Partners handelt, darf keine Aktivierungs-E-Mail versendet werden (`sendEmail=false`).
+Don't send an activation email (`sendEmail=false`), because the user already exists in the partner's Identity Provider.
 
-Voraussetzung für Anwendungsfall 2:
-* der Benutzername ist Europace-weit eindeutig
-* der Benutzername ist eine E-Mail-Adresse
+Requirement for use case 2:
+* the username is Europace-wide unique
+* the username is an e-mail address
 
-Beispiel-Request: 
-```
+Example request: 
+```http
 POST /v2/partner/ABC12/zugang?sendEmail=false HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -726,8 +724,8 @@ Content-Type: application/json
 }
 ```
 
-Beispiel-Response:
-```
+Example response:
+```json
 HTTP-Code: 201 created
 {
     "partnerId": "ABC12",
@@ -737,16 +735,16 @@ HTTP-Code: 201 created
 }
 ```
 
-#### Anwendungsfall 3: Benutzername ist Europace-weit nicht eindeutig oder keine E-Mail-Adresse 
-Es soll eine Benutzer:in für den eigenen Identity Provider angelegt werden, aber der Benutzername ist Europace-weit nicht eindeutig oder keine E-Mail-Adresse. In diesem Fall wird das Feld `benutzername` gar nicht verwendet, sondern ausschließlich das Feld `identityProviderBenutzername`. Die Identifikation der Benutzer:in auf der Anmelde-Maske kann nur noch über die Partner-Id erfolgen. Die Partner-Id kann in manchen Anwendungsfällen mit dem Parameter `login_hint` an die Anmelde-Maske übergeben werden, um die Benutzererfahrung zu verbessern.
+#### Use case 3: Username is not unique Europace-wide or no email address 
+A user:in is to be created for the own Identity Provider, but the username is Europace-wide not unique or no e-mail address. In this case the field 'benutzername' is not used at all, but only the field 'identityProviderBenutzername'. The identification of the user on the login mask can only be done via a `partnerId`. The `partnerId` can be passed to the login mask with the `username` parameter in some use cases to improve the user experience.
 
-Da es sich um eine bestehende Benutzer:in im Identity Provider des Partners handelt und der identityProviderBenutzername nur dort verwendet wird, wird keine Aktivierungs-E-Mail versendet, unabhängig vom Parameter `sendEmail`.
+Since it is an existing user in the identity provider of the partner and the identityProvider username is only used here, no activation email is sent, regardless of the `sendEmail` parameter.
 
-Voraussetzung für Anwendungsfall 3:
-* keine weiteren
+Requirements for use case 3:
+* No further
 
-Beispiel-Request: 
-```
+Example request: 
+```http
 POST /v2/partner/ABC12/zugang HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -759,8 +757,8 @@ Content-Type: application/json
 }
 ```
 
-Beispiel-Response:
-```
+Example response:
+```json
 HTTP-Code: 201 created
 {
     "partnerId": "ABC12",
@@ -770,14 +768,14 @@ HTTP-Code: 201 created
 }
 ```
 
-### Benutzernamen für Identity Provider ändern
-Die Benutzernamen von externen Identity Providern können über die Partner-API geändert werden.
+### Change Benutzernamen for identity providers
+The [Benutzernamen](https://docs.api.europace.de/common/glossary/) of external identity providers can be changed with Partner API.
 
-Einschränkung:
-* das Feld `benutzername` kann nicht angepasst werden
+Restriction:
+* the field `benutzername` cannot be customized
 
-Beispiel-Request: 
-```
+Example request: 
+```http
 PATCH /v2/partner/ABC12/zugang HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -790,8 +788,8 @@ Content-Type: application/json
 }
 ```
 
-Beispiel-Response:
-```
+Example response:
+```json
 HTTP-Code: 200 okay
 {
     "partnerId": "ABC12",
@@ -801,22 +799,22 @@ HTTP-Code: 200 okay
 }
 ```
 
-## Partner-Rechte ändern
+## Change Partner-Rechte
 
-### Personen-Rechte ändern
+### Change Personen-Rechte
 
-Voraussetzungen:
-* OAuth Token hat den Scope `partner:rechte:schreiben`
-* Aufrufer hat ein Administrationsrecht auf den Partner
+Requirements:
+* OAuth token has the scope `partner:rights:write`.
+* Caller has a [Einstellungsrecht](https://docs.api.europace.de/common/glossary/) on the partner
 
-Beispiel-Request:
+Example request:
 ``` http
 POST /v2/partner/ABC12/rechte HTTP/1.1
 Host: api.europace.de
 Authorization: Bearer eyJraWQ...
 ```
 
-Beispiel-Response:
+Example response:
 ```json
 {
     "partnermanagement": {
@@ -841,24 +839,24 @@ Beispiel-Response:
 }
 ```
 
-### Übernahmerecht vergeben
+### Add Zugriffsrecht
 
-In dem Beispiel wird dem Partner ABC12 das Übernahmerecht auf XYZ56 gegeben. ABC12 kann danach auf die Vorgänge von XYZ56 zugreifen.
+In the example, partner ABC12 is given the [Zugriffsrecht](https://docs.api.europace.de/common/glossary/) to XYZ56. ABC12 can then access the [Vorgänge](https://docs.api.europace.de/common/glossary/) of XYZ56.
 
-Voraussetzungen:
-* OAuth Token hat den Scope `partner:beziehungen:schreiben `
-* Aufrufer hat Einstellungsrechte auf den Partner, dem das Übernahmerecht hinzugefügt wird 
-* Aufrufer hat Einstellungsrechte auf den Partner, auf den der Zugriff gewährt wird
+Requirements:
+* OAuth token has scope `partner:beziehung:schreiben`.
+* Caller has Einstellungsrecht on the partner to which the Zugriffsrecht is added 
+* Caller has Einstellungsrecht on the partner to which the access is granted
 
-Beispiel-Request:
-```
+Example request:
+```http
 POST /v2/partner/ABC12/uebernahmeRechtFuer/XYZ56 HTTP/1.1
 Host: api.europace.de
 X-Trace-Id: My-COLLECTION-8301
 Authorization: Bearer eyJraWQiOiJFT05...
 ```
 
-Beispiel-Response:
-```
+Example response:
+```http
 201 Created
 ```
