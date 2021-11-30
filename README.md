@@ -52,6 +52,7 @@ Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](h
 - [Create or update user-access](#create-or-update-user-access)
 - [Update partner-permissions](#update-partner-permissions)
 
+
 ## Get contact details of a partner 
 
 Contact details can be retrieved for all trading partners to support collaboration.
