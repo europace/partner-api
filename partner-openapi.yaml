@@ -318,7 +318,7 @@ paths:
             - 'partner:rechte:lesen'
       tags:
         - partner
-        - permission
+        - permissions
       responses:
         '200':
           description: You will get the permissions of the partner.
@@ -1065,7 +1065,6 @@ paths:
                   example: max.mustermann
             examples:
               IdP-Benutzernamen ändern:
-                identityProviderBenutzername: max.mustermann01
                 value:
                   identityProviderBenutzername: maxi.muster
         description: ''
@@ -1081,13 +1080,13 @@ components:
       properties:
         partnerId:
           type: string
-          description: Europace PartnerId (readonly)
+          description: unique europace partner identifier (readonly)
           minLength: 5
           readOnly: true
     Kontaktdaten:
       title: Kontaktdaten
       type: object
-      description: Visitenkarte des Partners für Handelspartner
+      description: Business card of the partner for trading partners
       properties:
         person:
           oneOf:
@@ -1097,14 +1096,18 @@ components:
             - $ref: '#/components/schemas/Organisation'
         firmenName:
           type: string
+          description: company name
         firmenNameZusatz:
           type: string
+          description: additional legal info
         telefon:
           type: string
+          description: phone
         fax:
           type: string
         mobiltelefon:
           type: string
+          description: mobilphone
         email:
           type: string
         website:
@@ -1115,21 +1118,21 @@ components:
           $ref: '#/components/schemas/Paragraph34c'
     Plakette:
       type: object
+      description: tree-element of organisational structure
       properties:
         partnerId:
           type: string
-          description: Europace PartnerId (readonly)
+          description: unique europace partner identifier (read only)
           minLength: 5
           readOnly: true
         vorname:
           type: string
-          description: Dieses Feld ist nur für den Typ 'PERSON' gefüllt.
+          description: firstname
         nachname:
           type: string
-          description: Dieses Feld ist nur für den Typ 'PERSON' gefüllt.
+          description: surname
         name:
-          type: string
-          description: Dieses Feld ist nur für den Typ 'ORGANISATION' gefüllt.
+          type: string 
         typ:
           $ref: '#/components/schemas/Typ'
         email:
@@ -1143,7 +1146,7 @@ components:
         gesperrt:
           type: boolean
           default: false
-          description: 'true, wenn der Partner oder ein übergeordneter Partner gesperrt ist.'
+          description: 'locked. True if the partner or a parent partner is locked.'
         kreditsachbearbeiter:
           type: boolean
     Partner:
@@ -1158,31 +1161,37 @@ components:
                 - $ref: '#/components/schemas/PartnerId'
             externePartnerId:
               type: string
-              description: 'Eine beliebige, extern erzeugte Id. Z.B. SAP oder CRM Nummer.'
+              description: 'Any externally generated Id. E.g. SAP or CRM number.'
             titelFunktion:
               type: string
+              description: title
             anrede:
               type: string
               enum:
                 - HERR
                 - FRAU
               example: FRAU
+              description: gender
             geburtsdatum:
               type: string
               format: date
-              description: ISO-8601 Calender extended(YYYY-MM-DD) format.
+              description: birthday, ISO-8601 Calender extended(YYYY-MM-DD) format.
               example: '1980-12-11'
             telefonnummer:
               type: string
+              description: phonenumber
             mobilnummer:
               type: string
+              description: mobilphone-number
             faxnummer:
               type: string
+              description: fax machine
             firmenname:
               type: string
+              description: company name
             firmennameZusatz:
               type: string
-              description: Zusatz zur Firma (z.B. Abteilung)
+              description: Addition to the company (e.g. department)
             webseite:
               type: string
               format: uri
@@ -1192,73 +1201,89 @@ components:
               $ref: '#/components/schemas/Bankverbindung'
             aufsichtsbehoerde:
               type: string
+              description: supervisor authority
             registrierungsnummer:
               type: string
+              description: supervisor auth register number
     Rechte:
       title: Rechte
       type: object
+      description: user permissions
       properties:
         partnermanagement:
           type: object
-          description: Rechte des Partnermanagements
+          description: permissions for settings
           properties:
             apiClientEinstellungenVornehmen:
               type: boolean
               default: false
-              description: Darf API Client Einstellungen vornehmen
+              description: Allow to make API client settings
             einstellungenOeffnen:
               type: boolean
               default: false
+              description: Allow to open the settings-frontend
             baufiSmartEinstellungenVornehmen:
               type: boolean
               default: false
+              description: Allow to make changes on baufiSmart
             partnerAnlegen:
               type: boolean
               default: false
-              description: Darf Partner anlegen
+              description: Allow to create partners
         baufismart:
           type: object
-          description: Rechte der BaufiSmart Oberfläche
+          description: BaufiSmart permissions
           properties:
             baufiSmartNutzen:
               type: boolean
               default: true
+              description: Allow to use BaufiSmart
             echtgeschaeft:
               type: boolean
               default: false
+              description: Allow to use production-mode, not only test-mode
             vorgaengeUeberOberflaecheAnlegen:
               type: boolean
               default: true
+              description: Allow to create BaufiSmart cases with UI
             ergebnisListeNutzen:
               type: boolean
               default: false
+              description: Allow to use offer-listings in BaufiSmart
             loeschen:
               type: boolean
               default: false
-              description: Darf Baufismart-Vorgänge und damit verbundende Daten löschen
+              description: Allow to delete BaufiSmart cases and related data
         kreditsmart:
           type: object
           properties:
             echtgeschaeft:
               type: boolean
               default: false
+              description: Allow to use production-mode, not only test-mode
             kreditSmartSichtbar:
               type: boolean
               default: false
+              description: Allow to use KreditSmart
             versicherungAnbieten:
               type: boolean
               default: false
+              description: Allow to offer insurances
             vorgaengeUeberOberflaecheAnlegen:
               type: boolean
               default: false
+              description: Allow to create KreditSmart cases with UI
     Bankverbindung:
       title: bankverbindung
       type: object
+      description: bank account
       properties:
         referenzFeld:
           type: string
+          description: reference for payee
         kontoinhaber:
           type: string
+          description: account owner
         bic:
           type: string
           pattern: '(^.{0}$|[A-Z,0-9]{11,11})'
@@ -1269,17 +1294,22 @@ components:
     Anschrift:
       title: anschrift
       type: object
+      description: adress
       properties:
         strasse:
           type: string
+          description: street
         hausnummer:
           type: string
+          description: housenumber
         plz:
           type: string
           minLength: 5
           maxLength: 5
+          description: zipcode
         ort:
           type: string
+          description: town, location
     ContentPartnerIds:
       title: content
       type: object
@@ -1386,9 +1416,11 @@ components:
         registrierungsNummer:
           type: string
           example: D-W-153-ULVY-65
+          description: registration number of supervisor authoritity
         aufsichtsBehörde:
           type: string
           example: 'IHK Berlin, Fasanenstraße 85, 10623 Berlin'
+          description: supervisor authority
     Typ:
       type: string
       enum:
@@ -1397,21 +1429,21 @@ components:
     Zugang:
       title: Zugang
       type: object
-      description: Beschreibt die Zugangsdaten einer Person.
+      description: user access
       x-examples:
-        über eigenen Identity Provider:
-          partnerId: SCR06
+        for own identity provider:
+          partnerId: ABC12
           benutzername: max.mustermann@email.de
           status: ZUGANG_REGISTRIERT
           identityProviderConfigURL: 'https://auth.meineDomain.de/adfs/.well-known/openid-configuration'
       properties:
         partnerId:
           type: string
-          example: SCR06
+          example: ABC12
         benutzername:
           type: string
           example: max.mustermann@email.de
-          description: eindeutiger Benutzername bei Europace als E-Mail-Adresse
+          description: username, unique at Europace as e-mail address
         status:
           type: string
           enum:
@@ -1421,42 +1453,48 @@ components:
             - ZUGANG_REGISTRIERT_KEIN_ZUGANG
             - BENUTZERNAME_AENDERUNG_UNBESTAETIGT
           description: |-
-            KEIN_ZUGANG = es ist kein Benutzername vergeben
-            ZUGANG_UNBESTAETIGT = Benutzername ist vergeben aber noch nicht verifiziert
-            ZUGANG_REGISTRIERT = Benutzername ist vergeben und verifiziert
-            ZUGANG_REGISTRIERT_KEIN_ZUGANG = Benutzername ist vergeben und verifiziert aber gesperrt
-            BENUTZERNAME_AENDERUNG_UNBESTAETIGT = Benutzername wurde geändert und noch nicht verifiziert
+            KEIN_ZUGANG = no user name is assigned
+            ZUGANG_UNBESTAETIGT = Username is assigned but not yet verified
+            ZUGANG_REGISTRIERT = Username is assigned and verified
+            ZUGANG_REGISTRIERT_KEIN_ZUGANG = Username is assigned and verified but locked
+            BENUTZERNAME_AENDERUNG_UNBESTAETIGT = Username has been changed and not yet verified
         identityProviderBenutzername:
           type: string
-          description: Benutzername am Identity Provider. Ist er <null> wird `benutzername` verwendet.
+          description: username at the identity provider. If it is <null> `username` is used.
         identityProviderConfigURL:
           type: string
-          description: 'Gültiger Identity Provider, der bei einer Authentifizierung durch den Benutzer verwendet wird.'
+          description: valid identity provider used when user authenticates
       required:
         - partnerId
         - status
     Person:
       title: Person
       type: object
+      description: user
       properties:
         anrede:
           type: string
+          description: gender
         vorname:
           type: string
+          description: firstname
         nachname:
           type: string
+          description: surname
         titelFunktion:
           type: string
+          description: title
         geburtsdatum:
           type: string
-      description: ''
+          description: birthday
     Organisation:
       title: Organisation
       type: object
       properties:
         organisationsName:
           type: string
-      description: ''
+          description: name of the organisation
+      description: organisation, team or company
     Error:
       title: Error
       type: object
