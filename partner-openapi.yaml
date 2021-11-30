@@ -1029,8 +1029,8 @@ paths:
         Requirements for use case 3:
         * No further
     patch:
-      summary: ''
-      operationId: patchZugang
+      summary: update user access
+      operationId: updateUserAccess
       parameters: []
       tags:
         - partner
@@ -1132,7 +1132,7 @@ components:
           type: string
           description: surname
         name:
-          type: string 
+          type: string
         typ:
           $ref: '#/components/schemas/Typ'
         email:
@@ -1146,7 +1146,7 @@ components:
         gesperrt:
           type: boolean
           default: false
-          description: 'locked. True if the partner or a parent partner is locked.'
+          description: locked. True if the partner or a parent partner is locked.
         kreditsachbearbeiter:
           type: boolean
     Partner:
@@ -1161,7 +1161,7 @@ components:
                 - $ref: '#/components/schemas/PartnerId'
             externePartnerId:
               type: string
-              description: 'Any externally generated Id. E.g. SAP or CRM number.'
+              description: Any externally generated Id. E.g. SAP or CRM number.
             titelFunktion:
               type: string
               description: title
@@ -1175,7 +1175,7 @@ components:
             geburtsdatum:
               type: string
               format: date
-              description: birthday, ISO-8601 Calender extended(YYYY-MM-DD) format.
+              description: 'birthday, ISO-8601 Calender extended(YYYY-MM-DD) format.'
               example: '1980-12-11'
             telefonnummer:
               type: string
@@ -1241,7 +1241,7 @@ components:
             echtgeschaeft:
               type: boolean
               default: false
-              description: Allow to use production-mode, not only test-mode
+              description: 'Allow to use production-mode, not only test-mode'
             vorgaengeUeberOberflaecheAnlegen:
               type: boolean
               default: true
@@ -1256,11 +1256,12 @@ components:
               description: Allow to delete BaufiSmart cases and related data
         kreditsmart:
           type: object
+          description: KreditSmart permissions
           properties:
             echtgeschaeft:
               type: boolean
               default: false
-              description: Allow to use production-mode, not only test-mode
+              description: 'Allow to use production-mode, not only test-mode'
             kreditSmartSichtbar:
               type: boolean
               default: false
@@ -1309,7 +1310,7 @@ components:
           description: zipcode
         ort:
           type: string
-          description: town, location
+          description: 'town, location'
     ContentPartnerIds:
       title: content
       type: object
@@ -1443,7 +1444,7 @@ components:
         benutzername:
           type: string
           example: max.mustermann@email.de
-          description: username, unique at Europace as e-mail address
+          description: 'username, unique at Europace as e-mail address'
         status:
           type: string
           enum:
@@ -1494,7 +1495,7 @@ components:
         organisationsName:
           type: string
           description: name of the organisation
-      description: organisation, team or company
+      description: 'organisation, team or company'
     Error:
       title: Error
       type: object
