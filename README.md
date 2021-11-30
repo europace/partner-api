@@ -41,18 +41,18 @@ Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](h
 ## Use cases of the API
 
 ### get information
-- [Read contact details of a partner](#read-contact-details-of-a-partner)
-- [Read partner data](#read-partner-data)
-- [Read Partnerkennzeichen](#read-partnerkennzeichen)
-- [Read Zugang](#read-zugang)
-- [Read Partner-Rechte](#read-partner-rechte)
+- [Get contact details of a partner](#get-contact-details-of-a-partner)
+- [Get partner data](#get-partner-data)
+- [Get partner-code](#get-partner-code)
+- [Get user-access](#get-user-access)
+- [Get partner-permissions](#get-partner-permissions)
 ### manage partner
-- [create partner](#partner-create)
-- [update partner](#partner-update)
-- [create or change Zugang](#create-or-change-zugang)
-- [change Partner-Rechte](#change-partner-rechte)
+- [Create partner](#create-partner)
+- [Update partner data](#update-partner-data)
+- [Create or update user-access](#create-or-update-user-access)
+- [Update partner-permissions](#update-partner-permissions)
 
-## Read contact details of a partner 
+## Get contact details of a partner 
 
 Contact details can be retrieved for all trading partners to support collaboration.
 
@@ -124,7 +124,7 @@ Example response Organisation:
 }
 ```
 
-## Read partner data
+## Get partner data
 
 Requirements:
 * OAuth token has scope `partner:plakette:lesen`.
@@ -178,7 +178,7 @@ Example response:
 }
 ```
 
-## Read Partnerkennzeichen
+## Get partner-code
 
 [Partnerkennzeichen](https://docs.api.europace.de/common/glossary/) identify a [Vertriebsorganisation](https://docs.api.europace.de/common/glossary/) on the [Produktanbieter](https://docs.api.europace.de/common/glossary/)-side. 
 
@@ -196,7 +196,7 @@ X-TraceId: request-2020-08-28-07-59
 Accept: application/json
 ```
 
-The inheritance of values of certain attributes along the hierarchy, which is known from the settings, is not reflected in the API. **Inherited values are therefore not delivered.**
+**Inherited values are therefore not delivered.** The inheritance of values of certain attributes along the hierarchy, which is known from the settings, is not reflected in the API. 
 
 Example response:
 ```json
@@ -236,7 +236,7 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-## Read Zugang
+## Get user-access
 To determine the current Zugang, this can be read out.
 
 Requirements:
@@ -278,13 +278,13 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-## Read Partner-Rechte
+## Get partner-permissions
  
 Requirements for all use cases and examples:
-* OAuth token has scope `partner:plakette:lesen `
+* OAuth token has scope `partner:rechte:lesen `
 * To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
 
-### Read Personen-Rechte
+### Get user-permissions
 
 Example request:
 ``` http
@@ -318,7 +318,7 @@ Example response:
 }
 ```
 
-### Zugriffrecht
+### Get access right
 
 The [Zugriffrecht](https://docs.api.europace.de/common/glossary/) entitles partners to read and write access to all [Vorgänge](https://docs.api.europace.de/common/glossary/) of another partner.
 
@@ -374,9 +374,17 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-### Einstellungsrecht
+### Get setting right
 
-Each partner may make changes to himself or other partners if he has the [Einstellungsrecht](https://docs.api.europace.de/common/glossary/). This means that partner data or authorizations can be adjusted. Authorizations can only be assigned if the executing partner has them himself.
+Returns all partners for which this partner is allowed to change the data and authorizations or retrieve the reporting.
+
+At least the partner itself is returned, since everyone may at least set itself or retrieve its own reporting.
+
+In order to achieve a better performance, the implicitly administrable partners have been omitted in the partner-api. To determine these, it is necessary to iterate over the subordinates of the result list.
+
+Requirements:
+* OAuth token has scope `partner:plakette:lesen`.
+* Each partner may make changes to himself or other partners if he has the [Einstellungsrecht](https://docs.api.europace.de/common/glossary/). This means that partner data or authorizations can be adjusted. Authorizations can only be assigned if the executing partner has them himself.
 
 #### Which partners can I manage?
 
@@ -523,7 +531,7 @@ Content-Type: application/json;charset=utf-8
 > - bankverbindung
 > - email
 
-## Change Partner
+## Update partner data
 
 Attributes of a partner can be modified using HTTP PATCH.
 This overwrites **only** those attributes that are included in the PATCH request. All other attributes are not changed.
@@ -607,7 +615,7 @@ The following rules apply to server-side evaluation:
 - `type` is not changeable and will be ignored.
 - if a field expects an ENUM, a value must be specified (Anrede)
 
-DThe body of the response contains the current partner data in JSON format.
+The body of the response contains the current partner data in JSON format.
 This can be used for success control. Attributes that were already set or for which there are default values are always included.
 
 Example response:
@@ -654,11 +662,11 @@ Content-Type: application/json;charset=utf-8
 }
 ```
 
-## create or change Zugang
+## Create or update user-access
 
 A newly created partner needs a [Zugang](https://docs.api.europace.de/common/glossary/) to be able to log in to Europace with username. The Zugang can be created by the settings-frontend (partner management) or the partner-API.
 
-### create Zugang
+### Create user-access
 
 Requirements for all use cases and examples:
 * OAuth token has scope `partner:plakette:schreiben`
@@ -768,11 +776,11 @@ HTTP-Code: 201 created
 }
 ```
 
-### Change Benutzernamen for identity providers
+### Update user-access for identity providers
 The [Benutzernamen](https://docs.api.europace.de/common/glossary/) of external identity providers can be changed with Partner API.
 
 Restriction:
-* the field `benutzername` cannot be customized
+* the field `benutzername` cannot be changed
 
 Example request: 
 ```http
@@ -799,12 +807,12 @@ HTTP-Code: 200 okay
 }
 ```
 
-## Change Partner-Rechte
+## Update partner-permissions
 
-### Change Personen-Rechte
+### Set user-permissions
 
 Requirements:
-* OAuth token has the scope `partner:rights:write`.
+* OAuth token has the scope `partner:rechte:schreiben`.
 * Caller has a [Einstellungsrecht](https://docs.api.europace.de/common/glossary/) on the partner
 
 Example request:
@@ -812,6 +820,13 @@ Example request:
 POST /v2/partner/ABC12/rechte HTTP/1.1
 Host: api.europace.de
 Authorization: Bearer eyJraWQ...
+
+{
+    "baufismart": {
+        "baufiSmartNutzen": true,
+        "echtgeschaeft": true
+    }
+}
 ```
 
 Example response:
@@ -839,9 +854,9 @@ Example response:
 }
 ```
 
-### Add Zugriffsrecht
+### Add access right
 
-In the example, partner ABC12 is given the [Zugriffsrecht](https://docs.api.europace.de/common/glossary/) to XYZ56. ABC12 can then access the [Vorgänge](https://docs.api.europace.de/common/glossary/) of XYZ56.
+In the example, partner ABC12 is getting the [Zugriffsrecht](https://docs.api.europace.de/common/glossary/) from XYZ56. ABC12 can then access the [Vorgänge](https://docs.api.europace.de/common/glossary/) of XYZ56.
 
 Requirements:
 * OAuth token has scope `partner:beziehung:schreiben`.
