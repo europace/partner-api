@@ -47,10 +47,10 @@ Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](h
 - [Read Zugang](#read-zugang)
 - [Read Partner-Rechte](#read-partner-rechte)
 ### manage partner
-- [create partner](#partner-create)
-- [update partner](#partner-update)
-- [create or change Zugang](#create-or-change-zugang)
-- [change Partner-Rechte](#change-partner-rechte)
+- [Create partner](#create-partner)
+- [Change partner](#change-partner)
+- [Create or change Zugang](#create-or-change-zugang)
+- [Change Partner-Rechte](#change-partner-rechte)
 
 ## Read contact details of a partner 
 
