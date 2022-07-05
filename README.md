@@ -233,7 +233,13 @@ Content-Type: application/json;charset=utf-8
   "dzHypVermittlerNummer": "1234",
   "alteLeipzigerVerbundVermittlerNummer": "42",
   "rundvBankAgenturNummer": "RV_BAN",
-  "rundvBlzVertriebsbank": "RV_BLZ"
+  "rundvBlzVertriebsbank": "RV_BLZ",
+  "vertriebsOrganisation": {
+    "name": "Musterbank",
+    "firma": "Musterbank AG",
+    "vertriebsOrganisationsId": "MUSTERBANK_AG",
+    "partnerId": "TYL29"
+  }
 }
 ```
 
