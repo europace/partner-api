@@ -1,7 +1,7 @@
 openapi: 3.0.3
 tags:
-  - name: partner
-  - name: permissions
+  - name: Partner
+  - name: Rechte
 info:
   title: partner-api
   version: v2.0
