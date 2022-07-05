@@ -1,14 +1,14 @@
 openapi: 3.0.3
 tags:
-  - name: partner
-  - name: permissions
+  - name: Partner
+  - name: Rechte
 info:
   title: partner-api
   version: v2.0
   description: Europaces partner management allows organizations to map their own structure to give each partner or employee access and set rights.
   contact:
     name: Europace AG
-    url: 'http://docs.api.europace.de'
+    url: 'https://docs.api.europace.de'
     email: info@europace.de
   termsOfService: 'https://docs.api.europace.de/nutzungsbedingungen/'
 servers:
@@ -27,7 +27,7 @@ paths:
         description: unique identifier of the partner
     get:
       summary: get partner data
-      operationId: getPartnerData
+      operationId: getPartner
       description: |
         Provides the data of a partner.
 
@@ -78,11 +78,11 @@ paths:
         '404':
           description: Not found - partner is not present or may not be accessed.
       tags:
-        - partner
+        - Partner
       parameters: []
     patch:
       summary: update partner data
-      operationId: updatePartnerData
+      operationId: updatePartner
       description: |
         update partner data
 
@@ -223,11 +223,11 @@ paths:
         - europace_oauth2:
             - 'partner:plakette:schreiben'
       tags:
-        - partner
+        - Partner
   '/partner/{partnerId}/kontaktdaten':
     get:
       summary: get contact details
-      operationId: getContactDetails
+      operationId: getKontaktdaten
       description: |
         Provides the contact details of a partner if you have access to him or a trade relationship.
 
@@ -242,7 +242,7 @@ paths:
         and/or
         * the caller is above the partner in the hierarchy
       tags:
-        - partner
+        - Partner
       responses:
         '200':
           description: Retrieve the contact details.
@@ -306,7 +306,7 @@ paths:
         description: unique identifier of the partner
     get:
       summary: get user permissions
-      operationId: getUserPermissions
+      operationId: getPartnerRechte
       description: |-
         Provides the permissions of a user.
 
@@ -317,8 +317,8 @@ paths:
         - europace_oauth2:
             - 'partner:rechte:lesen'
       tags:
-        - partner
-        - permissions
+        - Partner
+        - Rechte
       responses:
         '200':
           description: You will get the permissions of the partner.
@@ -353,7 +353,7 @@ paths:
           description: Not found - partner does not exist
     patch:
       summary: set user permissions
-      operationId: setUserPermissions
+      operationId: setPartnerRecht
       description: |-
         Update permissions of a user.
 
@@ -364,7 +364,7 @@ paths:
         - europace_oauth2:
             - 'partner:rechte:schreiben'
       tags:
-        - partner
+        - Partner
       requestBody:
         content:
           application/json:
@@ -503,7 +503,7 @@ paths:
           - "partnerId" cannot be set and will be ignored.
           - Rights are set to false for persons if not specified.
       tags:
-        - partner
+        - Partner
       responses:
         '201':
           description: |-
@@ -597,8 +597,8 @@ paths:
         '404':
           description: Not Found
       tags:
-        - partner
-        - permissions
+        - Partner
+        - Rechte
   '/partner/{partnerId}/partnerkennzeichen':
     parameters:
       - schema:
@@ -609,7 +609,7 @@ paths:
         description: ID des Partners
     get:
       summary: get partner code
-      operationId: getPartnerCode
+      operationId: getPartnerkennzeichen
       description: |-
         The partner codes identify a sales organisation at a loan provider. The recorded values can be read out with this endpoint. The specific value for a loan provider will be delivered in the Antraege-API to him. This endpoint is for managing purpose.
 
@@ -620,7 +620,7 @@ paths:
         - europace_oauth2:
             - 'partner:plakette:lesen'
       tags:
-        - partner
+        - Partner
       responses:
         '200':
           description: |-
@@ -661,6 +661,11 @@ paths:
                     alteLeipzigerVerbundVermittlerNummer: '42'
                     rundvBankAgenturNummer: RV_BAN
                     rundvBlzVertriebsbank: RV_BLZ
+                    vertriebsOrganisation:
+                      name: "Vertriebsorganisation Name"
+                      firma: "Vertriebsorganisation Firma"
+                      vertriebsOrganisationsId: "VORGAID"
+                      partnerId: "ABC12"
         '401':
           description: Unauthorized
         '403':
@@ -677,10 +682,10 @@ paths:
         description: ID des Partners
     get:
       summary: get setting right
-      operationId: getSettingRight
+      operationId: getAdministrierbare
       tags:
-        - partner
-        - permissions
+        - Partner
+        - Rechte
       description: |-
         Returns all partners for which this partner is allowed to change the data and authorizations or retrieve the reporting.
 
@@ -722,10 +727,10 @@ paths:
           type: string
     get:
       summary: get access rights
-      operationId: getAccessRights
+      operationId: getUebernehmbare
       tags:
-        - partner
-        - permissions
+        - Partner
+        - Rechte
       description: |-
         The [Zugriffrecht](https://docs.api.europace.de/common/glossary/) entitles partners to read and write access to all [Vorgänge](https://docs.api.europace.de/common/glossary/) of another partner.
 
@@ -770,10 +775,10 @@ paths:
         description: 'Partner, auf den zugegriffenen werden soll'
     get:
       summary: check access right
-      operationId: checkAccessRight
+      operationId: getUebernahmeRechtFuer
       tags:
-        - partner
-        - permissions
+        - Partner
+        - Rechte
       description: |-
         Determines whether the partner is allowed to access the operations of another partner.
         Do I have access to Partner XYZ15?
@@ -811,10 +816,10 @@ paths:
           description: Not Found
     post:
       summary: add access right
-      operationId: addAccessRight
+      operationId: setUebernahmeRechtFuer
       tags:
-        - partner
-        - permissions
+        - Partner
+        - Rechte
       description: |
         Creates an access right to a partner.
 
@@ -847,7 +852,7 @@ paths:
     get:
       summary: get user access
       tags:
-        - partner
+        - Partner
       security:
         - europace_oauth2:
             - 'partner:plakette:lesen'
@@ -876,7 +881,7 @@ paths:
           description: Forbidden - no access
         '404':
           description: Not Found - partner does not exists
-      operationId: getUserAccess
+      operationId: getZugang
       description: |-
         Delivers the user access of a partner. 
         In the case of a person, the usernames are supplied. 
@@ -889,7 +894,7 @@ paths:
       summary: create user access
       tags:
         - partner
-      operationId: createUserAccess
+      operationId: createZugang
       security:
         - europace_oauth2:
             - 'partner:plakette:schreiben'
@@ -899,6 +904,7 @@ paths:
           schema:
             type: boolean
             default: false
+          required: false
           example: true
           description: 'If the benutzername is set, an email will be sent to the benutzername instructing him/her to assign a password.'
       responses:
@@ -1029,11 +1035,19 @@ paths:
         Requirements for use case 3:
         * No further
     patch:
-      summary: update user access
-      operationId: updateUserAccess
-      parameters: []
+      summary: Zugang bearbeiten
       tags:
-        - partner
+        - Partner
+      operationId: patchZugang
+      parameters:
+        - in: query
+          name: sendEmail
+          schema:
+            type: boolean
+            default: false
+          required: false
+          example: true
+          description: 'Wenn der Benutzername gesetzt ist, wird eine E-Mail an den Benutzernamen gesendet, um die Aktion zu bestätigen.'
       responses:
         '200':
           description: OK
@@ -1053,12 +1067,18 @@ paths:
         Restriction:
         * the field `benutzername` cannot be changed
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               type: object
               title: PatchZugang
               properties:
+                benutzername:
+                  type: string
+                  example: max.mustermann@email.de
+                  format: email
+                  description: 'Eine in Europace eindeutige Emailadresse, die als Identifikation des Benutzers verwendet wird. '
                 identityProviderBenutzername:
                   type: string
                   description: Benutzername für den IdentityProvider. Die Eindeutigkeit ist nicht relevant. Ist das Feld <null> wird der Benutzername für den Identity Provider verwendet.
@@ -1089,11 +1109,9 @@ components:
       description: Business card of the partner for trading partners
       properties:
         person:
-          oneOf:
-            - $ref: '#/components/schemas/Person'
+          $ref: '#/components/schemas/Person'
         organisation:
-          oneOf:
-            - $ref: '#/components/schemas/Organisation'
+          $ref: '#/components/schemas/Organisation'
         firmenName:
           type: string
           description: company name
@@ -1409,6 +1427,17 @@ components:
           type: string
         commerzbankVermittlerNummer:
           type: string
+        vertriebsOrganisation:
+          type: object
+          properties:
+            name:
+              type: string
+            firma:
+              type: string
+            vertriebsOrganisationsId:
+              type: string
+            partnerId:
+              type: string
     Paragraph34c:
       title: Paragraph34c
       type: object
