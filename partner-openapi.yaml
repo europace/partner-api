@@ -2,6 +2,7 @@ openapi: 3.0.3
 tags:
   - name: Partner
   - name: Rechte
+  - name: Handelsbeziehung
 info:
   title: partner-api
   version: v2.0
@@ -317,7 +318,6 @@ paths:
         - europace_oauth2:
             - 'partner:rechte:lesen'
       tags:
-        - Partner
         - Rechte
       responses:
         '200':
@@ -597,7 +597,6 @@ paths:
         '404':
           description: Not Found
       tags:
-        - Partner
         - Rechte
   '/partner/{partnerId}/partnerkennzeichen':
     parameters:
@@ -662,10 +661,10 @@ paths:
                     rundvBankAgenturNummer: RV_BAN
                     rundvBlzVertriebsbank: RV_BLZ
                     vertriebsOrganisation:
-                      name: "Vertriebsorganisation Name"
-                      firma: "Vertriebsorganisation Firma"
-                      vertriebsOrganisationsId: "VORGAID"
-                      partnerId: "ABC12"
+                      name: Vertriebsorganisation Name
+                      firma: Vertriebsorganisation Firma
+                      vertriebsOrganisationsId: VORGAID
+                      partnerId: ABC12
         '401':
           description: Unauthorized
         '403':
@@ -684,7 +683,6 @@ paths:
       summary: get setting right
       operationId: getAdministrierbare
       tags:
-        - Partner
         - Rechte
       description: |-
         Returns all partners for which this partner is allowed to change the data and authorizations or retrieve the reporting.
@@ -729,7 +727,6 @@ paths:
       summary: get access rights
       operationId: getUebernehmbare
       tags:
-        - Partner
         - Rechte
       description: |-
         The [Zugriffrecht](https://docs.api.europace.de/common/glossary/) entitles partners to read and write access to all [Vorgänge](https://docs.api.europace.de/common/glossary/) of another partner.
@@ -777,7 +774,6 @@ paths:
       summary: check access right
       operationId: getUebernahmeRechtFuer
       tags:
-        - Partner
         - Rechte
       description: |-
         Determines whether the partner is allowed to access the operations of another partner.
@@ -893,7 +889,7 @@ paths:
     post:
       summary: create user access
       tags:
-        - partner
+        - Partner
       operationId: createZugang
       security:
         - europace_oauth2:
@@ -1088,6 +1084,141 @@ paths:
                 value:
                   identityProviderBenutzername: maxi.muster
         description: ''
+  '/partner/{partnerId}/handelsbeziehung':
+    parameters:
+      - schema:
+          type: string
+          example: ABC12
+          minLength: 5
+          maxLength: 5
+        name: partnerId
+        in: path
+        required: true
+        description: partnerId of sales organization
+    get:
+      summary: get Handelsbeziehung
+      tags:
+        - Handelsbeziehung
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Handelsbeziehung'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Partner Not Found
+      operationId: getHandelsbeziehung
+      description: |
+        As administrator you can get a list of partners trade relations for review activities.
+        As advisor you can get a list of calculatable and/or acceptable loan providers.
+        With query params, the list is filterable.
+
+        Requirements:
+        - token has setting right to the partner
+      parameters:
+        - schema:
+            type: boolean
+          in: query
+          name: isErmittelnErlaubt
+          description: filter calculable loan providers
+        - schema:
+            type: boolean
+          in: query
+          name: isAnnehmenErlaubt
+          description: filter acceptable loan providers
+        - schema:
+            type: string
+          in: query
+          name: produktAnbieterId
+          description: filter one loan provider
+    post:
+      summary: add Handelsbeziehung
+      tags:
+        - Handelsbeziehung
+      operationId: addHandelsbeziehung
+      responses:
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Partner Not Found
+      description: |-
+        As administrator add an explicite trade relation between a sales organization and loan provider to manage it on subpartners.
+
+        Requirements:
+        - token has setting right to sales organization
+        - token has setting right to loan provider
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: partnerIdLoanProvider
+          description: partner of loan provider
+    put:
+      summary: set Handelsbeziehung
+      operationId: setHandelsbeziehung
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Handelsbeziehung'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Partner Not Found
+      description: |
+        As administrator you can set the details of one or a list of trade relations to permit or allow the calculation and/or acceptance of offers of the loan provider. The setting will be inherited to the subpartners.
+
+        Requirements:
+        - token has setting rights to the partner
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Handelsbeziehung'
+        description: With put-method you will overwrite all properties. Not specified values will be deleted.
+      tags:
+        - Handelsbeziehung
+    delete:
+      summary: delete Handelsbeziehung
+      operationId: deleteHandelsbeziehung
+      responses:
+        '204':
+          description: No Content
+      tags:
+        - Handelsbeziehung
+      description: |-
+        As administrator you can delete a trade relation to the opposite partner. The trade relation will be no more visible for adjustments of all subpartners of the sales organization.
+        Note: To delete an explicit setting of a trade relation, please use operation setHandelsbeziehung without setting details.
+
+        Requirements:
+        - token has setting right to sales organization
+        - token has setting right to loan provider
+        - if the partner is a sales organization the opposite partner must be a loan provider and vise versa.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: oppositePartnerId
+          description: partnerId of opposite partner
 components:
   securitySchemes:
     europace_oauth2:
@@ -1438,6 +1569,49 @@ components:
               type: string
             partnerId:
               type: string
+    Handelsbeziehung:
+      title: Handelsbeziehung
+      x-stoplight:
+        id: d3aw9dc6flh15
+      type: object
+      description: Trade relations are the base requirement to get offers from loan providers. They can be adjusted to see and accept an offer.
+      properties:
+        partnerId:
+          $ref: '#/components/schemas/PartnerId'
+        produktAnbieterId:
+          type: string
+          description: unique Europace identifier of loan provider
+          readOnly: true
+        isErmittelnErlaubt:
+          type: boolean
+          description: allow to calculate offer
+        isAnnehmenErlaubt:
+          type: boolean
+          description: allow to accept offer
+        state:
+          type: string
+          enum:
+            - set
+            - inherited
+          description: |-
+            state of trade relation
+            set=set on the partner
+            inherited=set on a partner above
+          readOnly: true
+        baufiVertriebsgruppe:
+          type: string
+          description: configuration for mortgage loan calculation
+          readOnly: true
+        ratenkreditVertriebsgruppe:
+          type: string
+          description: configuration for consumer loan calculation
+          readOnly: true
+        bausparVertriebsgruppe:
+          type: string
+          description: configuration for build soc saving loan calculation
+          readOnly: true
+      required:
+        - partnerId
     Paragraph34c:
       title: Paragraph34c
       type: object
