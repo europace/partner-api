@@ -893,7 +893,7 @@ paths:
     post:
       summary: create user access
       tags:
-        - partner
+        - Partner
       operationId: createZugang
       security:
         - europace_oauth2:
