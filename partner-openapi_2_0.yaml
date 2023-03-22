@@ -4,7 +4,7 @@ tags:
   - name: Rechte
 info:
   title: partner-api
-  version: v3.0
+  version: v2.0
   description: Europaces partner management allows organizations to map their own structure to give each partner or employee access and set rights.
   contact:
     name: Europace AG
@@ -12,7 +12,7 @@ info:
     email: info@europace.de
   termsOfService: 'https://docs.api.europace.de/nutzungsbedingungen/'
 servers:
-  - url: 'https://api.europace.de/v3'
+  - url: 'https://api.europace.de/v2'
     description: Produktion Server
 externalDocs:
   url: 'https://docs.api.europace.de/baufinanzierung/partner/partner-api/'
@@ -71,12 +71,6 @@ paths:
                       kontoinhaber: Immofin GmbH
                       bic: PBNKDEFFXXX
                       iban: DE94370100500040661506
-                    qualifikation:
-                      paragraph34d:
-                        registrierungsnummer: D-W-133-8B1Z-28
-                      paragraph34i:
-                        registrierungsnummer": D-W-7943497238942,
-                        aufsichtsbehoerde": 'IHK Berlin, Fasanenstr. 85, 10623 Berlin'
         '401':
           description: Unauthorized
         '403':
@@ -101,6 +95,7 @@ paths:
         ### Attributes that can be changed via PATCH
         - anrede
         - anschrift
+        - aufsichtsbehoerde
         - bankverbindung
         - email
         - externePartnerId
@@ -113,7 +108,7 @@ paths:
         - name
         - vorname
         - nachname
-        - qualifikation
+        - registrierungsnummer
         - telefonnummer
         - titelFunktion
         - webseite
@@ -160,12 +155,8 @@ paths:
                       kontoinhaber: Max Musterman
                       bic: BYLADEM1001
                       iban: DE02120300000000202051
-                    qualifikation:
-                      paragraph34d:
-                        registrierungsnummer: D-W-133-8B1Z-28
-                      paragraph34i:
-                        registrierungsnummer": D-W-7943497238942,
-                        aufsichtsbehoerde": 'IHK Berlin, Fasanenstr. 85, 10623 Berlin'
+                    aufsichtsbehoerde: Musterbehoerde
+                    registrierungsnummer: '987654'
         '400':
           description: Bad Request - Validation failed
           content:
@@ -216,12 +207,8 @@ paths:
                     bic: BYLADEM1001
                     iban: DE02120300000000202051
                     referenzFeld: Test Ref
-                  qualifikation:
-                    paragraph34d:
-                      registrierungsnummer: D-W-133-8B1Z-28
-                    paragraph34i:
-                      registrierungsnummer": D-W-7943497238942,
-                      aufsichtsbehoerde": 'IHK Berlin, Fasanenstr. 85, 10623 Berlin'
+                  aufsichtsbehoerde: Musterbehoerde
+                  registrierungsnummer: '987654'
         description: |-
           You only need to give the attributes, who have to change.
 
@@ -281,12 +268,9 @@ paths:
                       hausnummer: '69'
                       plz: '10557'
                       ort: Berlin
-                    qualifikation:
-                      paragraph34d:
-                        registrierungsnummer: D-W-133-8B1Z-28
-                      paragraph34i:
-                        registrierungsnummer": D-W-7943497238942,
-                        aufsichtsbehoerde": 'IHK Berlin, Fasanenstr. 85, 10623 Berlin'
+                    Paragraph34c:
+                      registrierungsNummer: D-W-7943497238942
+                      aufsichtsBehörde: 'IHK Berlin, Fasanenstr. 85, 10623 Berlin'
         '401':
           description: Unauthorized - Not signed in
           content:
@@ -445,7 +429,7 @@ paths:
         Creates a new partner as an organization or person, depending on the type.
 
         Creating a new partner is always done below an existing partner:
-        `https://api.europace.de/v3/partner/{PartnerId}/untergeordnete`
+        `https://api.europace.de/v2/partner/{PartnerId}/untergeordnete`
 
         Requirements:
         * OAuth token has scope `partner:plakette:anlegen`.
@@ -507,12 +491,8 @@ paths:
                     bic: BYLADEM1001
                     iban: DE02120300000000202051
                     referenzFeld: Test Ref
-                  qualifikation:
-                    paragraph34d:
-                      registrierungsnummer: D-W-133-8B1Z-28
-                    paragraph34i:
-                      registrierungsnummer": D-W-7943497238942,
-                      aufsichtsbehoerde": 'IHK Berlin, Fasanenstr. 85, 10623 Berlin'
+                  aufsichtsbehoerde: Musterbehoerde
+                  registrierungsnummer: '987654'
         description: |-
           The following rules apply to server-side evaluation:
 
@@ -570,12 +550,8 @@ paths:
                       bic: BYLADEM1001
                       iban: DE02120300000000202051
                       referenzFeld: Test Ref
-                    qualifikation:
-                      paragraph34d:
-                        registrierungsnummer: D-W-133-8B1Z-28
-                      paragraph34i:
-                        registrierungsnummer": D-W-7943497238942,
-                        aufsichtsbehoerde": 'IHK Berlin, Fasanenstr. 85, 10623 Berlin'
+                    aufsichtsbehoerde: Musterbehoerde
+                    registrierungsnummer: '987654'
           headers:
             Location:
               schema:
@@ -1156,8 +1132,8 @@ components:
           type: string
         anschrift:
           $ref: '#/components/schemas/Anschrift'
-        qualifikation:
-          $ref: '#/components/schemas/Qualifikation'
+        Paragraph34c:
+          $ref: '#/components/schemas/Paragraph34c'
     Plakette:
       type: object
       description: tree-element of organisational structure
@@ -1241,8 +1217,12 @@ components:
               $ref: '#/components/schemas/Anschrift'
             bankverbindung:
               $ref: '#/components/schemas/Bankverbindung'
-            qualifikation:
-              $ref: '#/components/schemas/Qualifikation'
+            aufsichtsbehoerde:
+              type: string
+              description: supervisor authority
+            registrierungsnummer:
+              type: string
+              description: supervisor auth register number
     Rechte:
       title: Rechte
       type: object
@@ -1458,38 +1438,19 @@ components:
               type: string
             partnerId:
               type: string
-    Paragraph34d:
-      title: Paragraph34d
-      type: object
-      description: Nachweisinformationen für die Zulassung zur Versicherungsvermittlung.
-      properties:
-        registrierungsnummer:
-          type: string
-          example: D-W-153-ULVY-65
-          description: registration number of supervisor authoritity
-    Paragraph34i:
-      title: Paragraph34i
+    Paragraph34c:
+      title: Paragraph34c
       type: object
       description: Nachweisinformationen für die Zulassung zur Baufinanzierungsberatung.
       properties:
-        registrierungsnummer:
+        registrierungsNummer:
           type: string
           example: D-W-153-ULVY-65
           description: registration number of supervisor authoritity
-        aufsichtsbehoerde:
+        aufsichtsBehörde:
           type: string
           example: 'IHK Berlin, Fasanenstraße 85, 10623 Berlin'
           description: supervisor authority
-    Qualifikation:
-      title: Qualifikation
-      type: object
-      description: Nachweisinformationen für die Zulassung zur Baufinanzierungsberatung.
-      properties:
-        paragraph34d:
-          $ref: '#/components/schemas/Paragraph34d'
-        paragraph34i:
-          $ref: '#/components/schemas/Paragraph34i'
-
     Typ:
       type: string
       enum:

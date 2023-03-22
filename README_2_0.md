@@ -1,10 +1,10 @@
-# Partner API
+# Partner API v2.0
+
+**Attention: You are not viewing the latest version. You can find the latest version [here](https://docs.api.europace.de/common/partner-settings/partner-api/).**
 
 The Partner API enables automation of Europace's user management. The partner management (settings) is used by Europace partners to map their own user and rights structure. 
 
 Partners can be users as well as organizations like companies, departments or teams. Each partner is created in the hierarchy tree as [Plakette](https://docs.api.europace.de/common/glossary/) of type [Person](https://docs.api.europace.de/common/glossary/) or [Organisation](https://docs.api.europace.de/common/glossary/).
-
-Note: Currently version 2.0 as well as version 3.0 are supported. The documentation for version 2.0 can be found [here](README_2_0.md).
 
 ---- 
 ![advisor](https://img.shields.io/badge/-advisor-lightblue)
@@ -13,13 +13,13 @@ Note: Currently version 2.0 as well as version 3.0 are supported. The documentat
 ![consumerLoan](https://img.shields.io/badge/-consumerLoan-lightblue)
 
 [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](https://docs.api.europace.de/baufinanzierung/authentifizierung/)
-[![GitHub release](https://img.shields.io/github/v/release/europace/partner-api)](https://github.com/europace/partner-api/releases)
+[![GitHub release](https://img.shields.io/github/v/release/europace/partner-api)](https://github.com/europace/partner-api/releases/tag/v2.0)
 
 [![Pattern](https://img.shields.io/badge/Pattern-Tolerant%20Reader-yellowgreen)](https://martinfowler.com/bliki/TolerantReader.html)
 
 ## Dokumentation
 [![YAML](https://img.shields.io/badge/OAS-HTML_Doc-lightblue)](https://europace.github.io/partner-api)
-[![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://github.com/europace/partner-api/blob/master/partner-openapi.yaml)
+[![YAML](https://img.shields.io/badge/OAS-YAML-lightgrey)](https://github.com/europace/partner-api/blob/master/partner-openapi_2_0.yaml)
 
 For translation of our german domain-specific-language the [glossary](https://docs.api.europace.de/common/glossary/) will support you.
 
@@ -70,7 +70,7 @@ and/or
 
 Example request: 
 ``` curl
-curl --location --request GET 'https://api.europace.de/v3/partner/ABC12/kontaktdaten' \
+curl --location --request GET 'https://api.europace.de/v2/partner/ABC12/kontaktdaten' \
 --header 'Content-Type: application/json' \
 --header 'X-TraceId: {{meineTraceId}}' \
 --header 'Authorization: Bearer {{access_token}}'
@@ -96,14 +96,9 @@ Example response Person:
         "plz": "10557",
         "ort": "Berlin"
     },
-    "qualifikation": {
-      "paragraph34d": {
-        "registrierungsnummer": "D-W-133-8B1Z-28"
-      }, 
-      "paragraph34i": {
-        "registrierungsnummer": "D-W-7943497238942",
-        "aufsichtsbehoerde": "IHK Berlin, Fasanenstr. 85, 10623 Berlin"
-      } 
+    "Paragraph34c": {
+        "registrierungsNummer": "D-W-7943497238942",
+        "aufsichtsBehörde": "IHK Berlin, Fasanenstr. 85, 10623 Berlin"
     }
 }
 ```
@@ -125,15 +120,10 @@ Example response Organisation:
         "plz": "10557",
         "ort": "Berlin"
     },
-    "qualifikation": {
-    "paragraph34d": {
-      "registrierungsnummer": "D-W-133-8B1Z-28"
-    },
-    "paragraph34i": {
-      "registrierungsnummer": "D-W-7943497238942",
-      "aufsichtsbehoerde": "IHK Berlin, Fasanenstr. 85, 10623 Berlin"
+    "Paragraph34c": {
+        "registrierungsNummer": "D-W-7943497238942",
+        "aufsichtsBehörde": "IHK Berlin, Fasanenstr. 85, 10623 Berlin"
     }
-  }
 }
 ```
 
@@ -145,7 +135,7 @@ Requirements:
 
 Example request: 
 ``` curl
-curl --location --request GET 'https://api.europace.de/v3/partner/ABC12/' \
+curl --location --request GET 'https://api.europace.de/v2/partner/ABC12/' \
 --header 'Content-Type: application/json' \
 --header 'X-TraceId: {{meineTraceId}}' \
 --header 'Authorization: Bearer {{access_token}}'
@@ -186,15 +176,8 @@ Example response:
       "iban":"DE02120300000000202051",
       "referenzFeld":"Test Ref"
    },
-   "qualifikation": {
-      "paragraph34d": {
-        "registrierungsnummer": "D-W-133-8B1Z-28"
-      },
-      "paragraph34i": {
-        "registrierungsnummer": "D-W-7943497238942",
-        "aufsichtsbehoerde": "IHK Berlin, Fasanenstr. 85, 10623 Berlin"
-      }
-   }
+   "aufsichtsbehoerde":"Musterbehoerde",
+   "registrierungsnummer":"987654"
 }
 ```
 
@@ -208,7 +191,7 @@ Requirements:
 
 Example request:
 ```http
-GET /v3/partner/ABC12/partnerkennzeichen HTTP/1.1
+GET /v2/partner/ABC12/partnerkennzeichen HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJ...
@@ -271,7 +254,7 @@ Requirements:
 
 Example request:
 ```http
-GET /v3/partner/ABC12/zugang HTTP/1.1
+GET /v2/partner/ABC12/zugang HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJWRDZZTk...
@@ -314,7 +297,7 @@ Requirements for all use cases and examples:
 
 Example request:
 ``` http
-GET /v3/partner/ABC12/rechte HTTP/1.1
+GET /v2/partner/ABC12/rechte HTTP/1.1
 Host: api.europace.de
 Authorization: Bearer eyJraWQ...
 ```
@@ -352,7 +335,7 @@ The [Zugriffrecht](https://docs.api.europace.de/common/glossary/) entitles partn
 
 Example request:
 ```http
-GET /v3/partner/ABC12/uebernehmbare HTTP/1.1
+GET /v2/partner/ABC12/uebernehmbare HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJ
@@ -378,7 +361,7 @@ Content-Type: application/json;charset=utf-8
 
 Example request:
 ```http
-GET /v3/partner/ABC12/uebernahmeRechtFuer/XYZ15 HTTP/1.1
+GET /v2/partner/ABC12/uebernahmeRechtFuer/XYZ15 HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOi...
@@ -416,7 +399,7 @@ Requirements:
 
 Example request:
 ```http
-GET /v3/partner/ABC12/administrierbare HTTP/1.1
+GET /v2/partner/ABC12/administrierbare HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJWRDZZTk...
@@ -441,7 +424,7 @@ Content-Type: application/json;charset=utf-8
 ## Create partner
 
 Creating a new partner is always done below an existing partner:
-`https://api.europace.de/v3/partner/{PartnerId}/untergeordnete`
+`https://api.europace.de/v2/partner/{PartnerId}/untergeordnete`
 
 Requirements:
 * OAuth token has scope `partner:plakette:anlegen`.
@@ -451,7 +434,7 @@ Requirements:
 
 Example request:
 ``` json 
-POST /v3/partner/ABC12/untergeordnete HTTP/1.1
+POST /v2/partner/ABC12/untergeordnete HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 X-Trace-Id: ff-request-2020-08-28-07-55
@@ -486,16 +469,8 @@ Content-Type: application/json
       "iban":"DE02120300000000202051",
       "referenzFeld":"Test Ref"
    },
-   "qualifikation": {
-      "paragraph34d": {
-        "registrierungsnummer": "D-W-133-8B1Z-28"
-      }, 
-      "paragraph34i": {
-        "registrierungsnummer": "D-W-7943497238942",
-        "aufsichtsbehoerde": "IHK Berlin, Fasanenstr. 85, 10623 Berlin"
-      } 
-  }
-
+   "aufsichtsbehoerde":"Musterbehoerde",
+   "registrierungsnummer":"987654"
 }
 ```
 
@@ -516,7 +491,7 @@ The HTTP header "Location" contains the url of the newly created partner.
 Example response:
 ``` json
 201 CREATED
-Location: https://api.europace2.de/v3/partner/ABC12
+Location: https://api.europace2.de/v2/partner/ABC12
 Content-Type: application/json;charset=utf-8
 
 {
@@ -550,15 +525,8 @@ Content-Type: application/json;charset=utf-8
       "iban":"DE02120300000000202051",
       "referenzFeld":"Test Ref"
    },
-   "qualifikation": {
-      "paragraph34d": {
-        "registrierungsnummer": "D-W-133-8B1Z-28"
-      }, 
-      "paragraph34i": {
-        "registrierungsnummer": "D-W-7943497238942",
-        "aufsichtsbehoerde": "IHK Berlin, Fasanenstr. 85, 10623 Berlin"
-      } 
-  }
+   "aufsichtsbehoerde":"Musterbehoerde",
+   "registrierungsnummer":"987654"
 }
 ```
 
@@ -583,6 +551,7 @@ To make changes to a partner, the caller needs Einstellungsrechte.
 
 - anrede
 - anschrift
+- aufsichtsbehoerde
 - bankverbindung
 - email
 - externePartnerId
@@ -595,7 +564,7 @@ To make changes to a partner, the caller needs Einstellungsrechte.
 - name
 - vorname
 - nachname
-- qualifikation
+- registrierungsnummer
 - telefonnummer
 - titelFunktion
 - webseite
@@ -607,7 +576,7 @@ Requirements:
 
 Example request:
 ``` json
-PATCH /v3/partner/ABC12 HTTP/1.1
+PATCH /v2/partner/ABC12 HTTP/1.1
 Host: api.europace.de
 Authorization: Bearer eyJraWQiOiJWRDZZ...
 Accept: application/json
@@ -642,15 +611,8 @@ Content-Type: application/json
       "iban":"DE02120300000000202051",
       "referenzFeld":"Test Ref"
    },
-   "qualifikation": {
-      "paragraph34d": {
-        "registrierungsnummer": "D-W-133-8B1Z-28"
-      }, 
-      "paragraph34i": {
-        "registrierungsnummer": "D-W-7943497238942",
-        "aufsichtsbehoerde": "IHK Berlin, Fasanenstr. 85, 10623 Berlin"
-      } 
-  }
+   "aufsichtsbehoerde":"Musterbehoerde",
+   "registrierungsnummer":"987654"
 }
 ```
 
@@ -704,15 +666,8 @@ Content-Type: application/json;charset=utf-8
       "bic":"BYLADEM1001",
       "iban":"DE02120300000000202051"
    },
-   "qualifikation": {
-      "paragraph34d": {
-          "registrierungsnummer": "D-W-133-8B1Z-28"
-      },
-      "paragraph34i": {
-          "registrierungsnummer": "D-W-7943497238942",
-          "aufsichtsbehoerde": "IHK Berlin, Fasanenstr. 85, 10623 Berlin"
-      }
-  }
+   "aufsichtsbehoerde":"Musterbehoerde",
+   "registrierungsnummer":"987654"
 }
 ```
 
@@ -739,7 +694,7 @@ Requirement for use case 1:
 
 Example request: 
 ```http
-POST /v3/partner/ABC12/zugang?sendEmail=true HTTP/1.1
+POST /v2/partner/ABC12/zugang?sendEmail=true HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJWRDZZTk...
@@ -774,7 +729,7 @@ Requirement for use case 2:
 
 Example request: 
 ```http
-POST /v3/partner/ABC12/zugang?sendEmail=false HTTP/1.1
+POST /v2/partner/ABC12/zugang?sendEmail=false HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJWRDZZTk...
@@ -807,7 +762,7 @@ Requirements for use case 3:
 
 Example request: 
 ```http
-POST /v3/partner/ABC12/zugang HTTP/1.1
+POST /v2/partner/ABC12/zugang HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJWRDZZTk...
@@ -838,7 +793,7 @@ Restriction:
 
 Example request: 
 ```http
-PATCH /v3/partner/ABC12/zugang HTTP/1.1
+PATCH /v2/partner/ABC12/zugang HTTP/1.1
 Host: api.europace.de
 Accept: application/json
 Authorization: Bearer eyJraWQiOiJWRDZZTk...
@@ -871,7 +826,7 @@ Requirements:
 
 Example request:
 ``` http
-POST /v3/partner/ABC12/rechte HTTP/1.1
+POST /v2/partner/ABC12/rechte HTTP/1.1
 Host: api.europace.de
 Authorization: Bearer eyJraWQ...
 
@@ -919,7 +874,7 @@ Requirements:
 
 Example request:
 ```http
-POST /v3/partner/ABC12/uebernahmeRechtFuer/XYZ56 HTTP/1.1
+POST /v2/partner/ABC12/uebernahmeRechtFuer/XYZ56 HTTP/1.1
 Host: api.europace.de
 X-Trace-Id: My-COLLECTION-8301
 Authorization: Bearer eyJraWQiOiJFT05...
