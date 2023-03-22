@@ -126,14 +126,14 @@ Example response Organisation:
         "ort": "Berlin"
     },
     "qualifikation": {
-    "paragraph34d": {
-      "registrierungsnummer": "D-W-133-8B1Z-28"
-    },
-    "paragraph34i": {
-      "registrierungsnummer": "D-W-7943497238942",
-      "aufsichtsbehoerde": "IHK Berlin, Fasanenstr. 85, 10623 Berlin"
+        "paragraph34d": {
+          "registrierungsnummer": "D-W-133-8B1Z-28"
+        },
+        "paragraph34i": {
+          "registrierungsnummer": "D-W-7943497238942",
+          "aufsichtsbehoerde": "IHK Berlin, Fasanenstr. 85, 10623 Berlin"
+        }
     }
-  }
 }
 ```
 
