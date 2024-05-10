@@ -133,7 +133,7 @@ Requirements:
 
 Example request: 
 ``` curl
-curl --location --request GET 'https://api.europace.de/v2/partner/ABC12/' \
+curl --location --request GET 'https://api.europace.de/v2/partner/ABC12' \
 --header 'Content-Type: application/json' \
 --header 'X-TraceId: {{meineTraceId}}' \
 --header 'Authorization: Bearer {{access_token}}'
