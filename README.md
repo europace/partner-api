@@ -21,8 +21,6 @@ Partners can be users as well as organizations like companies, departments or te
 
 For translation of our german domain-specific-language the [glossary](https://docs.api.europace.de/common/glossary/) will support you.
 
-Feedback and questions are welcome as [GitHub Issue](https://github.com/europace/partner-api/issues/new).
-
 ## Quick Start
 To help you test our APIs and your use case as quickly as possible, we've put together a [Postman Collection](https://docs.api.europace.de/baufinanzierung/quickstart/) for you. 
 
@@ -882,3 +880,7 @@ Example response:
 ```http
 201 Created
 ```
+
+## Support
+
+If you have any questions or problems, you can contact devsupport@europace2.de.
