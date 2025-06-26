@@ -177,6 +177,31 @@ Example response:
 }
 ```
 
+## Get license information for a partner
+
+Requirements:
+* OAuth token has scope `partner:rechte:lesen`
+
+Example request:
+```http
+GET /v2/partner/ABC12/lizenzen
+Host: api.europace.de
+Accept: application/json
+Authorization: Bearer eyJraWQiOiJ...
+X-TraceId: request-2020-08-28-07-59
+```
+
+Example response:
+```json
+{
+  "EuropaceOne": {
+    "aktiv": true,
+    "aktiviertSeit": "2025-02-01"
+  }
+}
+```
+
+
 ## Get partner-code
 
 [Partnerkennzeichen](https://docs.api.europace.de/common/glossary/) identify a [Vertriebsorganisation](https://docs.api.europace.de/common/glossary/) on the [Produktanbieter](https://docs.api.europace.de/common/glossary/)-side. 

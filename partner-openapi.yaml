@@ -759,6 +759,54 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+  /partner/{partnerId}/lizenzen:
+    get:
+      summary: get licenses of a partner
+      operationId: getPartnerLizenzen
+      description: |
+        Returns license information for a partner.
+        
+        A license reflects a premium feature that a partner may or may not have access to.
+        The endpoint returns all known licenses for the partner, regardless of whether they are currently active.
+        
+        Requirements:
+        * OAuth token has scope `partner:rechte:lesen`.
+        * Access to the partner must be permitted (e.g. via hierarchy or Einstellungsrecht).
+      security:
+        - europace_oauth2:
+            - 'partner:rechte:lesen'
+      tags:
+        - Partner
+        - Rechte
+      parameters:
+        - name: partnerId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the partner
+      responses:
+        '200':
+          description: Map of all licenses assigned to the partner.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lizenzen'
+              examples:
+                example:
+                  value:
+                    europaceOne:
+                      aktiv: true
+                      aktiviertSeit: '2024-08-01'
+                    premiumReporting:
+                      aktiv: false
+                      aktiviertSeit: '2023-06-01'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden - no access
+        '404':
+          description: Not Found - partner does not exist or no license data
   '/partner/{partnerId}/uebernahmeRechtFuer/{target}':
     parameters:
       - schema:
@@ -1234,19 +1282,15 @@ components:
           properties:
             apiClientEinstellungenVornehmen:
               type: boolean
-              default: false
               description: Allow to make API client settings
             einstellungenOeffnen:
               type: boolean
-              default: false
               description: Allow to open the settings-frontend
             baufiSmartEinstellungenVornehmen:
               type: boolean
-              default: false
               description: Allow to make changes on baufiSmart
             partnerAnlegen:
               type: boolean
-              default: false
               description: Allow to create partners
         baufismart:
           type: object
@@ -1254,23 +1298,18 @@ components:
           properties:
             baufiSmartNutzen:
               type: boolean
-              default: true
               description: Allow to use BaufiSmart
             echtgeschaeft:
               type: boolean
-              default: false
               description: 'Allow to use production-mode, not only test-mode'
             vorgaengeUeberOberflaecheAnlegen:
               type: boolean
-              default: true
               description: Allow to create BaufiSmart cases with UI
             ergebnisListeNutzen:
               type: boolean
-              default: false
               description: Allow to use offer-listings in BaufiSmart
             loeschen:
               type: boolean
-              default: false
               description: Allow to delete BaufiSmart cases and related data
         kreditsmart:
           type: object
@@ -1278,19 +1317,15 @@ components:
           properties:
             echtgeschaeft:
               type: boolean
-              default: false
               description: 'Allow to use production-mode, not only test-mode'
             kreditSmartSichtbar:
               type: boolean
-              default: false
               description: Allow to use KreditSmart
             versicherungAnbieten:
               type: boolean
-              default: false
               description: Allow to offer insurances
             vorgaengeUeberOberflaecheAnlegen:
               type: boolean
-              default: false
               description: Allow to create KreditSmart cases with UI
     Bankverbindung:
       title: bankverbindung
@@ -1308,8 +1343,6 @@ components:
           pattern: '(^.{0}$|[A-Z,0-9]{11,11})'
         iban:
           type: string
-          minLength: 22
-          maxLength: 22
     Anschrift:
       title: anschrift
       type: object
@@ -1323,8 +1356,6 @@ components:
           description: housenumber
         plz:
           type: string
-          minLength: 5
-          maxLength: 5
           description: zipcode
         ort:
           type: string
@@ -1525,6 +1556,22 @@ components:
           type: string
           description: name of the organisation
       description: 'organisation, team or company'
+    Lizenzen:
+      title: Lizenzen
+      type: object
+      description: Map of all known licenses for a partner
+      additionalProperties:
+        type: object
+        properties:
+          aktiv:
+            type: boolean
+            description: Whether the license is currently active
+          aktiviertSeit:
+            type: string
+            format: date
+            description: Date the license was first activated (ISO 8601)
+        required:
+          - aktiv
     Error:
       title: Error
       type: object
