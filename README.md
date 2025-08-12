@@ -177,13 +177,47 @@ Example response:
 }
 ```
 
+## Get partners by externe partner id
+
+Requirements:
+* OAuth token has scope `partner:plakette:lesen`.
+* To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
+
+Example request:
+```http request
+GET /v2/partners?externePartnerId=11111
+Accept: application/json
+Authorization: Bearer eyJraWQiOiJRM
+```
+
+Example response:
+```json
+{
+  "partners": [
+    {
+      "partnerId": "EDY92",
+      "href": "http://localhost:8080/v2/partner/EDY92"
+    },
+    {
+      "partnerId": "YRA59",
+      "href": "http://localhost:8080/v2/partner/YRA59"
+    },
+    {
+      "partnerId": "CUI17",
+      "href": "http://localhost:8080/v2/partner/CUI17"
+    }
+  ],
+  "total": 3
+}
+```
+
 ## Get license information for a partner
 
 Requirements:
 * OAuth token has scope `partner:rechte:lesen`
 
 Example request:
-```http
+```http request
 GET /v2/partner/ABC12/lizenzen
 Host: api.europace.de
 Accept: application/json
@@ -211,7 +245,7 @@ Requirements:
 * To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
 
 Example request:
-```http
+```http request
 GET /v2/partner/ABC12/partnerkennzeichen HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -223,10 +257,8 @@ Accept: application/json
 **Inherited values are therefore not delivered.** The inheritance of values of certain attributes along the hierarchy, which is known from the settings, is not reflected in the API. 
 
 Example response:
+Status: `200 OK`
 ```json
-200 OK
-Content-Type: application/json;charset=utf-8
-
 {
   "dslSapGeschaeftspartnerNummerFuerRatenkredit": "cdts-dsl-sap-vo",
   "dslVertriebsWegSchluesselFuerRatenkredit": "1899026629",
@@ -274,7 +306,7 @@ Requirements:
 * To access a partner, the caller basically needs permission to see it. This right exists if the retrieved partner is below the authenticated partner in the hierarchy or the Einstellungsrecht is assigned to the authenticated partner.
 
 Example request:
-```http
+```http request
 GET /v2/partner/ABC12/zugang HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -284,10 +316,8 @@ Content-Type: application/json
 ```
 
 Example response, for a partner authenticating to the Europace identity provider (Europace password):
+Status: `200 OK`
 ```json
-200 OK
-Content-Type: application/json;charset=utf-8
-
 {
     "partnerId": "ABC12",
     "status": "ZUGANG_REGISTRIERT",
@@ -296,10 +326,8 @@ Content-Type: application/json;charset=utf-8
 ```
 
 Example response, for a partner authenticating with its own identity provider (e.g. Actice Directory):
+Status: `200 OK`
 ```json
-200 OK
-Content-Type: application/json;charset=utf-8
-
 {
     "partnerId": "ABC12",
     "status": "ZUGANG_REGISTRIERT",
@@ -317,10 +345,10 @@ Requirements for all use cases and examples:
 ### Get user-permissions
 
 Example request:
-``` http
+```http request
 GET /v2/partner/ABC12/rechte HTTP/1.1
 Host: api.europace.de
-Authorization: Bearer eyJraWQ...
+Authorization: Bearer eyJraWQ
 ```
 
 Example response:
@@ -355,7 +383,7 @@ The [Zugriffrecht](https://docs.api.europace.de/common/glossary/) entitles partn
 #### Which partners do I have access to?
 
 Example request:
-```http
+```http request
 GET /v2/partner/ABC12/uebernehmbare HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -365,10 +393,8 @@ X-TraceId: ff-request-2020-08-28-07-59
 ```
 
 Example response:
+Status: `200 OK`
 ```json
-200 OK
-Content-Type: application/json;charset=utf-8
-
 { 
   "content": [ 
     { 
@@ -381,7 +407,7 @@ Content-Type: application/json;charset=utf-8
 #### Do I have access to Partner XYZ15?
 
 Example request:
-```http
+```http request
 GET /v2/partner/ABC12/uebernahmeRechtFuer/XYZ15 HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -391,10 +417,8 @@ X-TraceId: ff-request-2020-08-28-07-59
 ```
 
 Example response:
+Status: `200 OK`
 ```json
-200 OK
-Content-Type: application/json;charset=utf-8
-
 {
   "partner": {
     "partnerId": "XYZ15",
@@ -419,7 +443,7 @@ Requirements:
 #### Which partners can I manage?
 
 Example request:
-```http
+```http request
 GET /v2/partner/ABC12/administrierbare HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -430,9 +454,6 @@ Content-Type: application/json
 
 Example response:
 ```json
-200 OK
-Content-Type: application/json;charset=utf-8
-
 { 
   "content": [ 
     { 
@@ -454,7 +475,7 @@ Requirements:
 * Caller has [Einstellungsrechte](https://docs.api.europace.de/common/glossary/) on the partner under which the new partner is to be created
 
 Example request:
-``` json 
+```http request
 POST /v2/partner/ABC12/untergeordnete HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -510,11 +531,7 @@ This can be used for success control. Attributes that are set on the server side
 The HTTP header "Location" contains the url of the newly created partner.
 
 Example response:
-``` json
-201 CREATED
-Location: https://api.europace2.de/v2/partner/ABC12
-Content-Type: application/json;charset=utf-8
-
+```json
 {
    "partnerId": "ABC12",
    "typ": "PERSON",
@@ -596,7 +613,7 @@ Requirements:
 * Caller has Einstellungsrechte on the partner
 
 Example request:
-``` json
+```http request
 PATCH /v2/partner/ABC12 HTTP/1.1
 Host: api.europace.de
 Authorization: Bearer eyJraWQiOiJWRDZZ...
@@ -650,9 +667,6 @@ This can be used for success control. Attributes that were already set or for wh
 
 Example response:
 ```json
-200 OK
-Content-Type: application/json;charset=utf-8
-
 {
    "partnerId":"ABC12",
    "vorname":"Max",
@@ -714,7 +728,7 @@ Requirement for use case 1:
 * the username is an e-mail address
 
 Example request: 
-```http
+```http request
 POST /v2/partner/ABC12/zugang?sendEmail=true HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -729,7 +743,6 @@ Content-Type: application/json
 
 Example response:
 ```json
-HTTP-Code: 201 created
 {
     "partnerId": "ABC12",
     "status": "ZUGANG_UNBESTAETIGT",
@@ -749,7 +762,7 @@ Requirement for use case 2:
 * the username is an e-mail address
 
 Example request: 
-```http
+```http request
 POST /v2/partner/ABC12/zugang?sendEmail=false HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -764,7 +777,6 @@ Content-Type: application/json
 
 Example response:
 ```json
-HTTP-Code: 201 created
 {
     "partnerId": "ABC12",
     "status": "ZUGANG_REGISTRIERT",
@@ -782,7 +794,7 @@ Requirements for use case 3:
 * No further
 
 Example request: 
-```http
+```http request
 POST /v2/partner/ABC12/zugang HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -796,8 +808,8 @@ Content-Type: application/json
 ```
 
 Example response:
+Status: `HTTP-Code: 201 created`
 ```json
-HTTP-Code: 201 created
 {
     "partnerId": "ABC12",
     "status": "ZUGANG_REGISTRIERT",
@@ -813,7 +825,7 @@ Restriction:
 * the field `benutzername` cannot be changed
 
 Example request: 
-```http
+```http request
 PATCH /v2/partner/ABC12/zugang HTTP/1.1
 Host: api.europace.de
 Accept: application/json
@@ -827,8 +839,8 @@ Content-Type: application/json
 ```
 
 Example response:
+Status: `HTTP-Code: 200 okay`
 ```json
-HTTP-Code: 200 okay
 {
     "partnerId": "ABC12",
     "status": "ZUGANG_REGISTRIERT",
@@ -846,7 +858,7 @@ Requirements:
 * Caller has a [Einstellungsrecht](https://docs.api.europace.de/common/glossary/) on the partner
 
 Example request:
-``` http
+``` http request
 POST /v2/partner/ABC12/rechte HTTP/1.1
 Host: api.europace.de
 Authorization: Bearer eyJraWQ...
@@ -894,7 +906,7 @@ Requirements:
 * Caller has Einstellungsrecht on the partner to which the access is granted
 
 Example request:
-```http
+```http request
 POST /v2/partner/ABC12/uebernahmeRechtFuer/XYZ56 HTTP/1.1
 Host: api.europace.de
 X-Trace-Id: My-COLLECTION-8301
@@ -902,9 +914,7 @@ Authorization: Bearer eyJraWQiOiJFT05...
 ```
 
 Example response:
-```http
-201 Created
-```
+Status: `HTTP-Code: 201 created`
 
 ## Support
 
