@@ -19,74 +19,54 @@ externalDocs:
 paths:
   '/partners':
     parameters:
-      - name: externePartnerId
+      - schema:
+          type: string
+        name: externePartnerId
         in: query
         required: true
-        schema:
-          type: string
         description: |
-          Externally assigned partner identifier to search for (e.g., from CRM/SAP).
-          Matching is **exact** and **case-sensitive**; leading/trailing whitespace is ignored.
-          If no partner is found or none are visible to the requester, an empty list is returned.
+          External partner ID to search for. If the partner is found, it is returned.
+          If no partner is found, an empty list is returned.
     get:
-      summary: Get partners by `externePartnerId`
+      summary: get partners by external ID
       operationId: getPartnersByExternePartnerId
       description: |
-        Returns partner references for partners matching the given `externePartnerId`.
+        Returns a partner by its external ID.
 
         Requirements:
         * OAuth token has scope `partner:plakette:lesen`.
-        * Only partners the requester may access (via hierarchy or Einstellungsrecht) are returned.
-      tags:
-        - Partner
       security:
         - europace_oauth2:
             - 'partner:plakette:lesen'
       responses:
         '200':
-          description: Matching partners visible to the requester.
+          description: |
+            Returns a list of partners with the given external ID.
+            If no partner is found, an empty list is returned.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Partners'
               examples:
-                oneMatch:
+                Partners:
                   value:
-                    total: 1
-                    partners:
-                      - partnerId: SZY92
-                        href: https://api.europace.de/v2/partner/SZY92
-                multipleMatches:
-                  value:
-                    total: 2
-                    partners:
-                      - partnerId: ABC12
-                        href: https://api.europace.de/v2/partner/ABC12
-                      - partnerId: XYZ34
-                        href: https://api.europace.de/v2/partner/XYZ34
-                noMatchOrNoAccess:
-                  value:
-                    total: 0
-                    partners: []
+                    {
+                      "total": 1,
+                      "partners": [
+                        {
+                          "partnerId": "SZY92",
+                          "href": "https://api.europace.de/v2/partner/SZY92"
+                        }
+                      ]
+                    }
         '400':
-          description: Bad Request – missing or invalid `externePartnerId`.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              examples:
-                missingParam:
-                  value:
-                    message: "Missing required query parameter: externePartnerId"
-                    traceId: "ff-request-2025-08-11-10-15"
+          description: Bad Request
         '401':
-          description: Unauthorized – access token missing or invalid.
+          description: Unauthorized
         '403':
-          description: Forbidden – token valid but scope or access insufficient.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          description: Forbidden
+      tags:
+        - Partner
   '/partner/{partnerId}':
     parameters:
       - schema:
@@ -1310,7 +1290,7 @@ components:
               description: gender
             geburtsdatum:
               type: string
-              format: date
+              pattern: '^$|^\d{4}-\d{2}-\d{2}$'
               description: 'birthday, ISO-8601 Calender extended(YYYY-MM-DD) format.'
               example: '1980-12-11'
             telefonnummer:
@@ -1663,13 +1643,13 @@ components:
       type: object
       description: List of partner links
       properties:
+        total:
+          type: integer
+          description: Total number of partners in the list
         partners:
           type: array
           items:
             $ref: '#/components/schemas/PartnerHref'
-        total:
-          type: integer
-          description: Total number of partners in the list
     Error:
       title: Error
       type: object
