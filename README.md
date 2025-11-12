@@ -137,7 +137,7 @@ curl --location --request GET 'https://api.europace.de/v2/partner/ABC12' \
 --header 'Authorization: Bearer {{access_token}}'
 ```
 
-The inheritance of values of certain attributes along the hierarchy, which is known from the settings, is not reflected in the API. **Inherited values are therefore not delivered.**
+The inheritance of values of certain attributes along the hierarchy, which is known from the settings, is reflected in the API. **Inherited values are therefore delivered.**
 
 Example response: 
 ```json
