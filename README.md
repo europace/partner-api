@@ -228,7 +228,7 @@ X-TraceId: request-2020-08-28-07-59
 Example response:
 ```json
 {
-  "EuropaceOne": {
+  "EUROPACE_ONE": {
     "aktiv": true,
     "aktiviertSeit": "2025-02-01"
   }

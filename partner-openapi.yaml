@@ -845,10 +845,10 @@ paths:
               examples:
                 example:
                   value:
-                    europaceOne:
+                    EUROPACE_ONE:
                       aktiv: true
                       aktiviertSeit: '2024-08-01'
-                    premiumReporting:
+                    EUROPACE_INTEGRAL:
                       aktiv: false
                       aktiviertSeit: '2023-06-01'
         '401':
