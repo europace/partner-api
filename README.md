@@ -173,7 +173,17 @@ Example response:
       "referenzFeld":"Test Ref"
    },
    "aufsichtsbehoerde":"Musterbehoerde",
-   "registrierungsnummer":"987654"
+   "registrierungsnummer":"987654", 
+   "taetigFuerProduktanbieter": [
+     {
+      "produktAnbieterId": "ONE_CLICK_BAUFI",
+      "produktAnbieter": "Sofortzusage-Bank"
+    },
+    {
+      "produktAnbieterId": "PILOT",
+      "produktAnbieter": "Pilotproduktanbieter"
+    }
+  ]
 }
 ```
 

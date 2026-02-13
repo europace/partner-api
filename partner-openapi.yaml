@@ -1321,6 +1321,25 @@ components:
             registrierungsnummer:
               type: string
               description: supervisor auth register number
+            taetigFuerProduktanbieter:
+              type: array
+              description: List of product providers this partner works for. Empty array if none assigned.
+              items:
+                $ref: '#/components/schemas/TaetigFuerProduktanbieter'
+    TaetigFuerProduktanbieter:
+      type: object
+      properties:
+        produktAnbieterId:
+          type: string
+          example: CAR18
+          description: Technical identifier for the product provider
+        produktAnbieter:
+          type: string
+          example: Example Bank AG
+          description: Display name for the product provider
+      required:
+        - produktAnbieterId
+        - produktAnbieter
     Rechte:
       title: Rechte
       type: object
