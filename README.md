@@ -45,13 +45,13 @@ Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](h
 - [Get partner-code](#get-partner-code)
 - [Get user-access](#get-user-access)
 - [Get partner-permissions](#get-partner-permissions)
-- [Get trade relations](#get-trade-relations)
+- [Get trade relations](#get-trade-relations) _(experimental)_
 ### manage partner
 - [Create partner](#create-partner)
 - [Update partner data](#update-partner-data)
 - [Create or update user-access](#create-or-update-user-access)
 - [Update partner-permissions](#update-partner-permissions)
-- [Update trade relation](#update-trade-relation)
+- [Update trade relation](#update-trade-relation) _(experimental)_
 
 
 ## Get contact details of a partner 
@@ -478,7 +478,11 @@ Example response:
 
 ## Get trade relations
 
-[Handelsbeziehungen](https://docs.api.europace.de/common/glossary/) describe for which [Produktanbieter](https://docs.api.europace.de/common/glossary/) a partner may determine offers (`ermittelbar`) and accept offers (`annehmbar`).
+> **Experimental**
+>
+> This API is experimental and may change or be removed without notice. Do not rely on it for production use yet.
+
+[Handelsbeziehungen](https://docs.api.europace.de/common/glossary/) describe the business relationship between a partner and a [Produktanbieter](https://docs.api.europace.de/common/glossary/): whether business may be initiated with the product provider (`ermittelbar`) and whether business may be accepted from it (`annehmbar`).
 
 The visible effective trade relations are returned. The inheritance of these values along the hierarchy, which is known from the settings, is reflected in the returned effective values.
 
@@ -995,10 +999,14 @@ Status: `HTTP-Code: 201 created`
 
 ## Update trade relation
 
+> **Experimental**
+>
+> This API is experimental and may change or be removed without notice. Do not rely on it for production use yet.
+
 An existing trade relation for a partner and [Produktanbieter](https://docs.api.europace.de/common/glossary/) can be modified using HTTP PATCH.
 Only the transmitted fields are updated. All other fields are not changed.
 
-Sending both `ermittelbar` and `annehmbar` as `null` restores the inheritance of the trade relation along the hierarchy.
+Values for `ermittelbar` and `annehmbar` can be `true`, `false`, or `null`. Sending both attributes as `null` restores the inheritance of the trade relation along the hierarchy (see below).
 
 Requirements:
 * OAuth token has the scope `partner:beziehungen:schreiben`.
@@ -1037,8 +1045,18 @@ To restore the inheritance of the trade relation, send both attributes as `null`
 }
 ```
 
-Restoring inheritance only works when there is an inherited value from a partner higher up in the hierarchy. If there is no inheritance state to restore, the request is rejected:
+Restoring inheritance is only supported when the trade relation currently has values maintained directly on the partner. If the trade relation is already inheriting its values, there is nothing to restore and the request is rejected:
 Status: `422 Unprocessable Entity`
+
+Inheritance can only be restored fully. A request that sets exactly one of `ermittelbar` and `annehmbar` to `null` while the other contains a value, e.g.:
+```json
+{
+    "ermittelbar": null,
+    "annehmbar": true
+}
+```
+is rejected:
+Status: `400 Bad Request`
 
 ## Support
 
