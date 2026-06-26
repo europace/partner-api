@@ -1037,6 +1037,9 @@ To restore the inheritance of the trade relation, send both attributes as `null`
 }
 ```
 
+Restoring inheritance only works when there is an inherited value from a partner higher up in the hierarchy. If there is no inheritance state to restore, the request is rejected:
+Status: `422 Unprocessable Entity`
+
 ## Support
 
 If you have any questions or problems, you can contact devsupport@europace2.de.

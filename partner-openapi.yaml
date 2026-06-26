@@ -895,6 +895,8 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+        '422':
+          description: Unprocessable Entity - inheritance cannot be restored because there is no inherited value from a partner higher up in the hierarchy.
         '429':
           description: Too Many Requests
         '500':
