@@ -92,7 +92,7 @@ paths:
           description: |
             Different data structures are supplied depending on the type (person, organization).
 
-            **Inherited values are therefore not delivered.** The inheritance of values of certain attributes along thehierarchy, which is known from the settings-frontend, is not reflected in the API.
+            **Inherited values are therefore not delivered.** The inheritance of values of certain attributes along thehierarchy, which is known from the settings-frontend, is not reflected in the API. 
           content:
             application/json:
               schema:
@@ -676,7 +676,7 @@ paths:
           description: |-
             List with partner codes.
 
-            **Inherited values are therefore not delivered.** The inheritance of values of certain attributes along the hierarchy, which is known from the settings, is not reflected in the API.
+            **Inherited values are therefore not delivered.** The inheritance of values of certain attributes along the hierarchy, which is known from the settings, is not reflected in the API. 
           content:
             application/json:
               schema:
@@ -767,6 +767,138 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+  '/partner/{partnerId}/handelsbeziehungen':
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+        description: ID of the partner
+    get:
+      summary: get trade relations
+      operationId: getHandelsbeziehungen
+      description: |
+        Returns the visible effective trade relations for a partner node.
+
+        Requirements:
+        * OAuth token has scope `partner:beziehungen:lesen`.
+      security:
+        - europace_oauth2:
+            - 'partner:beziehungen:lesen'
+      tags:
+        - Partner
+      responses:
+        '200':
+          description: Trade relations for the partner.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Handelsbeziehungen'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+        '500':
+          description: Internal Server Error
+  '/partner/{partnerId}/handelsbeziehungen/{produktanbieterId}':
+    parameters:
+      - schema:
+          type: string
+        name: partnerId
+        in: path
+        required: true
+        description: ID of the partner
+      - schema:
+          type: string
+        name: produktanbieterId
+        in: path
+        required: true
+        description: ID of the product provider
+    get:
+      summary: get a trade relation
+      operationId: getHandelsbeziehung
+      description: |
+        Returns a single visible effective trade relation for a partner node and product provider.
+
+        Requirements:
+        * OAuth token has scope `partner:beziehungen:lesen`.
+      security:
+        - europace_oauth2:
+            - 'partner:beziehungen:lesen'
+      tags:
+        - Partner
+      responses:
+        '200':
+          description: Trade relation for the partner and product provider.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Handelsbeziehung'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+        '500':
+          description: Internal Server Error
+    patch:
+      summary: update a trade relation
+      operationId: patchHandelsbeziehung
+      description: |
+        Updates an existing trade relation for a partner node and product provider.
+
+        Only transmitted fields are updated. Sending both `ermittelbar` and `annehmbar` as `null` restores inheritance for the trade relation.
+
+        Requirements:
+        * OAuth token has scope `partner:beziehungen:schreiben`.
+      security:
+        - europace_oauth2:
+            - 'partner:beziehungen:schreiben'
+      tags:
+        - Partner
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+            examples:
+              directValues:
+                value:
+                  ermittelbar: true
+                  annehmbar: false
+              restoreInheritance:
+                value:
+                  ermittelbar: null
+                  annehmbar: null
+      responses:
+        '200':
+          description: Updated trade relation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Handelsbeziehung'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+        '500':
+          description: Internal Server Error
   '/partner/{partnerId}/uebernehmbare':
     parameters:
       - name: partnerId
@@ -1193,6 +1325,40 @@ components:
       scheme: bearer
       description: ''
   schemas:
+    Handelsbeziehung:
+      type: object
+      properties:
+        produktanbieterId:
+          type: string
+          description: ID of the product provider.
+        produktanbieterName:
+          type: string
+          description: Display name of the product provider.
+        ermittelbar:
+          type: boolean
+          description: Whether the trade relation is determinable.
+        annehmbar:
+          type: boolean
+          description: Whether the trade relation is acceptable.
+      required:
+        - produktanbieterId
+        - produktanbieterName
+        - ermittelbar
+        - annehmbar
+    Handelsbeziehungen:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int32
+          description: Number of returned trade relations.
+        handelsbeziehungen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Handelsbeziehung'
+      required:
+        - total
+        - handelsbeziehungen
     PartnerId:
       type: object
       properties:
@@ -1409,7 +1575,7 @@ components:
           description: account owner
         bic:
           type: string
-          pattern: '(^.{0}$|[A-Z,0-9]{11,11})'
+          pattern: '(^.{0}$|[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?)'
         iban:
           type: string
     Anschrift:

@@ -32,7 +32,8 @@ Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](h
 | ` partner:plakette:anlegen `           |   Allows to create new [Plaketten](https://docs.api.europace.de/common/glossary/)|
 | ` partner:plakette:lesen `             |   Allows to read partner data                                    |
 | ` partner:plakette:schreiben `         |   Allows to write partner data                                   |
-| ` partner:beziehungen:lesen `          |   Allows to read relations between partners. Allows to retrieve UebernahmeRecht, Administrierbare and Uebernehmbare  |
+| ` partner:beziehungen:lesen `          |   Allows to read relations between partners. Allows to retrieve UebernahmeRecht, Administrierbare, Uebernehmbare and Handelsbeziehungen  |
+| ` partner:beziehungen:schreiben `      |   Allows to write relations between partners. Allows to add UebernahmeRecht and update Handelsbeziehungen  |
 | ` partner:rechte:lesen `               |   Allows to read partner rights                                  |
 | ` partner:rechte:schreiben `           |   Allows to write partner rights                                 |
 
@@ -44,11 +45,13 @@ Please use [![Authentication](https://img.shields.io/badge/Auth-OAuth2-green)](h
 - [Get partner-code](#get-partner-code)
 - [Get user-access](#get-user-access)
 - [Get partner-permissions](#get-partner-permissions)
+- [Get trade relations](#get-trade-relations)
 ### manage partner
 - [Create partner](#create-partner)
 - [Update partner data](#update-partner-data)
 - [Create or update user-access](#create-or-update-user-access)
 - [Update partner-permissions](#update-partner-permissions)
+- [Update trade relation](#update-trade-relation)
 
 
 ## Get contact details of a partner 
@@ -470,6 +473,70 @@ Example response:
       "partnerId":"XYZ15" 
     } 
   ]
+}
+```
+
+## Get trade relations
+
+[Handelsbeziehungen](https://docs.api.europace.de/common/glossary/) describe for which [Produktanbieter](https://docs.api.europace.de/common/glossary/) a partner may determine offers (`ermittelbar`) and accept offers (`annehmbar`).
+
+The visible effective trade relations are returned. The inheritance of these values along the hierarchy, which is known from the settings, is reflected in the returned effective values.
+
+Requirements:
+* OAuth token has scope `partner:beziehungen:lesen`.
+
+### Get all trade relations of a partner
+
+Example request:
+```http request
+GET /v2/partner/ABC12/handelsbeziehungen HTTP/1.1
+Host: api.europace.de
+Accept: application/json
+Authorization: Bearer eyJraWQiOiJ...
+X-TraceId: ff-request-2020-08-28-07-59
+```
+
+Example response:
+Status: `200 OK`
+```json
+{
+  "total": 2,
+  "handelsbeziehungen": [
+    {
+      "produktanbieterId": "ONE_CLICK_BAUFI",
+      "produktanbieterName": "Sofortzusage-Bank",
+      "ermittelbar": true,
+      "annehmbar": false
+    },
+    {
+      "produktanbieterId": "PILOT",
+      "produktanbieterName": "Pilotproduktanbieter",
+      "ermittelbar": true,
+      "annehmbar": true
+    }
+  ]
+}
+```
+
+### Get a single trade relation
+
+Example request:
+```http request
+GET /v2/partner/ABC12/handelsbeziehungen/ONE_CLICK_BAUFI HTTP/1.1
+Host: api.europace.de
+Accept: application/json
+Authorization: Bearer eyJraWQiOiJ...
+X-TraceId: ff-request-2020-08-28-07-59
+```
+
+Example response:
+Status: `200 OK`
+```json
+{
+  "produktanbieterId": "ONE_CLICK_BAUFI",
+  "produktanbieterName": "Sofortzusage-Bank",
+  "ermittelbar": true,
+  "annehmbar": false
 }
 ```
 
@@ -925,6 +992,50 @@ Authorization: Bearer eyJraWQiOiJFT05...
 
 Example response:
 Status: `HTTP-Code: 201 created`
+
+## Update trade relation
+
+An existing trade relation for a partner and [Produktanbieter](https://docs.api.europace.de/common/glossary/) can be modified using HTTP PATCH.
+Only the transmitted fields are updated. All other fields are not changed.
+
+Sending both `ermittelbar` and `annehmbar` as `null` restores the inheritance of the trade relation along the hierarchy.
+
+Requirements:
+* OAuth token has the scope `partner:beziehungen:schreiben`.
+
+Example request:
+```http request
+PATCH /v2/partner/ABC12/handelsbeziehungen/ONE_CLICK_BAUFI HTTP/1.1
+Host: api.europace.de
+Accept: application/json
+Authorization: Bearer eyJraWQiOiJ...
+X-TraceId: ff-request-2020-08-28-07-59
+Content-Type: application/json
+
+{
+    "ermittelbar": true,
+    "annehmbar": false
+}
+```
+
+Example response:
+Status: `200 OK`
+```json
+{
+  "produktanbieterId": "ONE_CLICK_BAUFI",
+  "produktanbieterName": "Sofortzusage-Bank",
+  "ermittelbar": true,
+  "annehmbar": false
+}
+```
+
+To restore the inheritance of the trade relation, send both attributes as `null`:
+```json
+{
+    "ermittelbar": null,
+    "annehmbar": null
+}
+```
 
 ## Support
 
