@@ -176,7 +176,11 @@ Example response:
       "referenzFeld":"Test Ref"
    },
    "aufsichtsbehoerde":"Musterbehoerde",
-   "registrierungsnummer":"987654", 
+   "registrierungsnummer":"987654",
+   "aufsichtsbehoerde34i":"Musterbehoerde",
+   "registrierungsnummer34i":"987654",
+   "aufsichtsbehoerde34k":"Musterbehoerde 34k",
+   "registrierungsnummer34k":"123456",
    "taetigFuerProduktanbieter": [
      {
       "produktAnbieterId": "ONE_CLICK_BAUFI",
@@ -592,8 +596,10 @@ Content-Type: application/json
       "iban":"DE02120300000000202051",
       "referenzFeld":"Test Ref"
    },
-   "aufsichtsbehoerde":"Musterbehoerde",
-   "registrierungsnummer":"987654"
+   "aufsichtsbehoerde34i":"Musterbehoerde",
+   "registrierungsnummer34i":"987654",
+   "aufsichtsbehoerde34k":"Musterbehoerde 34k",
+   "registrierungsnummer34k":"123456"
 }
 ```
 
@@ -645,7 +651,11 @@ Example response:
       "referenzFeld":"Test Ref"
    },
    "aufsichtsbehoerde":"Musterbehoerde",
-   "registrierungsnummer":"987654"
+   "registrierungsnummer":"987654",
+   "aufsichtsbehoerde34i":"Musterbehoerde",
+   "registrierungsnummer34i":"987654",
+   "aufsichtsbehoerde34k":"Musterbehoerde 34k",
+   "registrierungsnummer34k":"123456"
 }
 ```
 
@@ -670,7 +680,9 @@ To make changes to a partner, the caller needs Einstellungsrechte.
 
 - anrede
 - anschrift
-- aufsichtsbehoerde
+- aufsichtsbehoerde (deprecated, use `aufsichtsbehoerde34i`)
+- aufsichtsbehoerde34i
+- aufsichtsbehoerde34k
 - bankverbindung
 - email
 - externePartnerId
@@ -683,10 +695,24 @@ To make changes to a partner, the caller needs Einstellungsrechte.
 - name
 - vorname
 - nachname
-- registrierungsnummer
+- registrierungsnummer (deprecated, use `registrierungsnummer34i`)
+- registrierungsnummer34i
+- registrierungsnummer34k
 - telefonnummer
 - titelFunktion
 - webseite
+
+> **Note**
+>
+> `aufsichtsbehoerde` and `registrierungsnummer` hold the data of the Gewerbeerlaubnis according to
+> § 34i GewO (Immobiliardarlehensvermittlung). They are superseded by the explicit fields
+> `aufsichtsbehoerde34i` / `registrierungsnummer34i`, which read and write the same values and remain
+> interchangeable with them. If both a deprecated field and its `...34i` counterpart are sent in one
+> request, the `...34i` value is applied.
+>
+> `aufsichtsbehoerde34k` and `registrierungsnummer34k` hold the data of the Gewerbeerlaubnis according
+> to § 34k GewO (Honorar-Immobiliendarlehensberatung). All four fields can be maintained independently
+> of each other.
 
 ### Example
 Requirements:
@@ -730,8 +756,10 @@ Content-Type: application/json
       "iban":"DE02120300000000202051",
       "referenzFeld":"Test Ref"
    },
-   "aufsichtsbehoerde":"Musterbehoerde",
-   "registrierungsnummer":"987654"
+   "aufsichtsbehoerde34i":"Musterbehoerde",
+   "registrierungsnummer34i":"987654",
+   "aufsichtsbehoerde34k":"Musterbehoerde 34k",
+   "registrierungsnummer34k":"123456"
 }
 ```
 
@@ -783,7 +811,11 @@ Example response:
       "iban":"DE02120300000000202051"
    },
    "aufsichtsbehoerde":"Musterbehoerde",
-   "registrierungsnummer":"987654"
+   "registrierungsnummer":"987654",
+   "aufsichtsbehoerde34i":"Musterbehoerde",
+   "registrierungsnummer34i":"987654",
+   "aufsichtsbehoerde34k":"Musterbehoerde 34k",
+   "registrierungsnummer34k":"123456"
 }
 ```
 

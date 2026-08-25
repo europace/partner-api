@@ -145,7 +145,9 @@ paths:
         ### Attributes that can be changed via PATCH
         - anrede
         - anschrift
-        - aufsichtsbehoerde
+        - aufsichtsbehoerde (deprecated, use aufsichtsbehoerde34i)
+        - aufsichtsbehoerde34i
+        - aufsichtsbehoerde34k
         - bankverbindung
         - email
         - externePartnerId
@@ -158,7 +160,9 @@ paths:
         - name
         - vorname
         - nachname
-        - registrierungsnummer
+        - registrierungsnummer (deprecated, use registrierungsnummer34i)
+        - registrierungsnummer34i
+        - registrierungsnummer34k
         - telefonnummer
         - titelFunktion
         - webseite
@@ -207,6 +211,10 @@ paths:
                       iban: DE02120300000000202051
                     aufsichtsbehoerde: Musterbehoerde
                     registrierungsnummer: '987654'
+                    aufsichtsbehoerde34i: Musterbehoerde
+                    registrierungsnummer34i: '987654'
+                    aufsichtsbehoerde34k: Musterbehoerde 34k
+                    registrierungsnummer34k: '123456'
         '400':
           description: Bad Request - Validation failed
           content:
@@ -257,8 +265,10 @@ paths:
                     bic: BYLADEM1001
                     iban: DE02120300000000202051
                     referenzFeld: Test Ref
-                  aufsichtsbehoerde: Musterbehoerde
-                  registrierungsnummer: '987654'
+                  aufsichtsbehoerde34i: Musterbehoerde
+                  registrierungsnummer34i: '987654'
+                  aufsichtsbehoerde34k: Musterbehoerde 34k
+                  registrierungsnummer34k: '123456'
         description: |-
           You only need to give the attributes, who have to change.
 
@@ -541,8 +551,10 @@ paths:
                     bic: BYLADEM1001
                     iban: DE02120300000000202051
                     referenzFeld: Test Ref
-                  aufsichtsbehoerde: Musterbehoerde
-                  registrierungsnummer: '987654'
+                  aufsichtsbehoerde34i: Musterbehoerde
+                  registrierungsnummer34i: '987654'
+                  aufsichtsbehoerde34k: Musterbehoerde 34k
+                  registrierungsnummer34k: '123456'
         description: |-
           The following rules apply to server-side evaluation:
 
@@ -602,6 +614,10 @@ paths:
                       referenzFeld: Test Ref
                     aufsichtsbehoerde: Musterbehoerde
                     registrierungsnummer: '987654'
+                    aufsichtsbehoerde34i: Musterbehoerde
+                    registrierungsnummer34i: '987654'
+                    aufsichtsbehoerde34k: Musterbehoerde 34k
+                    registrierungsnummer34k: '123456'
           headers:
             Location:
               schema:
@@ -1489,10 +1505,24 @@ components:
               $ref: '#/components/schemas/Bankverbindung'
             aufsichtsbehoerde:
               type: string
-              description: supervisor authority
+              deprecated: true
+              description: 'Deprecated: use `aufsichtsbehoerde34i`. Supervisory authority for the § 34i GewO permit. Reads and writes the same value as `aufsichtsbehoerde34i`.'
             registrierungsnummer:
               type: string
-              description: supervisor auth register number
+              deprecated: true
+              description: 'Deprecated: use `registrierungsnummer34i`. Registration number for the § 34i GewO permit. Reads and writes the same value as `registrierungsnummer34i`.'
+            aufsichtsbehoerde34i:
+              type: string
+              description: Supervisory authority for the § 34i GewO permit (Immobiliardarlehensvermittlung). Can be maintained independently of `registrierungsnummer34i`.
+            registrierungsnummer34i:
+              type: string
+              description: Registration number for the § 34i GewO permit (Immobiliardarlehensvermittlung). Can be maintained independently of `aufsichtsbehoerde34i`.
+            aufsichtsbehoerde34k:
+              type: string
+              description: Supervisory authority for the § 34k GewO permit (Honorar-Immobiliendarlehensberatung). Can be maintained independently of `registrierungsnummer34k`.
+            registrierungsnummer34k:
+              type: string
+              description: Registration number for the § 34k GewO permit (Honorar-Immobiliendarlehensberatung). Can be maintained independently of `aufsichtsbehoerde34k`.
             taetigFuerProduktanbieter:
               type: array
               description: List of product providers this partner works for. Empty array if none assigned.
