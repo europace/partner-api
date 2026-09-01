@@ -1519,10 +1519,10 @@ components:
               description: Registration number for the § 34i GewO permit (Immobiliardarlehensvermittlung). Can be maintained independently of `aufsichtsbehoerde34i`.
             aufsichtsbehoerde34k:
               type: string
-              description: Supervisory authority for the § 34k GewO permit (Honorar-Immobiliendarlehensberatung). Can be maintained independently of `registrierungsnummer34k`.
+              description: Supervisory authority for the § 34k GewO permit (Allgemeine Verbraucherdarlehensvermittlung). Can be maintained independently of `registrierungsnummer34k`.
             registrierungsnummer34k:
               type: string
-              description: Registration number for the § 34k GewO permit (Honorar-Immobiliendarlehensberatung). Can be maintained independently of `aufsichtsbehoerde34k`.
+              description: Registration number for the § 34k GewO permit (Allgemeine Verbraucherdarlehensvermittlung). Can be maintained independently of `aufsichtsbehoerde34k`.
             taetigFuerProduktanbieter:
               type: array
               description: List of product providers this partner works for. Empty array if none assigned.
