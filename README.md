@@ -711,7 +711,7 @@ To make changes to a partner, the caller needs Einstellungsrechte.
 > request, the `...34i` value is applied.
 >
 > `aufsichtsbehoerde34k` and `registrierungsnummer34k` hold the data of the Gewerbeerlaubnis according
-> to § 34k GewO (Honorar-Immobiliendarlehensberatung). All four fields can be maintained independently
+> to § 34k GewO (Allgemeine Verbraucherdarlehensvermittlung). All four fields can be maintained independently
 > of each other.
 
 ### Example
